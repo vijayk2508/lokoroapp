@@ -1,0 +1,13 @@
+import getTheme from './native-base-theme/components';                   
+
+export default class ThemeExample extends Component {                    
+ render() {                                                               
+   return (                                                               
+     <StyleProvider  style={getTheme()}>                                  
+       <Container>                                                        
+         <Content>                                                        
+         </Content>                                                       
+       </Container>                                                       
+    </StyleProvider>                                                     
+   );                                                                     
+ } 
