@@ -19,7 +19,7 @@ export default function AppRouter() {
     <StyleProvider style={getTheme(material)}>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="splash"
+          initialRouteName="login"
           // screenOptions={{
           //   gestureEnabled: true,
           //   headerShown: false,
