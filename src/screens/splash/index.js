@@ -31,7 +31,7 @@ function Splash(props) {
       setLoadingSpinner(true);
       //props.navigation.navigate('login');
       setTimeout(() => {
-        props.navigation.navigate('login');
+        props.navigation.navigate('auth');
       }, 1500);
     });
 

@@ -20,16 +20,18 @@ const Stack = createStackNavigator();
 
 const Auth = () => {
   return (
-    <Stack.Navigator initialRouteName="signUp">
-      <Stack.Screen
-        name="login"
-        component={Login}
-        options={{headerShown: false}}
-      />
+    <Stack.Navigator
+      screenOptions={{
+        gestureEnabled: true,
+        headerShown: false,
+      }}
+      initialRouteName="login">
+      <Stack.Screen name="login" component={Login} />
       <Stack.Screen
         name="signUp"
         component={SignUp}
         options={{
+          headerShown: true,
           title: '', //Set Header Title
           // headerStyle: {
           //   backgroundColor: '#white', //Set Header color
@@ -50,16 +52,17 @@ export default function AppRouter() {
       <StyleProvider style={getTheme(material)}>
         <NavigationContainer>
           <Stack.Navigator
-            initialRouteName="Auth"
+            initialRouteName="splash"
             screenOptions={{
               gestureEnabled: true,
-              headerShown: true,
+              headerShown: false,
             }}
             // mode="modal"
-            headerMode="float">
+            //headerMode="float"
+          >
             <Stack.Screen name="splash" component={Splash} />
             <Stack.Screen
-              name="Auth"
+              name="auth"
               component={Auth}
               options={{headerShown: false}}
             />
