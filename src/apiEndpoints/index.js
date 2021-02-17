@@ -1,6 +1,6 @@
 const apiEndpoints = {
   AUTH_ENDPOINTS: {
-    LOGIN: 'login',
+    LOGIN: '/login',
   },
 };
 

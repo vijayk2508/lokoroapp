@@ -1,8 +1,10 @@
+import { AsyncStorage } from 'react-native';
 import apiEndpoints from '../../apiEndpoints';
-import sendApiRequest from '../../apiEndpoints/auth';
+import sendApiRequest from '../../apiEndpoints/service';
 import {LOGIN_SUCCESSFUL} from './actionTypes';
 
 export const login = (data) => {
+    debugger
   return async (dispatch) => {
     const response = await sendApiRequest({
       url: `${apiEndpoints.AUTH_ENDPOINTS.LOGIN}`,
@@ -15,9 +17,9 @@ export const login = (data) => {
         type: LOGIN_SUCCESSFUL,
         payload: response.data,
       });
-
-      return await response.status;
+      AsyncStorage.setItem('user_id', response.data);
+      return await response;
     }
-    return await response.status;
+    return await response;
   };
 };

@@ -11,6 +11,7 @@ import SignUp from '../screens/signup';
 
 import getTheme from '../assests/native-base-theme/components';
 import material from '../assests/native-base-theme/variables/material';
+
 import UserScreen from '../screens/user-screens';
 import {Provider} from 'react-redux';
 import {store} from '../action-reducers/store';
@@ -19,7 +20,7 @@ const Stack = createStackNavigator();
 
 const Auth = () => {
   return (
-    <Stack.Navigator initialRouteName="LoginScreen">
+    <Stack.Navigator initialRouteName="signUp">
       <Stack.Screen
         name="login"
         component={Login}

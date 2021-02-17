@@ -18,7 +18,7 @@ import {assestImages} from '../../assests';
 import Loader from '../../components/Loader';
 import {themedColors} from '../../constants/Colors';
 
-const Login = ({navigation}) => {
+const SecondRegisterScreen = ({navigation}) => {
   const [userEmail, setUserEmail] = useState('vijay@gmail.com');
   const [userPassword, setUserPassword] = useState('12345');
   const [loading, setLoading] = useState(false);
@@ -67,19 +67,6 @@ const Login = ({navigation}) => {
         }}>
         <View>
           <KeyboardAvoidingView enabled>
-            <View style={{alignItems: 'center'}}>
-              <Image
-                source={assestImages.logo_white_background}
-                style={{
-                  width: '50%',
-                  height: 100,
-                  resizeMode: 'contain',
-                  margin: 30,
-                  marginBottom: 5,
-                }}
-              />
-              <Text style={styles.logoText}>Building communities for Good</Text>
-            </View>
             <View style={styles.SectionStyle}>
               <TextInput
                 style={styles.inputStyle}
@@ -141,7 +128,7 @@ const Login = ({navigation}) => {
     </View>
   );
 };
-export default Login;
+export default SecondRegisterScreen;
 
 const styles = StyleSheet.create({
   logoText: {

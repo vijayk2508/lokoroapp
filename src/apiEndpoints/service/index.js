@@ -31,8 +31,11 @@ function generateAPIErrorMessage(exception) {
 
 export default async function sendApiRequest(apiParams) {
   try {
+    debugger
     const response = await axios(apiParams);
+    console.log("response",response);
     if (response.status === 200) {
+      debugger
       return {
         status: 'success',
         message: response.data.message,
@@ -40,6 +43,7 @@ export default async function sendApiRequest(apiParams) {
         response: response,
       };
     } else {
+      debugger
       return {
         status: 'error',
         message: generateAPIErrorMessage(response),
@@ -48,6 +52,7 @@ export default async function sendApiRequest(apiParams) {
       };
     }
   } catch (exception) {
+    debugger
     return {
       status: 'error',
       message: generateAPIErrorMessage(exception),
