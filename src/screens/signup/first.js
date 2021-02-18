@@ -55,7 +55,7 @@ const FirstRegisterScreen = (props) => {
   };
 
   return (
-    <View style={styles.mainBody}>
+    <View>
       <Loader loading={loading} />
       <View>
         {/* <KeyboardAvoidingView enabled> */}

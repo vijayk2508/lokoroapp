@@ -29,62 +29,31 @@ const ThirdRegisterScreen = (props) => {
   };
 
   return (
-    <View style={styles.mainBody}>
+    <View>
       <Loader loading={loading} />
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        // contentContainerStyle={{
-        //   flex: 1,
-        //   justifyContent: 'center',
-        //   alignContent: 'center',
-        // }}
-        >
-        <View>
-          <KeyboardAvoidingView enabled>
-            <View style={styles.SectionStyle}>
-              {/* <TextInput
-                style={styles.inputStyle}
-                onChangeText={(UserEmail) => setUserEmail(UserEmail)}
-                placeholder="Mobile No. for Security Verification" //dummy@abc.com
-                placeholderTextColor="#8b9cb5"
-                autoCapitalize="none"
-                keyboardType="email-address"
-                returnKeyType="next"
-                onSubmitEditing={() =>
-                  passwordInputRef.current && passwordInputRef.current.focus()
-                }
-                underlineColorAndroid="#f000"
-                blurOnSubmit={false}
-                value={userEmail}
-              /> */}
-              <TextInput
-                keyboardType="phone-pad"
-                placeholderTextColor="#8b9cb5"
-                placeholder="Mobile No. for Security Verification" //dummy@abc.com
-                style={styles.inputStyle}
-                onChangeText={(value) => {
-                  let num = value.replace('.', '');
-                  if (isNaN(num)) {
-                    // Its not a number
-                  } else {
-                    setMobileNo(value);
-                  }
-                }}
-                value={mobileNo}
-              />
-            </View>
-
-            <TouchableOpacity
-              style={styles.buttonStyle}
-              activeOpacity={0.5}
-              onPress={handleSubmitPress}>
-              <Text style={styles.buttonTextStyle}>
-                Get One-Time Security Code
-              </Text>
-            </TouchableOpacity>
-          </KeyboardAvoidingView>
-        </View>
-      </ScrollView>
+      <View style={styles.SectionStyle}>
+        <TextInput
+          keyboardType="phone-pad"
+          placeholderTextColor="#8b9cb5"
+          placeholder="Mobile No. for Security Verification" //dummy@abc.com
+          style={styles.inputStyle}
+          onChangeText={(value) => {
+            let num = value.replace('.', '');
+            if (isNaN(num)) {
+              // Its not a number
+            } else {
+              setMobileNo(value);
+            }
+          }}
+          value={mobileNo}
+        />
+      </View>
+      <TouchableOpacity
+        style={styles.buttonStyle}
+        activeOpacity={0.5}
+        onPress={handleSubmitPress}>
+        <Text style={styles.buttonTextStyle}>Get One-Time Security Code</Text>
+      </TouchableOpacity>
     </View>
   );
 };

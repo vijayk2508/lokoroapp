@@ -56,48 +56,36 @@ const FourthRegisterScreen = ({navigation}) => {
   };
 
   return (
-    <View style={styles.mainBody}>
+    <View>
       <Loader loading={loading} />
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{
-          flex: 1,
-          justifyContent: 'center',
-          alignContent: 'center',
-        }}>
-        <View>
-          <KeyboardAvoidingView enabled>
-            <View style={styles.SectionStyle}>
-              <View style={{flex: 1}}>
-                <View style={styles.otp}>
-                  <TextInput
-                    style={styles.otpBox}
-                    value={pin1}
-                    onChangeText={(val) => setPin1(val)}></TextInput>
-                  <TextInput
-                    style={styles.otpBox}
-                    value={pin2}
-                    onChangeText={(val) => setPin2(val)}></TextInput>
-                  <TextInput
-                    style={styles.otpBox}
-                    value={pin3}
-                    onChangeText={(val) => setPin3(val)}></TextInput>
-                  <TextInput
-                    style={styles.otpBox}
-                    value={pin4}
-                    onChangeText={(val) => setPin4(val)}></TextInput>
-                </View>
-              </View>
-            </View>
-            <TouchableOpacity
-              style={styles.buttonStyle}
-              activeOpacity={0.5}
-              onPress={handleSubmitPress}>
-              <Text style={styles.buttonTextStyle}>Next</Text>
-            </TouchableOpacity>
-          </KeyboardAvoidingView>
+      <View style={styles.SectionStyle}>
+        <View style={{flex: 1}}>
+          <View style={styles.otp}>
+            <TextInput
+              style={styles.otpBox}
+              value={pin1}
+              onChangeText={(val) => setPin1(val)}></TextInput>
+            <TextInput
+              style={styles.otpBox}
+              value={pin2}
+              onChangeText={(val) => setPin2(val)}></TextInput>
+            <TextInput
+              style={styles.otpBox}
+              value={pin3}
+              onChangeText={(val) => setPin3(val)}></TextInput>
+            <TextInput
+              style={styles.otpBox}
+              value={pin4}
+              onChangeText={(val) => setPin4(val)}></TextInput>
+          </View>
         </View>
-      </ScrollView>
+      </View>
+      <TouchableOpacity
+        style={styles.buttonStyle}
+        activeOpacity={0.5}
+        onPress={handleSubmitPress}>
+        <Text style={styles.buttonTextStyle}>Next</Text>
+      </TouchableOpacity>
     </View>
   );
 };

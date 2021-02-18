@@ -1,5 +1,13 @@
 import React, {useState} from 'react';
-import {ScrollView, View, Image, Text, StyleSheet} from 'react-native';
+import {
+  ScrollView,
+  View,
+  Image,
+  Text,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 import {SliderBox} from 'react-native-image-slider-box';
 
 import {assestImages} from '../../assests';
@@ -14,6 +22,7 @@ const sliderImages = [assestImages.img1, assestImages.img2];
 function SignUp(props) {
   const [active, setActive] = useState(1);
   const [userDetail, setUserDetail] = useState({});
+
   function steps() {
     switch (active) {
       case 1:
@@ -146,59 +155,72 @@ function SignUp(props) {
               setActive={setActive}></FourthRegisterScreen>
           </>
         );
-
       default:
         return <></>;
     }
   }
+
   return (
-    <ScrollView
-      keyboardShouldPersistTaps="handled"
-      contentContainerStyle={{
-        flex: 1,
-        justifyContent: 'center',
-        alignContent: 'center',
-        backgroundColor: 'white',
-      }}>
-      <View>
-        <SliderBox
-          //ImageComponent={FastImage}
-          images={sliderImages}
-          sliderBoxHeight={200}
-          onCurrentImagePressed={(index) =>
-            console.warn(`image ${index} pressed`)
-          }
-          dotColor={themedColors.default.appColor}
-          inactiveDotColor="#90A4AE"
-          paginationBoxVerticalPadding={20}
-          autoplay
-          circleLoop
-          resizeMethod={'resize'}
-          resizeMode={'cover'}
-          paginationBoxStyle={{
-            position: 'absolute',
-            bottom: 0,
-            padding: 0,
-            alignItems: 'center',
-            alignSelf: 'center',
+    <KeyboardAvoidingView
+      style={{flex: 1}}
+      behavior={Platform.OS === 'ios' ? 'padding' : ''}>
+      <ScrollView
+        //keyboardShouldPersistTaps="handled"
+        contentContainerStyle={{
+          flex: 1,
+          // justifyContent: 'center',
+          // alignContent: 'center',
+          backgroundColor: 'white',
+        }}
+        ref={(ref) => (scrollView = ref)}
+        bounces={false}>
+        <View
+          style={{
+            flex: 0.7,
             justifyContent: 'center',
-            paddingVertical: 10,
-          }}
-          dotStyle={{
-            width: 10,
-            height: 10,
-            borderRadius: 5,
-            marginHorizontal: 0,
-            padding: 0,
-            margin: 0,
-            backgroundColor: 'rgba(128, 128, 128, 0.92)',
-          }}
-          ImageComponentStyle={{borderRadius: 15, width: '97%', marginTop: 5}}
-          imageLoadingColor="#2196F3"
-        />
-      </View>
-      {steps()}
-    </ScrollView>
+            alignItems: 'center',
+            // alignContent: 'center',
+            // backgroundColor: 'white',
+          }}>
+          <SliderBox
+            //ImageComponent={FastImage}
+            images={sliderImages}
+            sliderBoxHeight={200}
+            onCurrentImagePressed={(index) =>
+              console.warn(`image ${index} pressed`)
+            }
+            dotColor={themedColors.default.appColor}
+            inactiveDotColor="#90A4AE"
+            paginationBoxVerticalPadding={20}
+            autoplay
+            circleLoop
+            resizeMethod={'resize'}
+            resizeMode={'cover'}
+            paginationBoxStyle={{
+              position: 'absolute',
+              bottom: 0,
+              padding: 0,
+              alignItems: 'center',
+              alignSelf: 'center',
+              justifyContent: 'center',
+              paddingVertical: 10,
+            }}
+            dotStyle={{
+              width: 10,
+              height: 10,
+              borderRadius: 5,
+              marginHorizontal: 0,
+              padding: 0,
+              margin: 0,
+              backgroundColor: 'rgba(128, 128, 128, 0.92)',
+            }}
+            ImageComponentStyle={{borderRadius: 15, width: '97%', marginTop: 5}}
+            imageLoadingColor="#2196F3"
+          />
+        </View>
+        {steps()}
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 

@@ -42,76 +42,64 @@ const SecondRegisterScreen = (props) => {
   };
 
   return (
-    <View style={styles.mainBody}>
+    <View>
       <Loader loading={loading} />
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{
-          flex: 1,
-          justifyContent: 'center',
-          alignContent: 'center',
-        }}>
-        <View>
-          <KeyboardAvoidingView enabled>
-            <View style={styles.SectionStyle}>
-              <TextInput
-                style={styles.inputStyle}
-                value={displayName}
-                onChangeText={(data) => setDisplayName(data)}
-                placeholder="Display Name on Lokoro" //dummy@abc.com
-                placeholderTextColor="#8b9cb5"
-                autoCapitalize="none"
-                keyboardType="email-address"
-                returnKeyType="next"
-                underlineColorAndroid="#f000"
-                blurOnSubmit={false}
-              />
-            </View>
-            <View style={styles.SectionStyle}>
-              <TextInput
-                style={styles.inputStyle}
-                value={homeAddress}
-                onChangeText={(data) => setHomeAddress(data)}
-                placeholder="Home Neighbourhood"
-                placeholderTextColor="#8b9cb5"
-                keyboardType="default"
-                onSubmitEditing={Keyboard.dismiss}
-                blurOnSubmit={false}
-                secureTextEntry={true}
-                underlineColorAndroid="#f000"
-                returnKeyType="next"
-              />
-            </View>
-            {errortext != '' ? (
-              <Text style={styles.errorTextStyle}> {errortext} </Text>
-            ) : null}
-            <View style={styles.SectionStyle}>
-              <TextInput
-                style={styles.inputStyle}
-                value={proAddress}
-                onChangeText={(data) => setProAddress(data)}
-                placeholder="School or Work (Optional)"
-                placeholderTextColor="#8b9cb5"
-                keyboardType="default"
-                onSubmitEditing={Keyboard.dismiss}
-                blurOnSubmit={false}
-                secureTextEntry={true}
-                underlineColorAndroid="#f000"
-                returnKeyType="next"
-              />
-            </View>
-            {errortext != '' ? (
-              <Text style={styles.errorTextStyle}> {errortext} </Text>
-            ) : null}
-            <TouchableOpacity
-              style={styles.buttonStyle}
-              activeOpacity={0.5}
-              onPress={handleSubmitPress}>
-              <Text style={styles.buttonTextStyle}>Next</Text>
-            </TouchableOpacity>
-          </KeyboardAvoidingView>
-        </View>
-      </ScrollView>
+      <View style={styles.SectionStyle}>
+        <TextInput
+          style={styles.inputStyle}
+          value={displayName}
+          onChangeText={(data) => setDisplayName(data)}
+          placeholder="Display Name on Lokoro" //dummy@abc.com
+          placeholderTextColor="#8b9cb5"
+          autoCapitalize="none"
+          keyboardType="email-address"
+          returnKeyType="next"
+          underlineColorAndroid="#f000"
+          blurOnSubmit={false}
+        />
+      </View>
+      <View style={styles.SectionStyle}>
+        <TextInput
+          style={styles.inputStyle}
+          value={homeAddress}
+          onChangeText={(data) => setHomeAddress(data)}
+          placeholder="Home Neighbourhood"
+          placeholderTextColor="#8b9cb5"
+          keyboardType="default"
+          onSubmitEditing={Keyboard.dismiss}
+          blurOnSubmit={false}
+          secureTextEntry={true}
+          underlineColorAndroid="#f000"
+          returnKeyType="next"
+        />
+      </View>
+      {errortext != '' ? (
+        <Text style={styles.errorTextStyle}> {errortext} </Text>
+      ) : null}
+      <View style={styles.SectionStyle}>
+        <TextInput
+          style={styles.inputStyle}
+          value={proAddress}
+          onChangeText={(data) => setProAddress(data)}
+          placeholder="School or Work (Optional)"
+          placeholderTextColor="#8b9cb5"
+          keyboardType="default"
+          onSubmitEditing={Keyboard.dismiss}
+          blurOnSubmit={false}
+          secureTextEntry={true}
+          underlineColorAndroid="#f000"
+          returnKeyType="next"
+        />
+      </View>
+      {errortext != '' ? (
+        <Text style={styles.errorTextStyle}> {errortext} </Text>
+      ) : null}
+      <TouchableOpacity
+        style={styles.buttonStyle}
+        activeOpacity={0.5}
+        onPress={handleSubmitPress}>
+        <Text style={styles.buttonTextStyle}>Next</Text>
+      </TouchableOpacity>
     </View>
   );
 };
