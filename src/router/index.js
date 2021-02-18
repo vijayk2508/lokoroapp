@@ -25,7 +25,7 @@ const Auth = () => {
         gestureEnabled: true,
         headerShown: false,
       }}
-      initialRouteName="login">
+      initialRouteName="signUp">
       <Stack.Screen name="login" component={Login} />
       <Stack.Screen
         name="signUp"
@@ -52,7 +52,7 @@ export default function AppRouter() {
       <StyleProvider style={getTheme(material)}>
         <NavigationContainer>
           <Stack.Navigator
-            initialRouteName="splash"
+            initialRouteName="auth"
             screenOptions={{
               gestureEnabled: true,
               headerShown: false,
