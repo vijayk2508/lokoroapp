@@ -1,6 +1,7 @@
 import 'react-native-gesture-handler';
 
 import React from 'react';
+import {View, Text} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {NavigationContainer} from '@react-navigation/native';
 import {StyleProvider} from 'native-base';
@@ -8,11 +9,11 @@ import {StyleProvider} from 'native-base';
 import Splash from '../screens/splash';
 import Login from '../screens/login';
 import SignUp from '../screens/signup';
+import UserScreen from '../screens/user-screens';
 
 import getTheme from '../assests/native-base-theme/components';
 import material from '../assests/native-base-theme/variables/material';
 
-import UserScreen from '../screens/user-screens';
 import {Provider} from 'react-redux';
 import {store} from '../action-reducers/store';
 
@@ -34,16 +35,11 @@ const Auth = () => {
           headerStyle: {
             elevation: 0,
             shadowOpacity: 0,
+            flex: 1,
           },
+          title: 'Create Account (1 of 3)',
+          headerTitleAlign: 'center',
           headerShown: true,
-          title: '', //Set Header Title
-          // headerStyle: {
-          //   backgroundColor: '#white', //Set Header color
-          // },
-          // headerTintColor: '#fff', //Set Header text color
-          // headerTitleStyle: {
-          //   fontWeight: 'bold', //Set Header text style
-          // },
         }}
       />
     </Stack.Navigator>

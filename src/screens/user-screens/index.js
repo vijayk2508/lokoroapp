@@ -3,7 +3,10 @@ import {Text} from 'native-base';
 
 function UserScreen(props) {
   return (
-    <Text style={{justifyContent: 'center'}}> {JSON.stringify(props)} </Text>
+    <Text style={{justifyContent: 'center'}}>
+      Welcome
+      {/* {JSON.stringify(props)} */}
+    </Text>
   );
 }
 

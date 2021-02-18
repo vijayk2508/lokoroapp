@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     height: 40,
     alignItems: 'center',
-    borderRadius: 30,
+    borderRadius: 6,
     marginLeft: 35,
     marginRight: 35,
     marginTop: 20,
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
   },
   buttonTextStyle: {
     color: '#FFFFFF',
-    paddingVertical: 10,
+    paddingVertical: 6,
     fontSize: 16,
   },
   inputStyle: {
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
     borderWidth: 1,
-    borderRadius: 30,
+    borderRadius: 6,
     borderColor: '#dadae8',
   },
   registerTextStyle: {
