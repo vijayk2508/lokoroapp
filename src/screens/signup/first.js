@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   AsyncStorage,
+  Switch,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import {login} from '../../action-reducers/auth/action';
@@ -22,6 +23,8 @@ const FirstRegisterScreen = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [isEnabled, setIsEnabled] = useState(false);
+  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
@@ -54,80 +57,104 @@ const FirstRegisterScreen = (props) => {
   return (
     <View style={styles.mainBody}>
       <Loader loading={loading} />
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{
-          flex: 1,
-          justifyContent: 'center',
-          alignContent: 'center',
-        }}>
-        <View>
-          <KeyboardAvoidingView enabled>
-            <View style={styles.SectionStyle}>
-              <TextInput
-                style={styles.inputStyle}
-                onChangeText={(data) => setEmail(data)}
-                placeholder="Enter Email" //dummy@abc.com
-                placeholderTextColor="#8b9cb5"
-                autoCapitalize="none"
-                keyboardType="email-address"
-                returnKeyType="next"
-                onSubmitEditing={() =>
-                  passwordInputRef.current && passwordInputRef.current.focus()
-                }
-                underlineColorAndroid="#f000"
-                blurOnSubmit={false}
-                value={email}
-              />
-            </View>
-            <View style={styles.SectionStyle}>
-              <TextInput
-                value={password}
-                style={styles.inputStyle}
-                onChangeText={(data) => setPassword(data)}
-                placeholder="Enter Password" //12345
-                placeholderTextColor="#8b9cb5"
-                keyboardType="default"
-                ref={passwordInputRef}
-                onSubmitEditing={Keyboard.dismiss}
-                blurOnSubmit={false}
-                secureTextEntry={true}
-                underlineColorAndroid="#f000"
-                returnKeyType="next"
-              />
-            </View>
-            {errortext != '' ? (
-              <Text style={styles.errorTextStyle}> {errortext} </Text>
-            ) : null}
-            <View style={styles.SectionStyle}>
-              <TextInput
-                value={confirmPassword}
-                style={styles.inputStyle}
-                onChangeText={(UserPassword) => setUserPassword(UserPassword)}
-                placeholder="Enter Retype Password" //12345
-                placeholderTextColor="#8b9cb5"
-                keyboardType="default"
-                ref={passwordInputRef}
-                onSubmitEditing={Keyboard.dismiss}
-                blurOnSubmit={false}
-                secureTextEntry={true}
-                underlineColorAndroid="#f000"
-                returnKeyType="next"
-              />
-            </View>
-            {errortext != '' ? (
-              <Text style={styles.errorTextStyle}> {errortext} </Text>
-            ) : null}
-            <Text> I have read and agree to the terms and conditions </Text>
-            <TouchableOpacity
-              style={styles.buttonStyle}
-              activeOpacity={0.5}
-              onPress={handleSubmitPress}>
-              <Text style={styles.buttonTextStyle}>Next</Text>
-            </TouchableOpacity>
-          </KeyboardAvoidingView>
-        </View>
-      </ScrollView>
+      <View>
+        <KeyboardAvoidingView enabled>
+          <View style={styles.SectionStyle}>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={(data) => setEmail(data)}
+              placeholder="Email Address*"
+              placeholderTextColor="#8b9cb5"
+              autoCapitalize="none"
+              keyboardType="email-address"
+              returnKeyType="next"
+              //   onSubmitEditing={() =>
+              //     passwordInputRef.current && passwordInputRef.current.focus()
+              //   }
+              underlineColorAndroid="#f000"
+              blurOnSubmit={false}
+              value={email}
+            />
+          </View>
+          <View style={styles.SectionStyle}>
+            <TextInput
+              value={password}
+              style={styles.inputStyle}
+              onChangeText={(data) => setPassword(data)}
+              placeholder="Password" //12345
+              placeholderTextColor="#8b9cb5"
+              keyboardType="default"
+              //ref={passwordInputRef}
+              onSubmitEditing={Keyboard.dismiss}
+              blurOnSubmit={false}
+              secureTextEntry={true}
+              underlineColorAndroid="#f000"
+              returnKeyType="next"
+            />
+          </View>
+          {errortext != '' ? (
+            <Text style={styles.errorTextStyle}> {errortext} </Text>
+          ) : null}
+          <View style={styles.SectionStyle}>
+            <TextInput
+              value={confirmPassword}
+              style={styles.inputStyle}
+              onChangeText={(data) => setConfirmPassword(data)}
+              placeholder="Re-Type Password" //12345
+              placeholderTextColor="#8b9cb5"
+              keyboardType="default"
+              //   ref={passwordInputRef}
+              onSubmitEditing={Keyboard.dismiss}
+              blurOnSubmit={false}
+              secureTextEntry={true}
+              underlineColorAndroid="#f000"
+              returnKeyType="next"
+            />
+          </View>
+          {errortext != '' ? (
+            <Text style={styles.errorTextStyle}> {errortext} </Text>
+          ) : null}
+          <View
+            style={{
+              ...styles.SectionStyle,
+              padding: 0,
+              marginTop: 0,
+              marginBottom: 0,
+              alignSelf: 'center',
+            }}>
+            <Text style={{alignSelf: 'center'}}>
+              I have read and agree to the terms and conditions
+            </Text>
+          </View>
+
+          <View
+            style={{
+              ...styles.SectionStyle,
+              padding: 0,
+              marginTop: 0,
+              marginBottom: 0,
+              flex: 1,
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+            }}>
+            <Switch
+              trackColor={{false: '#767577', true: '#81b0ff'}}
+              thumbColor={isEnabled ? themedColors.default.appColor : '#f4f3f4'}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={toggleSwitch}
+              value={isEnabled}
+            />
+            <Text>{isEnabled ? 'Yes' : 'No'}</Text>
+          </View>
+          <TouchableOpacity
+            style={styles.buttonStyle}
+            activeOpacity={0.5}
+            onPress={handleSubmitPress}>
+            <Text style={styles.buttonTextStyle}>Next</Text>
+          </TouchableOpacity>
+        </KeyboardAvoidingView>
+      </View>
     </View>
   );
 };
@@ -157,6 +184,7 @@ const styles = StyleSheet.create({
     marginRight: 35,
     margin: 10,
   },
+
   buttonStyle: {
     backgroundColor: themedColors.default.appColor,
     borderColor: themedColors.default.appColor,

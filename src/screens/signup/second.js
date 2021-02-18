@@ -18,41 +18,27 @@ import {assestImages} from '../../assests';
 import Loader from '../../components/Loader';
 import {themedColors} from '../../constants/Colors';
 
-const SecondRegisterScreen = ({navigation}) => {
-  const [userEmail, setUserEmail] = useState('vijay@gmail.com');
-  const [userPassword, setUserPassword] = useState('12345');
+const SecondRegisterScreen = (props) => {
+  const [displayName, setDisplayName] = useState('');
+  const [homeAddress, setHomeAddress] = useState('');
+  const [proAddress, setProAddress] = useState('');
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
   const dispatch = useDispatch();
 
   const passwordInputRef = createRef();
 
-  const handleSubmitPress = async () => {
-    setErrortext('');
-    if (!userEmail) {
-      alert('Please fill Email');
-      return;
-    }
-    if (!userPassword) {
-      alert('Please fill Password');
-      return;
-    }
-
-    // let dataToSend = {user_email: userEmail, user_password: userPassword};
-    // let formBody = [];
-    // for (let key in dataToSend) {
-    //   let encodedKey = encodeURIComponent(key);
-    //   let encodedValue = encodeURIComponent(dataToSend[key]);
-    //   formBody.push(encodedKey + '=' + encodedValue);
+  const handleSubmitPress = () => {
+    // setErrortext('');
+    // if (!displayName) {
+    //   alert('Please fill your Name');
+    //   return;
     // }
-    // formBody = formBody.join('&');
-    let data = {email: userEmail, password: userPassword};
-    setLoading(true);
-    const res = await dispatch(login(data));
-    if (res.status === 'success') {
-      navigation.replace('userscreen', {data: res.data});
-    }
-    setLoading(false);
+    // if (!homeAddress) {
+    //   alert('Please fill your Address');
+    //   return;
+    // }
+    props.setActive(3);
   };
 
   return (
@@ -70,29 +56,43 @@ const SecondRegisterScreen = ({navigation}) => {
             <View style={styles.SectionStyle}>
               <TextInput
                 style={styles.inputStyle}
-                onChangeText={(UserEmail) => setUserEmail(UserEmail)}
-                placeholder="Enter Email" //dummy@abc.com
+                value={displayName}
+                onChangeText={(data) => setDisplayName(data)}
+                placeholder="Display Name on Lokoro" //dummy@abc.com
                 placeholderTextColor="#8b9cb5"
                 autoCapitalize="none"
                 keyboardType="email-address"
                 returnKeyType="next"
-                onSubmitEditing={() =>
-                  passwordInputRef.current && passwordInputRef.current.focus()
-                }
                 underlineColorAndroid="#f000"
                 blurOnSubmit={false}
-                value={userEmail}
               />
             </View>
             <View style={styles.SectionStyle}>
               <TextInput
-                value={userPassword}
                 style={styles.inputStyle}
-                onChangeText={(UserPassword) => setUserPassword(UserPassword)}
-                placeholder="Enter Password" //12345
+                value={homeAddress}
+                onChangeText={(data) => setHomeAddress(data)}
+                placeholder="Home Neighbourhood"
                 placeholderTextColor="#8b9cb5"
                 keyboardType="default"
-                ref={passwordInputRef}
+                onSubmitEditing={Keyboard.dismiss}
+                blurOnSubmit={false}
+                secureTextEntry={true}
+                underlineColorAndroid="#f000"
+                returnKeyType="next"
+              />
+            </View>
+            {errortext != '' ? (
+              <Text style={styles.errorTextStyle}> {errortext} </Text>
+            ) : null}
+            <View style={styles.SectionStyle}>
+              <TextInput
+                style={styles.inputStyle}
+                value={proAddress}
+                onChangeText={(data) => setProAddress(data)}
+                placeholder="School or Work (Optional)"
+                placeholderTextColor="#8b9cb5"
+                keyboardType="default"
                 onSubmitEditing={Keyboard.dismiss}
                 blurOnSubmit={false}
                 secureTextEntry={true}
@@ -107,20 +107,7 @@ const SecondRegisterScreen = ({navigation}) => {
               style={styles.buttonStyle}
               activeOpacity={0.5}
               onPress={handleSubmitPress}>
-              <Text style={styles.buttonTextStyle}>LOGIN</Text>
-            </TouchableOpacity>
-            <Text style={styles.registerTextStyle}>OR</Text>
-            <TouchableOpacity
-              style={{...styles.buttonStyle, backgroundColor: 'none'}}
-              activeOpacity={0.5}
-              onPress={() => navigation.navigate('signUp')}>
-              <Text
-                style={{
-                  ...styles.registerTextStyle,
-                  color: themedColors.default.appColor,
-                }}>
-                Join Lokoro
-              </Text>
+              <Text style={styles.buttonTextStyle}>Next</Text>
             </TouchableOpacity>
           </KeyboardAvoidingView>
         </View>

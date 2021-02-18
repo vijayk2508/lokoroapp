@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
-import {ScrollView, View, Image, Text} from 'react-native';
+import {ScrollView, View, Image, Text, StyleSheet} from 'react-native';
 import {SliderBox} from 'react-native-image-slider-box';
 
 import {assestImages} from '../../assests';
+import {themedColors} from '../../constants/Colors';
 import FirstRegisterScreen from './first';
 import SecondRegisterScreen from './second';
 import ThirdRegisterScreen from './third';
@@ -16,27 +17,94 @@ function SignUp(props) {
     switch (active) {
       case 1:
         return (
-          <FirstRegisterScreen
-            userDetail={userDetail}
-            setUserDetail={setUserDetail}
-            active={active}
-            setActive={setActive}></FirstRegisterScreen>
+          <>
+            <View style={styles.headerStyle}>
+              <Text style={styles.title}> Buy and Sell with Neighbours </Text>
+              <Text style={styles.description}>
+                List items you want to sell, rent, share or giveaway to your
+                neighbours. Contribute to a greener planet by passing on
+                pre-loved items you no longer need to others!
+              </Text>
+            </View>
+            <View
+              style={{
+                borderBottomColor: '#E5E5E8',
+                borderBottomWidth: 1,
+                margin: 15,
+                marginLeft: 70,
+                marginRight: 70,
+              }}
+            />
+
+            <Text style={styles.formHeading}>Create Your Sign in</Text>
+            <FirstRegisterScreen
+              userDetail={userDetail}
+              setUserDetail={setUserDetail}
+              active={active}
+              setActive={setActive}></FirstRegisterScreen>
+          </>
         );
       case 2:
         return (
-          <SecondRegisterScreen
-            userDetail={userDetail}
-            setUserDetail={setUserDetail}
-            active={active}
-            setActive={setActive}></SecondRegisterScreen>
+          <>
+            <View style={styles.headerStyle}>
+              <Text style={styles.title}> Post and Find Jobs </Text>
+              <Text style={styles.description}>
+                Whether you need help with an urgent delivery or a babysitter
+                for your kids, find someone you can trust from the neighbourhood
+                on Lokoro!
+              </Text>
+            </View>
+            <View
+              style={{
+                borderBottomColor: '#E5E5E8',
+                borderBottomWidth: 1,
+                margin: 15,
+                marginLeft: 70,
+                marginRight: 70,
+              }}
+            />
+
+            <Text style={styles.formHeading}>Setup Your Profile</Text>
+            <SecondRegisterScreen
+              userDetail={userDetail}
+              setUserDetail={setUserDetail}
+              active={active}
+              setActive={setActive}></SecondRegisterScreen>
+          </>
         );
       case 3:
         return (
-          <ThirdRegisterScreen
-            userDetail={userDetail}
-            setUserDetail={setUserDetail}
-            active={active}
-            setActive={setActive}></ThirdRegisterScreen>
+          <>
+            <View style={styles.headerStyle}>
+              <Text style={styles.title}> Meet New Friends </Text>
+              <Text style={styles.description}>
+                Love to play sports, solve puzzles or go café hopping? Find new
+                friends in your neighbourhood who share common Interests and
+                passions!
+              </Text>
+            </View>
+            <View
+              style={{
+                borderBottomColor: '#E5E5E8',
+                borderBottomWidth: 1,
+                margin: 15,
+                marginLeft: 70,
+                marginRight: 70,
+              }}
+            />
+
+            <Text style={styles.formHeading}>Secure Your Account</Text>
+            <Text style={styles.description}>
+              For the security of your account and the safety of the Lokoro
+              community, users need to perform a one-time SMS verification.
+            </Text>
+            <ThirdRegisterScreen
+              userDetail={userDetail}
+              setUserDetail={setUserDetail}
+              active={active}
+              setActive={setActive}></ThirdRegisterScreen>
+          </>
         );
 
       default:
@@ -50,6 +118,7 @@ function SignUp(props) {
         flex: 1,
         justifyContent: 'center',
         alignContent: 'center',
+        backgroundColor: 'white',
       }}>
       <View>
         <SliderBox
@@ -59,7 +128,7 @@ function SignUp(props) {
           onCurrentImagePressed={(index) =>
             console.warn(`image ${index} pressed`)
           }
-          dotColor="#FFEE58"
+          dotColor={themedColors.default.appColor}
           inactiveDotColor="#90A4AE"
           paginationBoxVerticalPadding={20}
           autoplay
@@ -87,22 +156,6 @@ function SignUp(props) {
           ImageComponentStyle={{borderRadius: 15, width: '97%', marginTop: 5}}
           imageLoadingColor="#2196F3"
         />
-        {/* <Image
-          source={assestImages.logo_white_background}
-          style={{
-            width: '50%',
-            height: 100,
-            resizeMode: 'contain',
-            margin: 30,
-            marginBottom: 5,
-          }}
-        /> */}
-        {/* <Text> Buy and Sell with Neighbours </Text>
-        <Text>
-          List items you want to sell, rent, share or giveaway to your
-          neighbours. Contribute to a greener planet by passing on pre-loved
-          items you no longer need to others!
-        </Text> */}
       </View>
       {steps()}
     </ScrollView>
@@ -110,3 +163,36 @@ function SignUp(props) {
 }
 
 export default SignUp;
+
+const styles = StyleSheet.create({
+  headerStyle: {
+    marginTop: 20,
+    marginLeft: 35,
+    marginRight: 35,
+    margin: 10,
+    backgroundColor: 'white',
+  },
+  title: {
+    fontFamily: 'Quicksand',
+    fontWeight: 'bold',
+    fontSize: 18,
+    alignSelf: 'center',
+  },
+  description: {
+    marginTop: 6,
+    fontFamily: 'Quicksand',
+    color: '#676767',
+    fontSize: 16,
+    alignSelf: 'center',
+    textAlign: 'center',
+  },
+  formHeading: {
+    marginTop: 6,
+    fontFamily: 'Quicksand',
+    color: '#676767',
+    fontSize: 16,
+    alignSelf: 'center',
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+});

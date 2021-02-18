@@ -19,13 +19,10 @@ import Loader from '../../components/Loader';
 import {themedColors} from '../../constants/Colors';
 
 const ThirdRegisterScreen = ({navigation}) => {
-  const [userEmail, setUserEmail] = useState('vijay@gmail.com');
-  const [userPassword, setUserPassword] = useState('12345');
+  const [mobileNo, setMobileNo] = useState('');
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
   const dispatch = useDispatch();
-
-  const passwordInputRef = createRef();
 
   const handleSubmitPress = async () => {
     setErrortext('');
@@ -68,10 +65,10 @@ const ThirdRegisterScreen = ({navigation}) => {
         <View>
           <KeyboardAvoidingView enabled>
             <View style={styles.SectionStyle}>
-              <TextInput
+              {/* <TextInput
                 style={styles.inputStyle}
                 onChangeText={(UserEmail) => setUserEmail(UserEmail)}
-                placeholder="Enter Email" //dummy@abc.com
+                placeholder="Mobile No. for Security Verification" //dummy@abc.com
                 placeholderTextColor="#8b9cb5"
                 autoCapitalize="none"
                 keyboardType="email-address"
@@ -82,44 +79,29 @@ const ThirdRegisterScreen = ({navigation}) => {
                 underlineColorAndroid="#f000"
                 blurOnSubmit={false}
                 value={userEmail}
-              />
-            </View>
-            <View style={styles.SectionStyle}>
+              /> */}
               <TextInput
-                value={userPassword}
-                style={styles.inputStyle}
-                onChangeText={(UserPassword) => setUserPassword(UserPassword)}
-                placeholder="Enter Password" //12345
+                keyboardType="numeric"
                 placeholderTextColor="#8b9cb5"
-                keyboardType="default"
-                ref={passwordInputRef}
-                onSubmitEditing={Keyboard.dismiss}
-                blurOnSubmit={false}
-                secureTextEntry={true}
-                underlineColorAndroid="#f000"
-                returnKeyType="next"
+                placeholder="Mobile No. for Security Verification" //dummy@abc.com
+                style={styles.inputStyle}
+                onChangeText={(value) => {
+                  let num = value.replace('.', '');
+                  if (isNaN(num)) {
+                    // Its not a number
+                  } else {
+                    setMobileNo(value);
+                  }
+                }}
               />
             </View>
-            {errortext != '' ? (
-              <Text style={styles.errorTextStyle}> {errortext} </Text>
-            ) : null}
+
             <TouchableOpacity
               style={styles.buttonStyle}
               activeOpacity={0.5}
               onPress={handleSubmitPress}>
-              <Text style={styles.buttonTextStyle}>LOGIN</Text>
-            </TouchableOpacity>
-            <Text style={styles.registerTextStyle}>OR</Text>
-            <TouchableOpacity
-              style={{...styles.buttonStyle, backgroundColor: 'none'}}
-              activeOpacity={0.5}
-              onPress={() => navigation.navigate('signUp')}>
-              <Text
-                style={{
-                  ...styles.registerTextStyle,
-                  color: themedColors.default.appColor,
-                }}>
-                Join Lokoro
+              <Text style={styles.buttonTextStyle}>
+                Get One-Time Security Code
               </Text>
             </TouchableOpacity>
           </KeyboardAvoidingView>
