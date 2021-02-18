@@ -31,6 +31,10 @@ const Auth = () => {
         name="signUp"
         component={SignUp}
         options={{
+          headerStyle: {
+            elevation: 0,
+            shadowOpacity: 0,
+          },
           headerShown: true,
           title: '', //Set Header Title
           // headerStyle: {

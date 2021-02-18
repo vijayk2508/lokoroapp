@@ -11,7 +11,6 @@ import {
   KeyboardAvoidingView,
   AsyncStorage,
 } from 'react-native';
-import OtpInputs from 'react-native-otp-inputs';
 import {useDispatch} from 'react-redux';
 import {login} from '../../action-reducers/auth/action';
 import {assestImages} from '../../assests';
@@ -20,7 +19,10 @@ import Loader from '../../components/Loader';
 import {themedColors} from '../../constants/Colors';
 
 const FourthRegisterScreen = ({navigation}) => {
-  const [otpCode, setOtpCode] = useState('');
+  const [pin1, setPin1] = useState('');
+  const [pin2, setPin2] = useState('');
+  const [pin3, setPin3] = useState('');
+  const [pin4, setPin4] = useState('');
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
   const dispatch = useDispatch();
@@ -66,57 +68,32 @@ const FourthRegisterScreen = ({navigation}) => {
         <View>
           <KeyboardAvoidingView enabled>
             <View style={styles.SectionStyle}>
-              {/* <TextInput
-                style={styles.inputStyle}
-                onChangeText={(UserEmail) => setUserEmail(UserEmail)}
-                placeholder="Mobile No. for Security Verification" //dummy@abc.com
-                placeholderTextColor="#8b9cb5"
-                autoCapitalize="none"
-                keyboardType="email-address"
-                returnKeyType="next"
-                onSubmitEditing={() =>
-                  passwordInputRef.current && passwordInputRef.current.focus()
-                }
-                underlineColorAndroid="#f000"
-                blurOnSubmit={false}
-                value={userEmail}
-              /> */}
-              {/* <TextInput
-                keyboardType="numeric"
-                placeholderTextColor="#8b9cb5"
-                placeholder="Mobile No. for Security Verification" //dummy@abc.com
-                style={styles.inputStyle}
-                onChangeText={(value) => {
-                  let num = value.replace('.', '');
-                  if (isNaN(num)) {
-                    // Its not a number
-                  } else {
-                    setMobileNo(value);
-                  }
-                }}
-              /> */}
-              {/* <OtpInputs
-                handleChange={(code) => setOtpCode(code)}
-                numberOfInputs={6}
-                //value={code}
-              /> */}
-              <OtpInputs
-                clearTextOnFocus
-                handleChange={(code) => setOtpCode(code)}
-                keyboardType="phone-pad"
-                numberOfInputs={4}
-                // ref={otpRef}
-                selectTextOnFocus={false}
-              />
+              <View style={{flex: 1}}>
+                <View style={styles.otp}>
+                  <TextInput
+                    style={styles.otpBox}
+                    value={pin1}
+                    onChangeText={(val) => setPin1(val)}></TextInput>
+                  <TextInput
+                    style={styles.otpBox}
+                    value={pin2}
+                    onChangeText={(val) => setPin2(val)}></TextInput>
+                  <TextInput
+                    style={styles.otpBox}
+                    value={pin3}
+                    onChangeText={(val) => setPin3(val)}></TextInput>
+                  <TextInput
+                    style={styles.otpBox}
+                    value={pin4}
+                    onChangeText={(val) => setPin4(val)}></TextInput>
+                </View>
+              </View>
             </View>
-
             <TouchableOpacity
               style={styles.buttonStyle}
               activeOpacity={0.5}
               onPress={handleSubmitPress}>
-              <Text style={styles.buttonTextStyle}>
-                Get One-Time Security Code
-              </Text>
+              <Text style={styles.buttonTextStyle}>Next</Text>
             </TouchableOpacity>
           </KeyboardAvoidingView>
         </View>
@@ -127,6 +104,23 @@ const FourthRegisterScreen = ({navigation}) => {
 export default FourthRegisterScreen;
 
 const styles = StyleSheet.create({
+  otp: {
+    flex: 0.6,
+    justifyContent: 'space-evenly',
+    flexDirection: 'row',
+  },
+  otpBox: {
+    backgroundColor: '#f5f4f9',
+    fontWeight: '600',
+    alignSelf: 'center',
+    padding: 10,
+    fontSize: 20,
+    height: 40,
+    width: '10%',
+    borderRadius: 10,
+    borderWidth: 0.5,
+    borderColor: 'grey',
+  },
   logoText: {
     color: themedColors.default.appColor,
     //fontFamily : "Goo"
