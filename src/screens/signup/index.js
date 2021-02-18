@@ -5,6 +5,7 @@ import {SliderBox} from 'react-native-image-slider-box';
 import {assestImages} from '../../assests';
 import {themedColors} from '../../constants/Colors';
 import FirstRegisterScreen from './first';
+import FourthRegisterScreen from './fourth';
 import SecondRegisterScreen from './second';
 import ThirdRegisterScreen from './third';
 
@@ -104,6 +105,45 @@ function SignUp(props) {
               setUserDetail={setUserDetail}
               active={active}
               setActive={setActive}></ThirdRegisterScreen>
+          </>
+        );
+      case 4:
+        return (
+          <>
+            <View style={styles.headerStyle}>
+              <Text style={styles.title}> Meet New Friends </Text>
+              <Text style={styles.description}>
+                Love to play sports, solve puzzles or go café hopping? Find new
+                friends in your neighbourhood who share common Interests and
+                passions!
+              </Text>
+            </View>
+            <View
+              style={{
+                borderBottomColor: '#E5E5E8',
+                borderBottomWidth: 1,
+                margin: 15,
+                marginLeft: 70,
+                marginRight: 70,
+              }}
+            />
+
+            <Text style={styles.formHeading}>Almost Done!</Text>
+            <Text
+              style={{
+                ...styles.description,
+                padding: 70,
+                paddingTop: 0,
+                paddingBottom: 0,
+                marginBottom: 0,
+              }}>
+              Enter the 4-digit code we sent to +65 8938 2830
+            </Text>
+            <FourthRegisterScreen
+              userDetail={userDetail}
+              setUserDetail={setUserDetail}
+              active={active}
+              setActive={setActive}></FourthRegisterScreen>
           </>
         );
 

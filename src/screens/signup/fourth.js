@@ -11,6 +11,7 @@ import {
   KeyboardAvoidingView,
   AsyncStorage,
 } from 'react-native';
+import OtpInputs from 'react-native-otp-inputs';
 import {useDispatch} from 'react-redux';
 import {login} from '../../action-reducers/auth/action';
 import {assestImages} from '../../assests';
@@ -18,14 +19,38 @@ import {assestImages} from '../../assests';
 import Loader from '../../components/Loader';
 import {themedColors} from '../../constants/Colors';
 
-const ThirdRegisterScreen = (props) => {
-  const [mobileNo, setMobileNo] = useState('');
+const FourthRegisterScreen = ({navigation}) => {
+  const [otpCode, setOtpCode] = useState('');
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
   const dispatch = useDispatch();
 
-  const handleSubmitPress = () => {
-    props.setActive(4);
+  const handleSubmitPress = async () => {
+    setErrortext('');
+    if (!userEmail) {
+      alert('Please fill Email');
+      return;
+    }
+    if (!userPassword) {
+      alert('Please fill Password');
+      return;
+    }
+
+    // let dataToSend = {user_email: userEmail, user_password: userPassword};
+    // let formBody = [];
+    // for (let key in dataToSend) {
+    //   let encodedKey = encodeURIComponent(key);
+    //   let encodedValue = encodeURIComponent(dataToSend[key]);
+    //   formBody.push(encodedKey + '=' + encodedValue);
+    // }
+    // formBody = formBody.join('&');
+    let data = {email: userEmail, password: userPassword};
+    setLoading(true);
+    const res = await dispatch(login(data));
+    if (res.status === 'success') {
+      navigation.replace('userscreen', {data: res.data});
+    }
+    setLoading(false);
   };
 
   return (
@@ -33,12 +58,11 @@ const ThirdRegisterScreen = (props) => {
       <Loader loading={loading} />
       <ScrollView
         keyboardShouldPersistTaps="handled"
-        // contentContainerStyle={{
-        //   flex: 1,
-        //   justifyContent: 'center',
-        //   alignContent: 'center',
-        // }}
-        >
+        contentContainerStyle={{
+          flex: 1,
+          justifyContent: 'center',
+          alignContent: 'center',
+        }}>
         <View>
           <KeyboardAvoidingView enabled>
             <View style={styles.SectionStyle}>
@@ -57,8 +81,8 @@ const ThirdRegisterScreen = (props) => {
                 blurOnSubmit={false}
                 value={userEmail}
               /> */}
-              <TextInput
-                keyboardType="phone-pad"
+              {/* <TextInput
+                keyboardType="numeric"
                 placeholderTextColor="#8b9cb5"
                 placeholder="Mobile No. for Security Verification" //dummy@abc.com
                 style={styles.inputStyle}
@@ -70,7 +94,19 @@ const ThirdRegisterScreen = (props) => {
                     setMobileNo(value);
                   }
                 }}
-                value={mobileNo}
+              /> */}
+              {/* <OtpInputs
+                handleChange={(code) => setOtpCode(code)}
+                numberOfInputs={6}
+                //value={code}
+              /> */}
+              <OtpInputs
+                clearTextOnFocus
+                handleChange={(code) => setOtpCode(code)}
+                keyboardType="phone-pad"
+                numberOfInputs={4}
+                // ref={otpRef}
+                selectTextOnFocus={false}
               />
             </View>
 
@@ -88,7 +124,7 @@ const ThirdRegisterScreen = (props) => {
     </View>
   );
 };
-export default ThirdRegisterScreen;
+export default FourthRegisterScreen;
 
 const styles = StyleSheet.create({
   logoText: {
