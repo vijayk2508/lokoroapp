@@ -1,4 +1,4 @@
-import React, {useState, createRef} from 'react';
+import React, {useState, createRef, useEffect} from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -10,9 +10,11 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   AsyncStorage,
+  BackHandler,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import {login} from '../../action-reducers/auth/action';
+import {UpdateSignUpStep} from '../../action-reducers/signup/action';
 import {assestImages} from '../../assests';
 
 import Loader from '../../components/Loader';
@@ -54,6 +56,21 @@ const Login = ({navigation}) => {
     }
     setLoading(false);
   };
+
+  function handleBackButtonClick() {
+    BackHandler.exitApp();
+    return true;
+  }
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
 
   return (
     <View style={styles.mainBody}>
@@ -126,7 +143,10 @@ const Login = ({navigation}) => {
             <TouchableOpacity
               style={{...styles.buttonStyle, backgroundColor: 'none'}}
               activeOpacity={0.5}
-              onPress={() => navigation.navigate('signUp')}>
+              onPress={() => {
+                dispatch(UpdateSignUpStep(1));
+                navigation.navigate('signUp');
+              }}>
               <Text
                 style={{
                   ...styles.registerTextStyle,

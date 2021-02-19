@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Button} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {NavigationContainer} from '@react-navigation/native';
 import {StyleProvider} from 'native-base';
@@ -14,12 +14,13 @@ import UserScreen from '../screens/user-screens';
 import getTheme from '../assests/native-base-theme/components';
 import material from '../assests/native-base-theme/variables/material';
 
-import {Provider} from 'react-redux';
+import {Provider, useSelector} from 'react-redux';
 import {store} from '../action-reducers/store';
 
 const Stack = createStackNavigator();
 
 const Auth = () => {
+  const signUpFormReducer = useSelector((state) => state.signupReducer);
   return (
     <Stack.Navigator
       screenOptions={{
@@ -30,18 +31,22 @@ const Auth = () => {
       <Stack.Screen name="login" component={Login} />
       <Stack.Screen
         name="signUp"
-        component={SignUp}
         options={{
           headerStyle: {
             elevation: 0,
             shadowOpacity: 0,
-            flex: 1,
           },
-          title: 'Create Account (1 of 3)',
+          title: '',
           headerTitleAlign: 'center',
           headerShown: true,
-        }}
-      />
+          headerRight: () => (
+            <Text style={{marginRight: 10, fontWeight: '900', fontSize: 18}}>
+              {`Create Account (${signUpFormReducer.activeIndex} of 4)`}
+            </Text>
+          ),
+        }}>
+        {(props) => <SignUp {...props}></SignUp>}
+      </Stack.Screen>
     </Stack.Navigator>
   );
 };

@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import {login} from '../../action-reducers/auth/action';
+import { UpdateSignUpStep } from '../../action-reducers/signup/action';
 import {assestImages} from '../../assests';
 
 import Loader from '../../components/Loader';
@@ -25,7 +26,7 @@ const ThirdRegisterScreen = (props) => {
   const dispatch = useDispatch();
 
   const handleSubmitPress = () => {
-    props.setActive(4);
+    dispatch(UpdateSignUpStep(4))
   };
 
   return (

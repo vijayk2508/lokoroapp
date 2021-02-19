@@ -14,12 +14,14 @@ import {
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import {login} from '../../action-reducers/auth/action';
+import { UpdateSignUpStep } from '../../action-reducers/signup/action';
 import {assestImages} from '../../assests';
 
 import Loader from '../../components/Loader';
 import {themedColors} from '../../constants/Colors';
 
 const FirstRegisterScreen = (props) => {
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -51,7 +53,7 @@ const FirstRegisterScreen = (props) => {
     //   alert('Password is not match');
     //   return;
     // }
-    props.setActive(2);
+    dispatch(UpdateSignUpStep(2))
   };
 
   return (

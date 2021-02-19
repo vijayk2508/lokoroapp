@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import {CommonActions} from '@react-navigation/native';
+import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
   View,
@@ -7,8 +8,11 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
+  Alert,
 } from 'react-native';
 import {SliderBox} from 'react-native-image-slider-box';
+import {useDispatch, useSelector} from 'react-redux';
+import {UpdateSignUpStep} from '../../action-reducers/signup/action';
 
 import {assestImages} from '../../assests';
 import {themedColors} from '../../constants/Colors';
@@ -20,11 +24,54 @@ import ThirdRegisterScreen from './third';
 const sliderImages = [assestImages.img1, assestImages.img2];
 
 function SignUp(props) {
-  const [active, setActive] = useState(1);
+  const activeIndex = useSelector((state) => state.signupReducer.activeIndex);
+  const dispatch = useDispatch();
   const [userDetail, setUserDetail] = useState({});
 
+  useEffect(
+    () =>
+      props.navigation.addListener('beforeRemove', (e) => {
+        // if (activeIndex > -1) {
+        //   // If we don't have unsaved changes, then we don't need to do anything
+        //   return;
+        // }
+
+        // Prevent default behavior of leaving the screen
+        e.preventDefault();
+
+        // Prompt the user before leaving the screen
+
+        if (activeIndex - 1 < 1) {
+          // Alert.alert(
+          //   'Discard Registration Process?',
+          //   'Are you sure to discard them and leave the screen?',
+          //   [
+          //     // {
+          //     //   text: 'Go Back',
+          //     //   style: 'cancel',
+          //     //   onPress: () => {
+          //     //   },
+          //     // },
+          //     {text: "Don't leave", style: 'cancel', onPress: () => {}},
+          //     {
+          //       text: 'Discard',
+          //       style: 'destructive',
+          //       // If the user confirmed, then we dispatch the action we blocked earlier
+          //       // This will continue the action that had triggered the removal of the screen
+          //       onPress: () => props.navigation.dispatch(e.data.action),
+          //     },
+          //   ],
+          // );
+          props.navigation.dispatch(e.data.action)
+        } else {
+          dispatch(UpdateSignUpStep(activeIndex - 1));
+        }
+      }),
+    [props.navigation, activeIndex],
+  );
+
   function steps() {
-    switch (active) {
+    switch (activeIndex) {
       case 1:
         return (
           <>
@@ -49,9 +96,7 @@ function SignUp(props) {
             <Text style={styles.formHeading}>Create Your Sign in</Text>
             <FirstRegisterScreen
               userDetail={userDetail}
-              setUserDetail={setUserDetail}
-              active={active}
-              setActive={setActive}></FirstRegisterScreen>
+              setUserDetail={setUserDetail}></FirstRegisterScreen>
           </>
         );
       case 2:
@@ -78,9 +123,7 @@ function SignUp(props) {
             <Text style={styles.formHeading}>Setup Your Profile</Text>
             <SecondRegisterScreen
               userDetail={userDetail}
-              setUserDetail={setUserDetail}
-              active={active}
-              setActive={setActive}></SecondRegisterScreen>
+              setUserDetail={setUserDetail}></SecondRegisterScreen>
           </>
         );
       case 3:
@@ -111,9 +154,7 @@ function SignUp(props) {
             </Text>
             <ThirdRegisterScreen
               userDetail={userDetail}
-              setUserDetail={setUserDetail}
-              active={active}
-              setActive={setActive}></ThirdRegisterScreen>
+              setUserDetail={setUserDetail}></ThirdRegisterScreen>
           </>
         );
       case 4:
@@ -150,9 +191,7 @@ function SignUp(props) {
             </Text>
             <FourthRegisterScreen
               userDetail={userDetail}
-              setUserDetail={setUserDetail}
-              active={active}
-              setActive={setActive}></FourthRegisterScreen>
+              setUserDetail={setUserDetail}></FourthRegisterScreen>
           </>
         );
       default:
@@ -165,22 +204,15 @@ function SignUp(props) {
       style={{flex: 1}}
       behavior={Platform.OS === 'ios' ? 'padding' : ''}>
       <ScrollView
-        //keyboardShouldPersistTaps="handled"
         contentContainerStyle={{
-          flex: 1,
-          // justifyContent: 'center',
-          // alignContent: 'center',
           backgroundColor: 'white',
         }}
-        ref={(ref) => (scrollView = ref)}
         bounces={false}>
         <View
           style={{
             flex: 0.7,
             justifyContent: 'center',
             alignItems: 'center',
-            // alignContent: 'center',
-            // backgroundColor: 'white',
           }}>
           <SliderBox
             //ImageComponent={FastImage}

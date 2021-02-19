@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import {login} from '../../action-reducers/auth/action';
+import {UpdateSignUpStep} from '../../action-reducers/signup/action';
 import {assestImages} from '../../assests';
 
 import Loader from '../../components/Loader';
@@ -38,7 +39,7 @@ const SecondRegisterScreen = (props) => {
     //   alert('Please fill your Address');
     //   return;
     // }
-    props.setActive(3);
+    dispatch(UpdateSignUpStep(3));
   };
 
   return (
