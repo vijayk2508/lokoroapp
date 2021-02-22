@@ -14,14 +14,13 @@ import {
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import {login} from '../../action-reducers/auth/action';
-import { UpdateSignUpStep } from '../../action-reducers/signup/action';
+import {UpdateSignUpStep} from '../../action-reducers/signup/action';
 import {assestImages} from '../../assests';
 
 import Loader from '../../components/Loader';
 import {themedColors} from '../../constants/Colors';
 
 const FirstRegisterScreen = (props) => {
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -35,25 +34,30 @@ const FirstRegisterScreen = (props) => {
   const passwordInputRef = createRef();
 
   const handleSubmitPress = async () => {
-    // setErrortext('');
-    // if (!email) {
-    //   alert('Please fill Email');
-    //   return;
-    // }
-    // if (!password) {
-    //   alert('Please fill Password');
-    //   return;
-    // }
-    // if (!confirmPassword) {
-    //   alert('Please fill Confirm Password');
-    //   return;
-    // }
+    setErrortext('');
+    if (!email) {
+      alert('Please fill Email');
+      return;
+    }
+    if (!password) {
+      alert('Please fill Password');
+      return;
+    }
+    if (!confirmPassword) {
+      alert('Please fill Confirm Password');
+      return;
+    }
 
-    // if (confirmPassword !== password) {
-    //   alert('Password is not match');
-    //   return;
-    // }
-    dispatch(UpdateSignUpStep(2))
+    if (confirmPassword !== password) {
+      alert('Password is not match');
+      return;
+    }
+
+    if (isEnabled === false) {
+      alert('Please read term and condition.');
+      return;
+    }
+    props.updateUserDetail({email, password}, 2);
   };
 
   return (
@@ -124,8 +128,9 @@ const FirstRegisterScreen = (props) => {
             marginBottom: 0,
             alignSelf: 'center',
           }}>
-          <Text style={{alignSelf: 'center'}}>
-            I have read and agree to the terms and conditions
+          <Text style={{alignSelf: 'center', fontWeight: 'bold'}}>
+            I have read and agree to the{' '}
+            <Text style={{color: '#1190CB'}}>terms and conditions</Text>
           </Text>
         </View>
 
@@ -150,8 +155,9 @@ const FirstRegisterScreen = (props) => {
           <Text>{isEnabled ? 'Yes' : 'No'}</Text>
         </View>
         <TouchableOpacity
+          // disabled={isEnabled === false}
           style={styles.buttonStyle}
-          activeOpacity={0.5}
+          activeOpacity={0}
           onPress={handleSubmitPress}>
           <Text style={styles.buttonTextStyle}>Next</Text>
         </TouchableOpacity>

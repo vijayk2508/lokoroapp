@@ -23,6 +23,19 @@ import ThirdRegisterScreen from './third';
 
 const sliderImages = [assestImages.img1, assestImages.img2];
 
+const initialState = {
+  mobile: '',
+  email: '',
+  password: '',
+  displayName: '',
+  userImage: '',
+  roleId: '',
+  address: '',
+  deviceId: '',
+  notification: false,
+  term: false,
+};
+
 function SignUp(props) {
   const activeIndex = useSelector((state) => state.signupReducer.activeIndex);
   const dispatch = useDispatch();
@@ -62,7 +75,7 @@ function SignUp(props) {
           //     },
           //   ],
           // );
-          props.navigation.dispatch(e.data.action)
+          props.navigation.dispatch(e.data.action);
         } else {
           dispatch(UpdateSignUpStep(activeIndex - 1));
         }
@@ -96,7 +109,7 @@ function SignUp(props) {
             <Text style={styles.formHeading}>Create Your Sign in</Text>
             <FirstRegisterScreen
               userDetail={userDetail}
-              setUserDetail={setUserDetail}></FirstRegisterScreen>
+              updateUserDetail={updateUserDetail}></FirstRegisterScreen>
           </>
         );
       case 2:
@@ -123,7 +136,7 @@ function SignUp(props) {
             <Text style={styles.formHeading}>Setup Your Profile</Text>
             <SecondRegisterScreen
               userDetail={userDetail}
-              setUserDetail={setUserDetail}></SecondRegisterScreen>
+              updateUserDetail={updateUserDetail}></SecondRegisterScreen>
           </>
         );
       case 3:
@@ -154,7 +167,7 @@ function SignUp(props) {
             </Text>
             <ThirdRegisterScreen
               userDetail={userDetail}
-              setUserDetail={setUserDetail}></ThirdRegisterScreen>
+              updateUserDetail={updateUserDetail}></ThirdRegisterScreen>
           </>
         );
       case 4:
@@ -191,7 +204,8 @@ function SignUp(props) {
             </Text>
             <FourthRegisterScreen
               userDetail={userDetail}
-              setUserDetail={setUserDetail}></FourthRegisterScreen>
+              updateUserDetail={updateUserDetail}
+              {...props}></FourthRegisterScreen>
           </>
         );
       default:
@@ -199,6 +213,10 @@ function SignUp(props) {
     }
   }
 
+  function updateUserDetail(data, idx) {
+    setUserDetail({...userDetail, ...data});
+    dispatch(UpdateSignUpStep(idx));
+  }
   return (
     <KeyboardAvoidingView
       style={{flex: 1}}
@@ -250,6 +268,7 @@ function SignUp(props) {
             imageLoadingColor="#2196F3"
           />
         </View>
+        <Text>{JSON.stringify(userDetail)}</Text>
         {steps()}
       </ScrollView>
     </KeyboardAvoidingView>

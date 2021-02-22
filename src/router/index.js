@@ -16,6 +16,7 @@ import material from '../assests/native-base-theme/variables/material';
 
 import {Provider, useSelector} from 'react-redux';
 import {store} from '../action-reducers/store';
+import StartScreen from '../screens/signup/startscreen';
 
 const Stack = createStackNavigator();
 
@@ -73,6 +74,7 @@ export default function AppRouter() {
             />
 
             <Stack.Screen name="userscreen" component={UserScreen} />
+            <Stack.Screen name="startscreen" component={StartScreen}/>
             {/* <Stack.Screen name="login">
           {(props) => <Login {...props} apColors={colors} />}
         </Stack.Screen>

@@ -14,11 +14,14 @@ import {
 import {useDispatch} from 'react-redux';
 import {login} from '../../action-reducers/auth/action';
 import {assestImages} from '../../assests';
+import {withNavigation} from 'react-navigation';
 
 import Loader from '../../components/Loader';
 import {themedColors} from '../../constants/Colors';
 
-const FourthRegisterScreen = ({navigation}) => {
+const FourthRegisterScreen = (props) => {
+  console.log('props', props);
+
   const [pin1, setPin1] = useState('');
   const [pin2, setPin2] = useState('');
   const [pin3, setPin3] = useState('');
@@ -27,16 +30,16 @@ const FourthRegisterScreen = ({navigation}) => {
   const [errortext, setErrortext] = useState('');
   const dispatch = useDispatch();
 
-  const handleSubmitPress = async () => {
-    setErrortext('');
-    if (!userEmail) {
-      alert('Please fill Email');
-      return;
-    }
-    if (!userPassword) {
-      alert('Please fill Password');
-      return;
-    }
+  const handleSubmitPress = () => {
+    // setErrortext('');
+    // if (!userEmail) {
+    //   alert('Please fill Email');
+    //   return;
+    // }
+    // if (!userPassword) {
+    //   alert('Please fill Password');
+    //   return;
+    // }
 
     // let dataToSend = {user_email: userEmail, user_password: userPassword};
     // let formBody = [];
@@ -46,12 +49,13 @@ const FourthRegisterScreen = ({navigation}) => {
     //   formBody.push(encodedKey + '=' + encodedValue);
     // }
     // formBody = formBody.join('&');
-    let data = {email: userEmail, password: userPassword};
-    setLoading(true);
-    const res = await dispatch(login(data));
-    if (res.status === 'success') {
-      navigation.replace('userscreen', {data: res.data});
-    }
+    // let data = {email: userEmail, password: userPassword};
+    // setLoading(true);
+    // const res = await dispatch(login(data));
+    // if (res.status === 'success') {
+    //   navigation.replace('userscreen', {data: res.data});
+    // }
+    props.navigation.navigate('startscreen');
     setLoading(false);
   };
 
@@ -89,7 +93,7 @@ const FourthRegisterScreen = ({navigation}) => {
     </View>
   );
 };
-export default FourthRegisterScreen;
+export default withNavigation(FourthRegisterScreen);
 
 const styles = StyleSheet.create({
   otp: {

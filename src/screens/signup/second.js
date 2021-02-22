@@ -11,6 +11,7 @@ import {
   KeyboardAvoidingView,
   AsyncStorage,
 } from 'react-native';
+import {Avatar} from 'react-native-elements';
 import {useDispatch} from 'react-redux';
 import {login} from '../../action-reducers/auth/action';
 import {UpdateSignUpStep} from '../../action-reducers/signup/action';
@@ -39,12 +40,23 @@ const SecondRegisterScreen = (props) => {
     //   alert('Please fill your Address');
     //   return;
     // }
-    dispatch(UpdateSignUpStep(3));
+
+    props.updateUserDetail({displayName, homeAddress, proAddress}, 3);
+    //dispatch(UpdateSignUpStep(3));
   };
 
   return (
     <View>
       <Loader loading={loading} />
+      <View>
+        <Avatar
+          source={{
+            uri:
+              'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
+          }}>
+          {/* <Avatar.Accessory {...accessoryProps} /> */}
+        </Avatar>
+      </View>
       <View style={styles.SectionStyle}>
         <TextInput
           style={styles.inputStyle}
