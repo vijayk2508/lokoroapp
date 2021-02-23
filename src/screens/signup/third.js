@@ -1,32 +1,24 @@
-import React, {useState, createRef} from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   TextInput,
   View,
   Text,
-  ScrollView,
-  Image,
-  Keyboard,
   TouchableOpacity,
-  KeyboardAvoidingView,
-  AsyncStorage,
 } from 'react-native';
-import {useDispatch} from 'react-redux';
-import {login} from '../../action-reducers/auth/action';
-import { UpdateSignUpStep } from '../../action-reducers/signup/action';
-import {assestImages} from '../../assests';
 
 import Loader from '../../components/Loader';
 import {themedColors} from '../../constants/Colors';
 
 const ThirdRegisterScreen = (props) => {
-  const [mobileNo, setMobileNo] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [errortext, setErrortext] = useState('');
-  const dispatch = useDispatch();
+  const [loading] = useState(false);
 
   const handleSubmitPress = () => {
-    dispatch(UpdateSignUpStep(4))
+    if (!props.userDetail.mobile) {
+      alert('Please Provide Your Mobile For OTP.');
+      return;
+    }
+    props.updateUserDetail({}, 4);
   };
 
   return (
@@ -43,10 +35,10 @@ const ThirdRegisterScreen = (props) => {
             if (isNaN(num)) {
               // Its not a number
             } else {
-              setMobileNo(value);
+              props.updateUserDetail({mobile: value});
             }
           }}
-          value={mobileNo}
+          value={props.userDetail.mobile}
         />
       </View>
       <TouchableOpacity

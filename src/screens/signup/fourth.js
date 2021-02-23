@@ -18,19 +18,21 @@ import {withNavigation} from 'react-navigation';
 
 import Loader from '../../components/Loader';
 import {themedColors} from '../../constants/Colors';
+import {register} from '../../action-reducers/signup/action';
+//import * as register from '../../action-reducers/signUp/action';
 
 const FourthRegisterScreen = (props) => {
   console.log('props', props);
 
-  const [pin1, setPin1] = useState('');
-  const [pin2, setPin2] = useState('');
-  const [pin3, setPin3] = useState('');
-  const [pin4, setPin4] = useState('');
+  const [pin1, setPin1] = useState('1');
+  const [pin2, setPin2] = useState('2');
+  const [pin3, setPin3] = useState('3');
+  const [pin4, setPin4] = useState('4');
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
   const dispatch = useDispatch();
 
-  const handleSubmitPress = () => {
+  const handleSubmitPress = async () => {
     // setErrortext('');
     // if (!userEmail) {
     //   alert('Please fill Email');
@@ -55,7 +57,42 @@ const FourthRegisterScreen = (props) => {
     // if (res.status === 'success') {
     //   navigation.replace('userscreen', {data: res.data});
     // }
-    props.navigation.navigate('startscreen');
+    let currentOtp = `${pin1}${pin2}${pin3}${pin4}`;
+    if (currentOtp === '1234') {
+      const {
+        mobile,
+        email,
+        password,
+        displayName,
+        userImage,
+        roleId,
+        address,
+        deviceId,
+        notification,
+        term,
+      } = props.userDetail;
+      debugger
+      const formData = new FormData();
+      formData.append('mobile', mobile);
+      formData.append('email', email);
+      formData.append('password', password);
+      formData.append('displayName', displayName);
+      formData.append('otp', currentOtp);
+      formData.append('notification', notification);
+      formData.append('term', true);
+      //formData.append("locoCoinId")
+      //formData.append("image",userImage)
+      // formData.append("roleId",roleId)
+      // formData.append("address",address)
+      // formData.append("deviceId",deviceId)
+      const res = await dispatch(register(formData));
+      debugger;
+      //props.navigation.navigate('startscreen');
+    } else {
+      alert('OTP is incorrect.');
+      return await 1;
+    }
+
     setLoading(false);
   };
 
@@ -68,18 +105,30 @@ const FourthRegisterScreen = (props) => {
             <TextInput
               style={styles.otpBox}
               value={pin1}
+              maxLength={1}
+              keyboardType="number-pad"
+              returnKeyType="next"
               onChangeText={(val) => setPin1(val)}></TextInput>
             <TextInput
               style={styles.otpBox}
               value={pin2}
+              maxLength={1}
+              keyboardType="number-pad"
+              returnKeyType="next"
               onChangeText={(val) => setPin2(val)}></TextInput>
             <TextInput
               style={styles.otpBox}
               value={pin3}
+              maxLength={1}
+              keyboardType="number-pad"
+              returnKeyType="next"
               onChangeText={(val) => setPin3(val)}></TextInput>
             <TextInput
               style={styles.otpBox}
               value={pin4}
+              maxLength={1}
+              keyboardType="number-pad"
+              returnKeyType="next"
               onChangeText={(val) => setPin4(val)}></TextInput>
           </View>
         </View>

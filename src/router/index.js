@@ -72,14 +72,8 @@ export default function AppRouter() {
               component={Auth}
               options={{headerShown: false}}
             />
-
             <Stack.Screen name="userscreen" component={UserScreen} />
-            <Stack.Screen name="startscreen" component={StartScreen}/>
-            {/* <Stack.Screen name="login">
-          {(props) => <Login {...props} apColors={colors} />}
-        </Stack.Screen>
-
-        <Stack.Screen name="signUp" component={SignUp} /> */}
+            <Stack.Screen name="startscreen" component={StartScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </StyleProvider>

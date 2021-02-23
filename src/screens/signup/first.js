@@ -1,4 +1,4 @@
-import React, {useState, createRef} from 'react';
+import React, {useState, createRef, useEffect} from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -21,43 +21,39 @@ import Loader from '../../components/Loader';
 import {themedColors} from '../../constants/Colors';
 
 const FirstRegisterScreen = (props) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
-
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
-  const dispatch = useDispatch();
 
-  const passwordInputRef = createRef();
+  // useEffect(() => {
+  //   setEmail(props.userDetail.email);
+  //   setIsEnabled(props.userDetail.isEnabled);
+  // }, [props.userDetail]);
 
   const handleSubmitPress = async () => {
-    // setErrortext('');
-    // if (!email) {
-    //   alert('Please fill Email');
-    //   return;
-    // }
-    // if (!password) {
-    //   alert('Please fill Password');
-    //   return;
-    // }
-    // if (!confirmPassword) {
-    //   alert('Please fill Confirm Password');
-    //   return;
-    // }
+    setErrortext('');
+    if (!props.userDetail.email) {
+      alert('Please fill Email');
+      return;
+    }
+    if (!props.userDetail.password) {
+      alert('Please fill Password');
+      return;
+    }
+    if (!props.userDetail.confirmPassword) {
+      alert('Please fill Confirm Password');
+      return;
+    }
 
-    // if (confirmPassword !== password) {
-    //   alert('Password is not match');
-    //   return;
-    // }
+    if (props.userDetail.confirmPassword !== props.userDetail.password) {
+      alert('Password is not match');
+      return;
+    }
 
-    // if (isEnabled === false) {
-    //   alert('Please read term and condition.');
-    //   return;
-    // }
-    props.updateUserDetail({email, password}, 2);
+    if (props.userDetail.term === false) {
+      alert('Please read term and condition.');
+      return;
+    }
+    props.updateUserDetail({}, 2);
   };
 
   return (
@@ -68,7 +64,8 @@ const FirstRegisterScreen = (props) => {
         <View style={styles.SectionStyle}>
           <TextInput
             style={styles.inputStyle}
-            onChangeText={(data) => setEmail(data)}
+            onChangeText={(data) => props.updateUserDetail({email: data})}
+            value={props.userDetail.email}
             placeholder="Email Address*"
             placeholderTextColor="#8b9cb5"
             autoCapitalize="none"
@@ -79,14 +76,13 @@ const FirstRegisterScreen = (props) => {
             //   }
             underlineColorAndroid="#f000"
             blurOnSubmit={false}
-            value={email}
           />
         </View>
         <View style={styles.SectionStyle}>
           <TextInput
-            value={password}
+            onChangeText={(data) => props.updateUserDetail({password: data})}
+            value={props.userDetail.password}
             style={styles.inputStyle}
-            onChangeText={(data) => setPassword(data)}
             placeholder="Password" //12345
             placeholderTextColor="#8b9cb5"
             keyboardType="default"
@@ -103,13 +99,14 @@ const FirstRegisterScreen = (props) => {
         ) : null}
         <View style={styles.SectionStyle}>
           <TextInput
-            value={confirmPassword}
+            onChangeText={(data) =>
+              props.updateUserDetail({confirmPassword: data})
+            }
+            value={props.userDetail.confirmPassword}
             style={styles.inputStyle}
-            onChangeText={(data) => setConfirmPassword(data)}
             placeholder="Re-Type Password" //12345
             placeholderTextColor="#8b9cb5"
             keyboardType="default"
-            //   ref={passwordInputRef}
             onSubmitEditing={Keyboard.dismiss}
             blurOnSubmit={false}
             secureTextEntry={true}
@@ -147,12 +144,16 @@ const FirstRegisterScreen = (props) => {
           }}>
           <Switch
             trackColor={{false: '#767577', true: '#81b0ff'}}
-            thumbColor={isEnabled ? themedColors.default.appColor : '#f4f3f4'}
+            thumbColor={
+              props.userDetail.term ? themedColors.default.appColor : '#f4f3f4'
+            }
             ios_backgroundColor="#3e3e3e"
-            onValueChange={toggleSwitch}
-            value={isEnabled}
+            onValueChange={() =>
+              props.updateUserDetail({term: !props.userDetail.term})
+            }
+            value={props.userDetail.term}
           />
-          <Text>{isEnabled ? 'Yes' : 'No'}</Text>
+          <Text>{props.userDetail.term ? 'Yes' : 'No'}</Text>
         </View>
         <TouchableOpacity
           // disabled={isEnabled === false}

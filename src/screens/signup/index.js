@@ -30,16 +30,17 @@ const initialState = {
   displayName: '',
   userImage: '',
   roleId: '',
-  address: '',
+  address: {latitude: 0, longitude: 0},
   deviceId: '',
   notification: false,
   term: false,
+  confirmPassword: '',
 };
 
 function SignUp(props) {
   const activeIndex = useSelector((state) => state.signupReducer.activeIndex);
   const dispatch = useDispatch();
-  const [userDetail, setUserDetail] = useState({});
+  const [userDetail, setUserDetail] = useState({...initialState});
 
   useEffect(
     () =>
@@ -200,7 +201,7 @@ function SignUp(props) {
                 paddingBottom: 0,
                 marginBottom: 0,
               }}>
-              Enter the 4-digit code we sent to +65 8938 2830
+              Enter the 4-digit code we sent to {userDetail.mobile}
             </Text>
             <FourthRegisterScreen
               userDetail={userDetail}
@@ -214,8 +215,12 @@ function SignUp(props) {
   }
 
   function updateUserDetail(data, idx) {
+    //debugger
     setUserDetail({...userDetail, ...data});
-    dispatch(UpdateSignUpStep(idx));
+    if (idx) {
+      dispatch(UpdateSignUpStep(idx));
+    }
+    return 1;
   }
   return (
     <KeyboardAvoidingView
