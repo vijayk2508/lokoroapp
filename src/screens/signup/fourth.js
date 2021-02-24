@@ -90,9 +90,12 @@ const FourthRegisterScreen = (props) => {
       if (res.status === 'success') {
         if (res.data.userObj) {
           props.navigation.navigate('startscreen');
+          props.updateUserDetail({}, 1);
+          setLoading(false);
           return;
         } else {
           alert(JSON.stringify(res.message));
+          setLoading(false);
           return;
         }
       }

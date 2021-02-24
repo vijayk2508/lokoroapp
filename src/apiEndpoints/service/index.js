@@ -33,7 +33,6 @@ export default async function sendApiRequest(apiParams) {
   try {
     debugger
     const response = await axios(apiParams);
-    console.log("response",response);
     if (response.status === 200) {
       debugger
       return {

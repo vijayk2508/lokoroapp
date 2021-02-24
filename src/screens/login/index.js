@@ -11,6 +11,7 @@ import {
   KeyboardAvoidingView,
   BackHandler,
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import {useDispatch} from 'react-redux';
 import {login} from '../../action-reducers/auth/action';
 import {assestImages} from '../../assests';
@@ -42,7 +43,10 @@ const Login = ({navigation}) => {
     setLoading(true);
     const res = await dispatch(login(data));
     if (res.status === 'success') {
-      navigation.replace('userscreen', {data: res.data});
+      await AsyncStorage.setItem('user_id', JSON.stringify(res.data));
+      await navigation.replace('userscreen', {data: res.data});
+    } else {
+      alert('Username and password are incorrect.');
     }
     setLoading(false);
   };

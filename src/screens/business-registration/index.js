@@ -50,37 +50,8 @@ function BusinessRegistration(props) {
   useEffect(
     () =>
       props.navigation.addListener('beforeRemove', (e) => {
-        // if (activeIndex > -1) {
-        //   // If we don't have unsaved changes, then we don't need to do anything
-        //   return;
-        // }
-
-        // Prevent default behavior of leaving the screen
         e.preventDefault();
-
-        // Prompt the user before leaving the screen
-
         if (activeIndex - 1 < 1) {
-          // Alert.alert(
-          //   'Discard Registration Process?',
-          //   'Are you sure to discard them and leave the screen?',
-          //   [
-          //     // {
-          //     //   text: 'Go Back',
-          //     //   style: 'cancel',
-          //     //   onPress: () => {
-          //     //   },
-          //     // },
-          //     {text: "Don't leave", style: 'cancel', onPress: () => {}},
-          //     {
-          //       text: 'Discard',
-          //       style: 'destructive',
-          //       // If the user confirmed, then we dispatch the action we blocked earlier
-          //       // This will continue the action that had triggered the removal of the screen
-          //       onPress: () => props.navigation.dispatch(e.data.action),
-          //     },
-          //   ],
-          // );
           props.navigation.dispatch(e.data.action);
         } else {
           dispatch(updateStepIndex(activeIndex - 1));
