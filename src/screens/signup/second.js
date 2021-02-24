@@ -145,7 +145,6 @@ const SecondRegisterScreen = (props) => {
   return (
     <View>
       <Loader loading={loading} />
-
       <View style={styles.container}>
         <TouchableOpacity onPress={() => alert('hi')}>
           <View
@@ -188,7 +187,6 @@ const SecondRegisterScreen = (props) => {
           </View>
         </TouchableOpacity>
       </View>
-
       <View style={styles.SectionStyle}>
         <TextInput
           style={styles.inputStyle}

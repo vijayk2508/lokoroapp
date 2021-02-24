@@ -63,7 +63,7 @@ function BusinessRegistration(props) {
       dispatch(updateStepIndex(1));
     };
   }, []);
-  
+
   function steps() {
     switch (activeIndex) {
       case 1:
@@ -87,29 +87,6 @@ function BusinessRegistration(props) {
       case 3:
         return (
           <>
-            <View style={styles.headerStyle}>
-              <Text style={styles.title}> Meet New Friends </Text>
-              <Text style={styles.description}>
-                Love to play sports, solve puzzles or go café hopping? Find new
-                friends in your neighbourhood who share common Interests and
-                passions!
-              </Text>
-            </View>
-            <View
-              style={{
-                borderBottomColor: '#E5E5E8',
-                borderBottomWidth: 1,
-                margin: 15,
-                marginLeft: 70,
-                marginRight: 70,
-              }}
-            />
-
-            <Text style={styles.formHeading}>Secure Your Account</Text>
-            <Text style={styles.description}>
-              For the security of your account and the safety of the Lokoro
-              community, users need to perform a one-time SMS verification.
-            </Text>
             <ThirdRegisterScreen
               userDetail={userDetail}
               updateUserDetail={updateUserDetail}></ThirdRegisterScreen>
@@ -168,72 +145,81 @@ function BusinessRegistration(props) {
 
   return (
     <KeyboardAvoidingView
-      style={{flex: 1}}
+      style={{flex: 1, backgroundColor : "white"}}
       behavior={Platform.OS === 'ios' ? 'padding' : ''}>
       <ScrollView
         contentContainerStyle={{
           backgroundColor: 'white',
         }}
         bounces={true}>
-        <View
-          style={{
-            flex: 0.7,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <SliderBox
-            //ImageComponent={FastImage}
-            images={sliderImages}
-            sliderBoxHeight={200}
-            onCurrentImagePressed={(index) =>
-              console.warn(`image ${index} pressed`)
-            }
-            dotColor={themedColors.default.appColor}
-            inactiveDotColor="#90A4AE"
-            paginationBoxVerticalPadding={20}
-            autoplay
-            circleLoop
-            resizeMethod={'resize'}
-            resizeMode={'cover'}
-            paginationBoxStyle={{
-              position: 'absolute',
-              bottom: 0,
-              padding: 0,
-              alignItems: 'center',
-              alignSelf: 'center',
-              justifyContent: 'center',
-              paddingVertical: 10,
-            }}
-            dotStyle={{
-              width: 10,
-              height: 10,
-              borderRadius: 5,
-              marginHorizontal: 0,
-              padding: 0,
-              margin: 0,
-              backgroundColor: 'white',
-            }}
-            ImageComponentStyle={{borderRadius: 15, width: '97%', marginTop: 5}}
-            imageLoadingColor="#2196F3"
-          />
-        </View>
-        <View style={styles.headerStyle}>
-          <Text style={styles.title}> Get Discovered! </Text>
-          <Text style={styles.description}>
-            New to the neighbourhood and want to get more people to know about
-            you? Forget about distributing flyers. Get listed on Lokoro to
-            spread the word!
-          </Text>
-        </View>
-        <View
-          style={{
-            borderBottomColor: '#E5E5E8',
-            borderBottomWidth: 1,
-            margin: 15,
-            marginLeft: 70,
-            marginRight: 70,
-          }}
-        />
+        {(activeIndex === 1 || activeIndex === 2) && (
+          <>
+            <View
+              style={{
+                flex: 0.7,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <SliderBox
+                //ImageComponent={FastImage}
+                images={sliderImages}
+                sliderBoxHeight={200}
+                onCurrentImagePressed={(index) =>
+                  console.warn(`image ${index} pressed`)
+                }
+                dotColor={themedColors.default.appColor}
+                inactiveDotColor="#90A4AE"
+                paginationBoxVerticalPadding={20}
+                autoplay
+                circleLoop
+                resizeMethod={'resize'}
+                resizeMode={'cover'}
+                paginationBoxStyle={{
+                  position: 'absolute',
+                  bottom: 0,
+                  padding: 0,
+                  alignItems: 'center',
+                  alignSelf: 'center',
+                  justifyContent: 'center',
+                  paddingVertical: 10,
+                }}
+                dotStyle={{
+                  width: 10,
+                  height: 10,
+                  borderRadius: 5,
+                  marginHorizontal: 0,
+                  padding: 0,
+                  margin: 0,
+                  backgroundColor: 'white',
+                }}
+                ImageComponentStyle={{
+                  borderRadius: 15,
+                  width: '97%',
+                  marginTop: 5,
+                }}
+                imageLoadingColor="#2196F3"
+              />
+            </View>
+            <View style={styles.headerStyle}>
+              <Text style={styles.title}> Get Discovered! </Text>
+              <Text style={styles.description}>
+                New to the neighbourhood and want to get more people to know
+                about you? Forget about distributing flyers. Get listed on
+                Lokoro to spread the word!
+              </Text>
+            </View>
+            <View
+              style={{
+                borderBottomColor: '#E5E5E8',
+                borderBottomWidth: 1,
+                margin: 15,
+                marginLeft: 70,
+                marginRight: 70,
+              }}
+            />
+          </>
+        )}
+
         {steps()}
       </ScrollView>
     </KeyboardAvoidingView>

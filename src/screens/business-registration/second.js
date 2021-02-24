@@ -1,10 +1,5 @@
 import React, {useState} from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 
 import Loader from '../../components/Loader';
 import {themedColors} from '../../constants/Colors';
@@ -20,7 +15,7 @@ const SecondRegisterScreen = (props) => {
   // }, [props.userDetail]);
 
   const handleSubmitPress = () => {
-    props.updateUserDetail({}, 2);
+    props.updateUserDetail({}, 3);
   };
 
   return (
@@ -46,7 +41,9 @@ const SecondRegisterScreen = (props) => {
               activeOpacity={0.5}
               //onPress={handleSubmitPress}
             >
-              <Text style={styles.buttonTextStyle}>Registered Business (with UEN)</Text>
+              <Text style={styles.buttonTextStyle}>
+                Registered Business (with UEN)
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={{
@@ -58,22 +55,9 @@ const SecondRegisterScreen = (props) => {
               //onPress={handleSubmitPress}
             >
               <Text style={{...styles.buttonTextStyle, color: '#1190CB'}}>
-              Home Business
+                Home Business
               </Text>
             </TouchableOpacity>
-          </View>
-          <View
-            style={{
-              //  ...styles.SectionStyle,
-              padding: 10,
-              paddingTop: 0,
-              marginTop: 0,
-              marginBottom: 0,
-              alignSelf: 'flex-start',
-            }}>
-            <Text style={{color: '#1190CB', alignSelf: 'center'}}>
-              What is this?
-            </Text>
           </View>
         </View>
 
