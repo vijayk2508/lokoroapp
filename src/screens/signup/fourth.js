@@ -71,7 +71,7 @@ const FourthRegisterScreen = (props) => {
         notification,
         term,
       } = props.userDetail;
-      debugger
+      debugger;
       const formData = new FormData();
       formData.append('mobile', mobile);
       formData.append('email', email);
@@ -86,8 +86,15 @@ const FourthRegisterScreen = (props) => {
       // formData.append("address",address)
       // formData.append("deviceId",deviceId)
       const res = await dispatch(register(formData));
-      debugger;
-      //props.navigation.navigate('startscreen');
+      if (res.status === 'success') {
+        if (res.data.userObj) {
+          props.navigation.navigate('startscreen');
+          return;
+        } else {
+          alert(JSON.stringify(res.message));
+          return;
+        }
+      }
     } else {
       alert('OTP is incorrect.');
       return await 1;
