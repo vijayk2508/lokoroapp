@@ -1,18 +1,15 @@
-import {CommonActions} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
   View,
-  Image,
   Text,
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
-  Alert,
 } from 'react-native';
 import {SliderBox} from 'react-native-image-slider-box';
 import {useDispatch, useSelector} from 'react-redux';
-import {UpdateSignUpStep} from '../../action-reducers/signup/action';
+import {updateStepIndex} from '../../action-reducers/multisteps/action';
 
 import {assestImages} from '../../assests';
 import {themedColors} from '../../constants/Colors';
@@ -78,7 +75,7 @@ function SignUp(props) {
           // );
           props.navigation.dispatch(e.data.action);
         } else {
-          dispatch(UpdateSignUpStep(activeIndex - 1));
+          dispatch(updateStepIndex(activeIndex - 1));
         }
       }),
     [props.navigation, activeIndex],
@@ -215,10 +212,9 @@ function SignUp(props) {
   }
 
   function updateUserDetail(data, idx) {
-    //debugger
     setUserDetail({...userDetail, ...data});
     if (idx) {
-      dispatch(UpdateSignUpStep(idx));
+      dispatch(updateStepIndex(idx));
     }
     return 1;
   }

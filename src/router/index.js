@@ -22,7 +22,7 @@ import BusinessRegistration from '../screens/business-registration';
 const Stack = createStackNavigator();
 
 const Auth = () => {
-  const signUpFormReducer = useSelector((state) => state.signupReducer);
+  const multiStepReducer = useSelector((state) => state.multiStepReducer);
   return (
     <Stack.Navigator
       screenOptions={{
@@ -43,7 +43,7 @@ const Auth = () => {
           headerShown: true,
           headerRight: () => (
             <Text style={{marginRight: 10, fontWeight: '900', fontSize: 18}}>
-              {`Create Account (${signUpFormReducer.activeIndex} of 4)`}
+              {`Create Account (${multiStepReducer.activeIndex} of 4)`}
             </Text>
           ),
         }}>
@@ -54,7 +54,7 @@ const Auth = () => {
 };
 
 const UserBusinessRegistration = () => {
-  const signUpFormReducer = useSelector((state) => state.signupReducer);
+  const multiStepReducer = useSelector((state) => state.multiStepReducer);
   return (
     <Stack.Navigator
       screenOptions={{
@@ -74,7 +74,7 @@ const UserBusinessRegistration = () => {
           headerShown: true,
           headerRight: () => (
             <Text style={{marginRight: 10, fontWeight: '900', fontSize: 18}}>
-              {`Create Account (${signUpFormReducer.activeIndex} of 4)`}
+              {`Register (${multiStepReducer.activeIndex} of 4)`}
             </Text>
           ),
         }}>
@@ -105,13 +105,30 @@ export default function AppRouter() {
               options={{headerShown: false}}
             />
             <Stack.Screen name="userscreen" component={UserScreen} />
-            <Stack.Screen name="startscreen" component={StartScreen} />
+            <Stack.Screen
+              name="startscreen"
+              options={{
+                headerStyle: {
+                  elevation: 0,
+                  shadowOpacity: 0,
+                },
+                title: '',
+                headerTitleAlign: 'center',
+                headerShown: true,
+                headerRight: () => (
+                  <Text
+                    style={{marginRight: 10, fontWeight: '900', fontSize: 18}}>
+                    Complete
+                  </Text>
+                ),
+              }}
+              component={StartScreen}
+            />
             <Stack.Screen
               name="userBusinessRegistration"
               component={UserBusinessRegistration}
               options={{headerShown: false}}
             />
-            
           </Stack.Navigator>
         </NavigationContainer>
       </StyleProvider>

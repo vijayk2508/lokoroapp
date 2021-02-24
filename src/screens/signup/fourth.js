@@ -99,7 +99,6 @@ const FourthRegisterScreen = (props) => {
       alert('OTP is incorrect.');
       return await 1;
     }
-
     setLoading(false);
   };
 

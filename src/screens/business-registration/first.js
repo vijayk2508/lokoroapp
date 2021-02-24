@@ -1,36 +1,25 @@
-import React, {useState, createRef, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
-  TextInput,
   View,
   Text,
-  ScrollView,
-  Image,
-  Keyboard,
   TouchableOpacity,
-  KeyboardAvoidingView,
-  AsyncStorage,
-  Switch,
 } from 'react-native';
-import {useDispatch} from 'react-redux';
-import {login} from '../../action-reducers/auth/action';
-import {UpdateSignUpStep} from '../../action-reducers/signup/action';
-import {assestImages} from '../../assests';
 
 import Loader from '../../components/Loader';
 import {themedColors} from '../../constants/Colors';
 import {width} from '../../constants/generalSettings';
 
 const FirstRegisterScreen = (props) => {
-  const [loading, setLoading] = useState(false);
-  const [errortext, setErrortext] = useState('');
+  const [loading] = useState(false);
+  const [] = useState('');
 
   // useEffect(() => {
   //   setEmail(props.userDetail.email);
   //   setIsEnabled(props.userDetail.isEnabled);
   // }, [props.userDetail]);
 
-  const handleSubmitPress = async () => {
+  const handleSubmitPress = () => {
     props.updateUserDetail({}, 2);
   };
 
@@ -75,7 +64,7 @@ const FirstRegisterScreen = (props) => {
           </View>
           <View
             style={{
-            //  ...styles.SectionStyle,
+              //  ...styles.SectionStyle,
               padding: 10,
               paddingTop: 0,
               marginTop: 0,
@@ -83,12 +72,11 @@ const FirstRegisterScreen = (props) => {
               alignSelf: 'flex-start',
             }}>
             <Text style={{color: '#1190CB', alignSelf: 'center'}}>
-            What is this?
+              What is this?
             </Text>
           </View>
         </View>
 
-      
         <TouchableOpacity
           // disabled={isEnabled === false}
           style={styles.buttonStyle}
@@ -104,7 +92,8 @@ const FirstRegisterScreen = (props) => {
             marginBottom: 0,
             alignSelf: 'center',
           }}>
-          <Text style={{alignSelf: 'center', fontWeight: 'bold',color: '#1190CB'}}>
+          <Text
+            style={{alignSelf: 'center', fontWeight: 'bold', color: '#1190CB'}}>
             Our Data Privacy Policies
           </Text>
         </View>

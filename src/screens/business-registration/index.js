@@ -1,18 +1,15 @@
-import {CommonActions} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
   View,
-  Image,
   Text,
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
-  Alert,
 } from 'react-native';
 import {SliderBox} from 'react-native-image-slider-box';
 import {useDispatch, useSelector} from 'react-redux';
-import {UpdateSignUpStep} from '../../action-reducers/signup/action';
+import {updateStepIndex} from '../../action-reducers/multisteps/action';
 
 import {assestImages} from '../../assests';
 import {themedColors} from '../../constants/Colors';
@@ -24,89 +21,54 @@ import ThirdRegisterScreen from './third';
 const sliderImages = [assestImages.img1, assestImages.img2];
 
 const initialState = {
-  mobile: '',
-  email: '',
-  password: '',
-  displayName: '',
-  userImage: '',
-  roleId: '',
-  address: {latitude: 0, longitude: 0},
-  deviceId: '',
-  notification: false,
-  term: false,
-  confirmPassword: '',
+  businessCreatorType: 'owner',
+  businessType: 'registered',
+  name: 'Satish Kumar',
+  uenNumber: 1234,
+  businessImage: 'nnnnnnnnnnnnn',
+  contactNumber: 1234567890,
+  businessEmail: 'contact2satish.patna@gmail.com',
+  businessAddressId: '60049e5c74196a82e0a61d15',
+  facebookLink: 'kkkkkkkkkkkk',
+  websiteLink: 'jjjjjjjjjjjj',
+  instagramLink: 'uuuuuuuuuuu',
+  businessHourId: '6026cbb5bbc1106ae0ffc3e8',
+  industryId: '6026cd402e01f96e83483881',
+  ownerUserId: '60255d372b91da2affe85b2e',
+  championUserId: '60255d372b91da2affe85b2e',
+  businessRating: 5,
+  businessStatus: 'active',
 };
 
 function BusinessRegistration(props) {
-  const activeIndex = useSelector((state) => state.signupReducer.activeIndex);
+  const activeIndex = useSelector(
+    (state) => state.multiStepReducer.activeIndex,
+  );
   const dispatch = useDispatch();
   const [userDetail, setUserDetail] = useState({...initialState});
 
-  useEffect(
-    () =>
-      props.navigation.addListener('beforeRemove', (e) => {
-        // if (activeIndex > -1) {
-        //   // If we don't have unsaved changes, then we don't need to do anything
-        //   return;
-        // }
+  useEffect(() => {
+    props.navigation.addListener('beforeRemove', (e) => {
+      e.preventDefault();
+      if (activeIndex - 1 < 1) {
+        props.navigation.dispatch(e.data.action);
+      } else {
+        dispatch(updateStepIndex(activeIndex - 1));
+      }
+    });
+  }, [props.navigation, activeIndex]);
 
-        // Prevent default behavior of leaving the screen
-        e.preventDefault();
-
-        // Prompt the user before leaving the screen
-
-        if (activeIndex - 1 < 1) {
-          // Alert.alert(
-          //   'Discard Registration Process?',
-          //   'Are you sure to discard them and leave the screen?',
-          //   [
-          //     // {
-          //     //   text: 'Go Back',
-          //     //   style: 'cancel',
-          //     //   onPress: () => {
-          //     //   },
-          //     // },
-          //     {text: "Don't leave", style: 'cancel', onPress: () => {}},
-          //     {
-          //       text: 'Discard',
-          //       style: 'destructive',
-          //       // If the user confirmed, then we dispatch the action we blocked earlier
-          //       // This will continue the action that had triggered the removal of the screen
-          //       onPress: () => props.navigation.dispatch(e.data.action),
-          //     },
-          //   ],
-          // );
-          props.navigation.dispatch(e.data.action);
-        } else {
-          dispatch(UpdateSignUpStep(activeIndex - 1));
-        }
-      }),
-    [props.navigation, activeIndex],
-  );
-
+  useEffect(() => {
+    return () => {
+      dispatch(updateStepIndex(1));
+    };
+  }, []);
+  
   function steps() {
     switch (activeIndex) {
       case 1:
         return (
           <>
-            <View style={styles.headerStyle}>
-              <Text style={styles.title}> Get Discovered! </Text>
-              <Text style={styles.description}>
-                New to the neighbourhood and want to get more people to know
-                about you? Forget about distributing flyers. Get listed on
-                Lokoro to spread the word!
-              </Text>
-            </View>
-            <View
-              style={{
-                borderBottomColor: '#E5E5E8',
-                borderBottomWidth: 1,
-                margin: 15,
-                marginLeft: 70,
-                marginRight: 70,
-              }}
-            />
-
             <Text style={styles.formHeading}>Choose Your Profile</Text>
             <FirstRegisterScreen
               userDetail={userDetail}
@@ -116,25 +78,7 @@ function BusinessRegistration(props) {
       case 2:
         return (
           <>
-            <View style={styles.headerStyle}>
-              <Text style={styles.title}> Post and Find Jobs </Text>
-              <Text style={styles.description}>
-                Whether you need help with an urgent delivery or a babysitter
-                for your kids, find someone you can trust from the neighbourhood
-                on Lokoro!
-              </Text>
-            </View>
-            <View
-              style={{
-                borderBottomColor: '#E5E5E8',
-                borderBottomWidth: 1,
-                margin: 15,
-                marginLeft: 70,
-                marginRight: 70,
-              }}
-            />
-
-            <Text style={styles.formHeading}>Setup Your Profile</Text>
+            <Text style={styles.formHeading}>Select Business Type</Text>
             <SecondRegisterScreen
               userDetail={userDetail}
               updateUserDetail={updateUserDetail}></SecondRegisterScreen>
@@ -215,13 +159,13 @@ function BusinessRegistration(props) {
   }
 
   function updateUserDetail(data, idx) {
-    //debugger
     setUserDetail({...userDetail, ...data});
     if (idx) {
-      dispatch(UpdateSignUpStep(idx));
+      dispatch(updateStepIndex(idx));
     }
     return 1;
   }
+
   return (
     <KeyboardAvoidingView
       style={{flex: 1}}
@@ -273,6 +217,23 @@ function BusinessRegistration(props) {
             imageLoadingColor="#2196F3"
           />
         </View>
+        <View style={styles.headerStyle}>
+          <Text style={styles.title}> Get Discovered! </Text>
+          <Text style={styles.description}>
+            New to the neighbourhood and want to get more people to know about
+            you? Forget about distributing flyers. Get listed on Lokoro to
+            spread the word!
+          </Text>
+        </View>
+        <View
+          style={{
+            borderBottomColor: '#E5E5E8',
+            borderBottomWidth: 1,
+            margin: 15,
+            marginLeft: 70,
+            marginRight: 70,
+          }}
+        />
         {steps()}
       </ScrollView>
     </KeyboardAvoidingView>
