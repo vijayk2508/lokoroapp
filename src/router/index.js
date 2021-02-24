@@ -17,6 +17,7 @@ import material from '../assests/native-base-theme/variables/material';
 import {Provider, useSelector} from 'react-redux';
 import {store} from '../action-reducers/store';
 import StartScreen from '../screens/signup/startscreen';
+import BusinessRegistration from '../screens/business-registration';
 
 const Stack = createStackNavigator();
 
@@ -52,6 +53,37 @@ const Auth = () => {
   );
 };
 
+const UserBusinessRegistration = () => {
+  const signUpFormReducer = useSelector((state) => state.signupReducer);
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        gestureEnabled: true,
+        headerShown: false,
+      }}
+      initialRouteName="businessregister">
+      <Stack.Screen
+        name="businessregister"
+        options={{
+          headerStyle: {
+            elevation: 0,
+            shadowOpacity: 0,
+          },
+          title: '',
+          headerTitleAlign: 'center',
+          headerShown: true,
+          headerRight: () => (
+            <Text style={{marginRight: 10, fontWeight: '900', fontSize: 18}}>
+              {`Create Account (${signUpFormReducer.activeIndex} of 4)`}
+            </Text>
+          ),
+        }}>
+        {(props) => <BusinessRegistration {...props}></BusinessRegistration>}
+      </Stack.Screen>
+    </Stack.Navigator>
+  );
+};
+
 export default function AppRouter() {
   return (
     <Provider store={store}>
@@ -74,6 +106,12 @@ export default function AppRouter() {
             />
             <Stack.Screen name="userscreen" component={UserScreen} />
             <Stack.Screen name="startscreen" component={StartScreen} />
+            <Stack.Screen
+              name="userBusinessRegistration"
+              component={UserBusinessRegistration}
+              options={{headerShown: false}}
+            />
+            
           </Stack.Navigator>
         </NavigationContainer>
       </StyleProvider>

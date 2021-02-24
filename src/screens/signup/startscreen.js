@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import {Image} from 'react-native-elements';
 import {ScrollView} from 'react-native-gesture-handler';
+import {withNavigation} from 'react-navigation';
 import {assestImages} from '../../assests';
 import Loader from '../../components/Loader';
 import {themedColors} from '../../constants/Colors';
@@ -19,6 +20,7 @@ let height = Math.round((dimensions.width * 9) / 16);
 let width = dimensions.width;
 
 const StartScreen = (props) => {
+  console.log('StartScreen', props);
   const [loading, setloading] = useState(false);
   return (
     <ScrollView>
@@ -89,7 +91,7 @@ const StartScreen = (props) => {
               style={{
                 margin: 0,
               }}>
-              <Text style={{color: '#F27413', alignSelf: 'center', margin : 0}}>
+              <Text style={{color: '#F27413', alignSelf: 'center', margin: 0}}>
                 Loko Coins
               </Text>
             </View>
@@ -105,7 +107,7 @@ const StartScreen = (props) => {
             <View
               style={{
                 padding: 0,
-                marginTop: 20,
+                marginTop: 0,
                 marginBottom: 0,
               }}>
               <TouchableOpacity
@@ -122,8 +124,9 @@ const StartScreen = (props) => {
                   color: '#1190CB',
                 }}
                 activeOpacity={0.5}
-                //onPress={handleSubmitPress}
-              >
+                onPress={() => {
+                  props.navigation.navigate('userBusinessRegistration');
+                }}>
                 <Text style={{...styles.buttonTextStyle, color: '#1190CB'}}>
                   Register a Business
                 </Text>
@@ -135,10 +138,10 @@ const StartScreen = (props) => {
                 padding: 0,
                 marginTop: 0,
                 marginBottom: 0,
-                alignSelf: 'center',
+                alignSelf: 'flex-start',
               }}>
               <Text style={{color: '#1190CB', alignSelf: 'center'}}>
-                Read our Community Guidelines
+              What is this?
               </Text>
             </View>
           </View>
@@ -147,7 +150,7 @@ const StartScreen = (props) => {
     </ScrollView>
   );
 };
-export default StartScreen;
+export default withNavigation(StartScreen);
 
 const styles = StyleSheet.create({
   SectionStyle: {
