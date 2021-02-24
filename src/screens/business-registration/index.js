@@ -267,13 +267,12 @@ function BusinessRegistration(props) {
               marginHorizontal: 0,
               padding: 0,
               margin: 0,
-              backgroundColor: 'rgba(128, 128, 128, 0.92)',
+              backgroundColor: 'white',
             }}
             ImageComponentStyle={{borderRadius: 15, width: '97%', marginTop: 5}}
             imageLoadingColor="#2196F3"
           />
         </View>
-        <Text>{JSON.stringify(userDetail)}</Text>
         {steps()}
       </ScrollView>
     </KeyboardAvoidingView>

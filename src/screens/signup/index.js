@@ -273,7 +273,6 @@ function SignUp(props) {
             imageLoadingColor="#2196F3"
           />
         </View>
-        <Text>{JSON.stringify(userDetail)}</Text>
         {steps()}
       </ScrollView>
     </KeyboardAvoidingView>

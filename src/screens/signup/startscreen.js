@@ -41,7 +41,7 @@ const StartScreen = (props) => {
             alignItems: 'center',
             marginLeft: 20,
             marginRight: 20,
-            marginBottom: 0,
+            marginBottom: 5,
             width: width - 30,
           }}>
           <View style={styles.container}>
@@ -107,7 +107,7 @@ const StartScreen = (props) => {
             <View
               style={{
                 padding: 0,
-                marginTop: 0,
+                marginTop: 10,
                 marginBottom: 0,
               }}>
               <TouchableOpacity
@@ -138,10 +138,10 @@ const StartScreen = (props) => {
                 padding: 0,
                 marginTop: 0,
                 marginBottom: 0,
-                alignSelf: 'flex-start',
+                alignSelf: 'center',
               }}>
               <Text style={{color: '#1190CB', alignSelf: 'center'}}>
-              What is this?
+                Read our Community Guidelines
               </Text>
             </View>
           </View>

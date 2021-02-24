@@ -31,35 +31,11 @@ const FirstRegisterScreen = (props) => {
   // }, [props.userDetail]);
 
   const handleSubmitPress = async () => {
-    setErrortext('');
-    if (!props.userDetail.email) {
-      alert('Please fill Email');
-      return;
-    }
-    if (!props.userDetail.password) {
-      alert('Please fill Password');
-      return;
-    }
-    if (!props.userDetail.confirmPassword) {
-      alert('Please fill Confirm Password');
-      return;
-    }
-
-    if (props.userDetail.confirmPassword !== props.userDetail.password) {
-      alert('Password is not match');
-      return;
-    }
-
-    if (props.userDetail.term === false) {
-      alert('Please read term and condition.');
-      return;
-    }
     props.updateUserDetail({}, 2);
   };
 
   return (
-    <View style={{flex : 1,justifyContent: 'center',
-    alignItems: 'center',}}>
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <Loader loading={loading} />
       <View>
         <View
@@ -81,7 +57,7 @@ const FirstRegisterScreen = (props) => {
               activeOpacity={0.5}
               //onPress={handleSubmitPress}
             >
-              <Text style={styles.buttonTextStyle}>Let's Get Started!</Text>
+              <Text style={styles.buttonTextStyle}>Business Owner</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={{
@@ -93,24 +69,33 @@ const FirstRegisterScreen = (props) => {
               //onPress={handleSubmitPress}
             >
               <Text style={{...styles.buttonTextStyle, color: '#1190CB'}}>
-                Register a Business
+                Loko Champion
               </Text>
             </TouchableOpacity>
           </View>
           <View
             style={{
-              ...styles.SectionStyle,
-              padding: 0,
+            //  ...styles.SectionStyle,
+              padding: 10,
+              paddingTop: 0,
               marginTop: 0,
               marginBottom: 0,
-              alignSelf: 'center',
+              alignSelf: 'flex-start',
             }}>
             <Text style={{color: '#1190CB', alignSelf: 'center'}}>
-              Read our Community Guidelines
+            What is this?
             </Text>
           </View>
         </View>
 
+      
+        <TouchableOpacity
+          // disabled={isEnabled === false}
+          style={styles.buttonStyle}
+          activeOpacity={0}
+          onPress={handleSubmitPress}>
+          <Text style={styles.buttonTextStyle}>Next</Text>
+        </TouchableOpacity>
         <View
           style={{
             ...styles.SectionStyle,
@@ -119,18 +104,10 @@ const FirstRegisterScreen = (props) => {
             marginBottom: 0,
             alignSelf: 'center',
           }}>
-          <Text style={{alignSelf: 'center', fontWeight: 'bold'}}>
-            I have read and agree to the{' '}
-            <Text style={{color: '#1190CB'}}>terms and conditions</Text>
+          <Text style={{alignSelf: 'center', fontWeight: 'bold',color: '#1190CB'}}>
+            Our Data Privacy Policies
           </Text>
         </View>
-        <TouchableOpacity
-          // disabled={isEnabled === false}
-          style={styles.buttonStyle}
-          activeOpacity={0}
-          onPress={handleSubmitPress}>
-          <Text style={styles.buttonTextStyle}>Next</Text>
-        </TouchableOpacity>
       </View>
     </View>
   );
