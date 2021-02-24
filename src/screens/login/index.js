@@ -9,12 +9,10 @@ import {
   Keyboard,
   TouchableOpacity,
   KeyboardAvoidingView,
-  AsyncStorage,
   BackHandler,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import {login} from '../../action-reducers/auth/action';
-import {UpdateSignUpStep} from '../../action-reducers/signup/action';
 import {assestImages} from '../../assests';
 
 import Loader from '../../components/Loader';
@@ -40,14 +38,6 @@ const Login = ({navigation}) => {
       return;
     }
 
-    // let dataToSend = {user_email: userEmail, user_password: userPassword};
-    // let formBody = [];
-    // for (let key in dataToSend) {
-    //   let encodedKey = encodeURIComponent(key);
-    //   let encodedValue = encodeURIComponent(dataToSend[key]);
-    //   formBody.push(encodedKey + '=' + encodedValue);
-    // }
-    // formBody = formBody.join('&');
     let data = {email: userEmail, password: userPassword};
     setLoading(true);
     const res = await dispatch(login(data));
@@ -143,10 +133,7 @@ const Login = ({navigation}) => {
             <TouchableOpacity
               style={{...styles.buttonStyle, backgroundColor: 'none'}}
               activeOpacity={0.5}
-              onPress={() => {
-                dispatch(UpdateSignUpStep(1));
-                navigation.navigate('signUp');
-              }}>
+              onPress={() => navigation.navigate('signUp')}>
               <Text
                 style={{
                   ...styles.registerTextStyle,

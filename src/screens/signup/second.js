@@ -25,7 +25,7 @@ import Geocoder from 'react-native-geocoding'; // key is not working
 const SecondRegisterScreen = (props) => {
   const [proAddress, setProAddress] = useState({latitude: 0, longitude: 0});
   const [locationStatus, setLocationStatus] = useState('');
-  const [loading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
   let watchID = 0;
 
@@ -35,12 +35,12 @@ const SecondRegisterScreen = (props) => {
       alert('Please fill your Name');
       return;
     }
-    // if (!props.userDetail.homeAddress) {
-    //   alert('Please fill your Address');
-    //   return;
-    // }
 
-    props.updateUserDetail({}, 3);
+    setLoading(true);
+    const res = props.updateUserDetail({}, 3);
+    if (res === 1) {
+      setLoading(false);
+    }
   };
 
   //// Geo

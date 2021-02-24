@@ -53,7 +53,11 @@ const FirstRegisterScreen = (props) => {
       alert('Please read term and condition.');
       return;
     }
-    props.updateUserDetail({}, 2);
+    setLoading(true);
+    const res = props.updateUserDetail({}, 2);
+    if (res === 1) {
+      setLoading(false);
+    }
   };
 
   return (

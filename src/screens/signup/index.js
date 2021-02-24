@@ -35,7 +35,9 @@ const initialState = {
 };
 
 function SignUp(props) {
-  const activeIndex = useSelector((state) => state.signupReducer.activeIndex);
+  const activeIndex = useSelector(
+    (state) => state.multiStepReducer.activeIndex,
+  );
   const dispatch = useDispatch();
   const [userDetail, setUserDetail] = useState({...initialState});
 
@@ -80,6 +82,13 @@ function SignUp(props) {
       }),
     [props.navigation, activeIndex],
   );
+
+  useEffect(() => {
+    dispatch(updateStepIndex(1));
+    return () => {
+      dispatch(updateStepIndex(1));
+    };
+  }, []);
 
   function steps() {
     switch (activeIndex) {
@@ -220,7 +229,7 @@ function SignUp(props) {
   }
   return (
     <KeyboardAvoidingView
-      style={{flex: 1}}
+      style={{flex: 1, backgroundColor: 'white'}}
       behavior={Platform.OS === 'ios' ? 'padding' : ''}>
       <ScrollView
         contentContainerStyle={{

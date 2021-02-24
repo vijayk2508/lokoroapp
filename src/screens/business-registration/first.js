@@ -1,17 +1,12 @@
 import React, {useState} from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 
 import Loader from '../../components/Loader';
 import {themedColors} from '../../constants/Colors';
 import {width} from '../../constants/generalSettings';
 
 const FirstRegisterScreen = (props) => {
-  const [loading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [] = useState('');
 
   // useEffect(() => {
@@ -20,7 +15,11 @@ const FirstRegisterScreen = (props) => {
   // }, [props.userDetail]);
 
   const handleSubmitPress = () => {
-    props.updateUserDetail({}, 2);
+    setLoading(true);
+    const res = props.updateUserDetail({}, 2);
+    if (res === 1) {
+      setLoading(false);
+    }
   };
 
   return (

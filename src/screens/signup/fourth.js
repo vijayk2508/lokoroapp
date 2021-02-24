@@ -71,7 +71,7 @@ const FourthRegisterScreen = (props) => {
         notification,
         term,
       } = props.userDetail;
-      debugger;
+
       const formData = new FormData();
       formData.append('mobile', mobile);
       formData.append('email', email);
@@ -85,6 +85,7 @@ const FourthRegisterScreen = (props) => {
       // formData.append("roleId",roleId)
       // formData.append("address",address)
       // formData.append("deviceId",deviceId)
+      setLoading(true);
       const res = await dispatch(register(formData));
       if (res.status === 'success') {
         if (res.data.userObj) {
