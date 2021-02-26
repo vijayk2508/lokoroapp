@@ -21,7 +21,7 @@ export const login = (data) => {
 
 
 export const forgotpassword = (data) => {
-  return async (dispatch) => {
+  return async (_dispatch) => {
     const response = await sendApiRequest({
       url: `${apiEndpoints.AUTH_ENDPOINTS.FORGOTPASSWORD}`,
       method: 'post',

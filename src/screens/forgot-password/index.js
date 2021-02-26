@@ -95,9 +95,9 @@ const ForgotPassword = ({ navigation }) => {
               />
               <Text style={styles.logoText}>Building communities for Good</Text>
               <Text style={{
-                margin : 40,
+                margin: 40,
                 marginTop: 6,
-                marginBottom : 20,
+                marginBottom: 20,
                 fontFamily: 'Quicksand',
                 color: '#676767',
                 fontSize: 16,
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     marginLeft: 35,
     marginRight: 35,
     margin: 10,
-    marginBottom : 0
+    marginBottom: 0
   },
   buttonStyle: {
     backgroundColor: themedColors.default.appColor,

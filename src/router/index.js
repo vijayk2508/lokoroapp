@@ -1,10 +1,10 @@
 import 'react-native-gesture-handler';
 
 import React from 'react';
-import {View, Text, Button} from 'react-native';
-import {createStackNavigator} from '@react-navigation/stack';
-import {NavigationContainer} from '@react-navigation/native';
-import {StyleProvider} from 'native-base';
+import { View, Text, Button } from 'react-native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { StyleProvider } from 'native-base';
 
 import Splash from '../screens/splash';
 import Login from '../screens/login';
@@ -14,8 +14,8 @@ import ForgotPassword from "../screens/forgot-password"
 import getTheme from '../assests/native-base-theme/components';
 import material from '../assests/native-base-theme/variables/material';
 
-import {Provider, useSelector} from 'react-redux';
-import {store} from '../action-reducers/store';
+import { Provider, useSelector } from 'react-redux';
+import { store } from '../action-reducers/store';
 import StartScreen from '../screens/signup/startscreen';
 import BusinessRegistration from '../screens/business-registration';
 
@@ -31,7 +31,23 @@ const Auth = () => {
       }}
       initialRouteName="login">
       <Stack.Screen name="login" component={Login} />
-      <Stack.Screen name="forgotpassword" component={ForgotPassword} />
+      <Stack.Screen name="forgotpassword"
+        options={{
+          headerStyle: {
+            elevation: 0,
+            shadowOpacity: 0,
+          },
+          title: '',
+          headerTitleAlign: 'center',
+          headerShown: true,
+          headerRight: () => (
+            <Text style={{ marginRight: 10, fontWeight: '900', fontSize: 18 }}>
+              {`Forgot Password`}
+            </Text>
+          ),
+        }}
+
+        component={ForgotPassword} />
       <Stack.Screen
         name="signUp"
         options={{
@@ -43,7 +59,7 @@ const Auth = () => {
           headerTitleAlign: 'center',
           headerShown: true,
           headerRight: () => (
-            <Text style={{marginRight: 10, fontWeight: '900', fontSize: 18}}>
+            <Text style={{ marginRight: 10, fontWeight: '900', fontSize: 18 }}>
               {`Create Account (${multiStepReducer.activeIndex} of 4)`}
             </Text>
           ),
@@ -74,7 +90,7 @@ const UserBusinessRegistration = () => {
           headerTitleAlign: 'center',
           headerShown: true,
           headerRight: () => (
-            <Text style={{marginRight: 10, fontWeight: '900', fontSize: 18}}>
+            <Text style={{ marginRight: 10, fontWeight: '900', fontSize: 18 }}>
               {`Register (${multiStepReducer.activeIndex} of 4)`}
             </Text>
           ),
@@ -96,14 +112,14 @@ export default function AppRouter() {
               gestureEnabled: true,
               headerShown: false,
             }}
-            // mode="modal"
-            //headerMode="float"
+          // mode="modal"
+          //headerMode="float"
           >
             <Stack.Screen name="splash" component={Splash} />
             <Stack.Screen
               name="auth"
               component={Auth}
-              options={{headerShown: false}}
+              options={{ headerShown: false }}
             />
             <Stack.Screen name="userscreen" component={UserScreen} />
             <Stack.Screen
@@ -118,7 +134,7 @@ export default function AppRouter() {
                 headerShown: true,
                 headerRight: () => (
                   <Text
-                    style={{marginRight: 10, fontWeight: '900', fontSize: 18}}>
+                    style={{ marginRight: 10, fontWeight: '900', fontSize: 18 }}>
                     Complete
                   </Text>
                 ),
@@ -128,7 +144,7 @@ export default function AppRouter() {
             <Stack.Screen
               name="userBusinessRegistration"
               component={UserBusinessRegistration}
-              options={{headerShown: false}}
+              options={{ headerShown: false }}
             />
           </Stack.Navigator>
         </NavigationContainer>

@@ -1,4 +1,4 @@
-import React, {useState, createRef, useEffect} from 'react';
+import React, { useState, createRef, useEffect } from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -12,14 +12,14 @@ import {
   BackHandler,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import {useDispatch} from 'react-redux';
-import {login} from '../../action-reducers/auth/action';
-import {assestImages} from '../../assests';
+import { useDispatch } from 'react-redux';
+import { login } from '../../action-reducers/auth/action';
+import { assestImages } from '../../assests';
 
 import Loader from '../../components/Loader';
-import {themedColors} from '../../constants/Colors';
+import { themedColors } from '../../constants/Colors';
 
-const Login = ({navigation}) => {
+const Login = ({ navigation }) => {
   const [userEmail, setUserEmail] = useState('vijay@gmail.com');
   const [userPassword, setUserPassword] = useState('12345');
   const [loading, setLoading] = useState(false);
@@ -39,12 +39,12 @@ const Login = ({navigation}) => {
       return;
     }
 
-    let data = {email: userEmail, password: userPassword};
+    let data = { email: userEmail, password: userPassword };
     setLoading(true);
     const res = await dispatch(login(data));
     if (res.status === 'success') {
       await AsyncStorage.setItem('user_id', JSON.stringify(res.data));
-      await navigation.replace('userscreen', {data: res.data});
+      await navigation.replace('userscreen', { data: res.data });
     } else {
       alert('Username and password are incorrect.');
     }
@@ -78,7 +78,7 @@ const Login = ({navigation}) => {
         }}>
         <View>
           <KeyboardAvoidingView enabled>
-            <View style={{alignItems: 'center'}}>
+            <View style={{ alignItems: 'center' }}>
               <Image
                 source={assestImages.logo_white_background}
                 style={{
@@ -135,8 +135,8 @@ const Login = ({navigation}) => {
                 marginBottom: 0,
                 alignSelf: 'flex-start',
               }}>
-              <Text style={{color: '#1190CB', alignSelf: 'center'}} onPress={()=>navigation.navigate('forgotpassword')}>
-                Forgot Password? 
+              <Text style={{ color: '#1190CB', alignSelf: 'center' }} onPress={() => navigation.navigate('forgotpassword')}>
+                Forgot Password?
               </Text>
             </View>
 
@@ -148,7 +148,7 @@ const Login = ({navigation}) => {
             </TouchableOpacity>
             <Text style={styles.registerTextStyle}>OR</Text>
             <TouchableOpacity
-              style={{...styles.buttonStyle, backgroundColor: 'none'}}
+              style={{ ...styles.buttonStyle, backgroundColor: 'none' }}
               activeOpacity={0.5}
               onPress={() => navigation.navigate('signUp')}>
               <Text
