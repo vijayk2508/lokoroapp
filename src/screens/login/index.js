@@ -127,6 +127,19 @@ const Login = ({navigation}) => {
             {errortext != '' ? (
               <Text style={styles.errorTextStyle}> {errortext} </Text>
             ) : null}
+            <View
+              style={{
+                ...styles.SectionStyle,
+                paddingTop: 0,
+                marginTop: 0,
+                marginBottom: 0,
+                alignSelf: 'flex-start',
+              }}>
+              <Text style={{color: '#1190CB', alignSelf: 'center'}} onPress={()=>navigation.navigate('forgotpassword')}>
+                Forgot Password? 
+              </Text>
+            </View>
+
             <TouchableOpacity
               style={styles.buttonStyle}
               activeOpacity={0.5}

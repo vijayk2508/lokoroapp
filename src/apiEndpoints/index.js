@@ -1,7 +1,8 @@
 const apiEndpoints = {
   AUTH_ENDPOINTS: {
     LOGIN: '/login',
-    SIGNUP : "/signUp"
+    SIGNUP : "/signUp",
+    FORGOTPASSWORD : "/forgetPassword"
   },
 };
 

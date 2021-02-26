@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import {Button} from 'react-native-elements';
-import { Text } from 'react-native';
+import {Text} from 'react-native';
 
 function UserScreen(props) {
   const [userDetail, setUserDetail] = useState('');

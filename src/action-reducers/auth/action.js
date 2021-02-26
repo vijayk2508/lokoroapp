@@ -1,6 +1,6 @@
 import apiEndpoints from '../../apiEndpoints';
 import sendApiRequest from '../../apiEndpoints/service';
-import {LOGIN_SUCCESSFUL} from './actionTypes';
+import { LOGIN_SUCCESSFUL } from './actionTypes';
 
 export const login = (data) => {
   return async (dispatch) => {
@@ -15,6 +15,18 @@ export const login = (data) => {
         payload: response.data,
       });
     }
+    return await response;
+  };
+};
+
+
+export const forgotpassword = (data) => {
+  return async (dispatch) => {
+    const response = await sendApiRequest({
+      url: `${apiEndpoints.AUTH_ENDPOINTS.FORGOTPASSWORD}`,
+      method: 'post',
+      data,
+    });
     return await response;
   };
 };

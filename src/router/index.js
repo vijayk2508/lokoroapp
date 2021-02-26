@@ -10,7 +10,7 @@ import Splash from '../screens/splash';
 import Login from '../screens/login';
 import SignUp from '../screens/signup';
 import UserScreen from '../screens/user-screens';
-
+import ForgotPassword from "../screens/forgot-password"
 import getTheme from '../assests/native-base-theme/components';
 import material from '../assests/native-base-theme/variables/material';
 
@@ -31,6 +31,7 @@ const Auth = () => {
       }}
       initialRouteName="login">
       <Stack.Screen name="login" component={Login} />
+      <Stack.Screen name="forgotpassword" component={ForgotPassword} />
       <Stack.Screen
         name="signUp"
         options={{
