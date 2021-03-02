@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
-import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
 import Loader from '../../components/Loader';
-import {themedColors} from '../../constants/Colors';
-import {width} from '../../constants/generalSettings';
+import { themedColors } from '../../constants/Colors';
+import { width } from '../../constants/generalSettings';
+import { BUSINESSTYPE } from './constant';
 
 const SecondRegisterScreen = (props) => {
   const [loading] = useState(false);
@@ -15,11 +16,11 @@ const SecondRegisterScreen = (props) => {
   // }, [props.userDetail]);
 
   const handleSubmitPress = () => {
-    props.updateUserDetail({}, 3);
+    props.updateBusinessDetail(null,3)
   };
 
   return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Loader loading={loading} />
       <View>
         <View
@@ -36,7 +37,58 @@ const SecondRegisterScreen = (props) => {
               marginTop: 20,
               marginBottom: 0,
             }}>
-            <TouchableOpacity
+            <View
+              style={{
+                padding: 0,
+                marginTop: 20,
+                marginBottom: 0,
+              }}>
+              <TouchableOpacity
+                style={{
+                  ...styles.buttonStyle,
+                  backgroundColor: props.businessDetail.businessType === BUSINESSTYPE.REGISTERED ? themedColors.default.appColor : "#7DCCFF"
+                }}
+                activeOpacity={1}
+                onPressIn={() => { props.updateBusinessDetail({ businessType: BUSINESSTYPE.REGISTERED }) }}
+              >
+                <Text
+                  style={{ ...styles.buttonTextStyle }}
+                > Registered Business (with UEN)</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  ...styles.buttonStyle,
+                  backgroundColor: props.businessDetail.businessType === BUSINESSTYPE.HOME ? themedColors.default.appColor : "#7DCCFF"
+                }}
+                activeOpacity={1}
+                onPressIn={() => { props.updateBusinessDetail({ businessType: BUSINESSTYPE.HOME }) }}
+              >
+                <Text
+                  style={{ ...styles.buttonTextStyle }}
+                >Home Business</Text>
+              </TouchableOpacity>
+
+              {/* <TouchableOpacity
+              style={{
+                ...styles.buttonStyle,
+                backgroundColor: '#F7FAFB',
+                color: '#1190CB',
+              }}
+              activeOpacity={0.5}
+            //onPress={handleSubmitPress}
+            >
+              <Text style={{
+                ...styles.buttonTextStyle, opacity: 0.7,
+                //color: '#1190CB' 
+                color: '#CCCCCC',
+                backgroundColor: "#F7FAFB"
+                //#CCCCCC
+              }}>
+                Loko Champion
+              </Text>
+            </TouchableOpacity> */}
+            </View>
+            {/* <TouchableOpacity
               style={styles.buttonStyle}
               activeOpacity={0.5}
               //onPress={handleSubmitPress}
@@ -58,6 +110,7 @@ const SecondRegisterScreen = (props) => {
                 Home Business
               </Text>
             </TouchableOpacity>
+          */}
           </View>
         </View>
 
@@ -77,7 +130,7 @@ const SecondRegisterScreen = (props) => {
             alignSelf: 'center',
           }}>
           <Text
-            style={{alignSelf: 'center', fontWeight: 'bold', color: '#1190CB'}}>
+            style={{ alignSelf: 'center', fontWeight: 'bold', color: '#1190CB' }}>
             Our Data Privacy Policies
           </Text>
         </View>

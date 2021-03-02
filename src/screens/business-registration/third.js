@@ -1,4 +1,4 @@
-import React, {useState, createRef, useEffect} from 'react';
+import React, { useState, createRef, useEffect } from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -9,28 +9,45 @@ import {
   ImageBackground,
   PermissionsAndroid,
   Image,
-  Button,
+
 } from 'react-native';
-import {useDispatch} from 'react-redux';
+import { Button } from 'react-native-elements';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-//import BottomSheet from 'reanimated-bottom-sheet';
-//import ImagePicker from 'react-native-image-crop-picker';
-
 import Loader from '../../components/Loader';
-import {themedColors} from '../../constants/Colors';
+import { themedColors } from '../../constants/Colors';
 import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding'; // key is not working
+import { Formik, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import { width } from '../../constants/generalSettings';
+import { getAllIndustry } from '../../action-reducers/industry/action';
+import Dropdown from '../../components/Dropdown';
+
+const validationSchema = Yup.object({
+  name: Yup.string().required('Required'),
+  uenNumber: Yup.string().required('Required'),
+  businessImage: Yup.mixed().required('Required'),
+  contactNumber: Yup.string().required('Required'),
+  businessEmail: Yup.string().email('Invalid Email'),
+  businessAddressId: Yup.string().required('Required'),
+  facebookLink: Yup.string(),
+  websiteLink: Yup.string(),
+  instagramLink: Yup.string(),
+  industryId: Yup.string().required('Required'),
+  location : Yup.string().required('Required')
+})
 
 const ThirdRegisterScreen = (props) => {
-  const [proAddress, setProAddress] = useState({latitude: 0, longitude: 0});
-  const [locationStatus, setLocationStatus] = useState('');
+  const industryReducer = useSelector((state) => state.industryReducer);
+
   const [loading] = useState(false);
-  const [errortext, setErrortext] = useState('');
   let watchID = 0;
+  const dispatch = useDispatch()
 
   const handleSubmitPress = () => {
-    setErrortext('');
+
     if (!props.userDetail.displayName) {
       alert('Please fill your Name');
       return;
@@ -40,74 +57,82 @@ const ThirdRegisterScreen = (props) => {
     //   return;
     // }
 
-    props.updateUserDetail({}, 3);
+    props.updateBusinessDetail({}, 3);
   };
 
-  //// Geo
 
   useEffect(() => {
-    const requestLocationPermission = async () => {
-      if (Platform.OS === 'ios') {
-        getOneTimeLocation();
-        subscribeLocationLocation();
-      } else {
-        try {
-          const granted = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-            {
-              title: 'Location Access Required',
-              message: 'This App needs to Access your location',
-            },
-          );
-          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-            //To Check, If Permission is granted
-            getOneTimeLocation();
-            subscribeLocationLocation();
-          } else {
-            setLocationStatus('Permission Denied');
-          }
-        } catch (err) {
-          console.warn(err);
-        }
-      }
-    };
+    dispatch(getAllIndustry())
     requestLocationPermission();
     return () => {
       Geolocation.clearWatch(watchID);
     };
   }, []);
 
+  const requestLocationPermission = async () => {
+    if (Platform.OS === 'ios') {
+      getOneTimeLocation();
+      subscribeLocationLocation();
+    } else {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          {
+            title: 'Location Access Required',
+            message: 'This App needs to Access your location',
+          },
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          //To Check, If Permission is granted
+          getOneTimeLocation();
+          subscribeLocationLocation();
+        } else {
+          //setLocationStatus('Permission Denied');
+        }
+      } catch (err) {
+        console.warn(err);
+      }
+    }
+  };
+
   const getOneTimeLocation = () => {
-    setLocationStatus('Getting Location ...');
+    //setLocationStatus('Getting Location ...');
     Geolocation.getCurrentPosition(
       //Will give you the current location
       (position) => {
-        setLocationStatus('You are Here');
+        // setLocationStatus('You are Here');
         const currentLongitude = JSON.stringify(position.coords.longitude);
         const currentLatitude = JSON.stringify(position.coords.latitude);
 
-        props.updateUserDetail({
-          address: {
+        props.updateBusinessDetail({
+          location: {
             latitude: currentLatitude,
             longitude: currentLongitude,
           },
         });
 
-        Geocoder.init('AIzaSyDmIeMMcCu7FECjA1UBzXC_d21drrWbZng');
+        Geocoder.init("AIzaSyD3RKqsNcG-_oEKltoTc4AccftLv7_Psf0");
         Geocoder.from(position.coords.latitude, position.coords.longitude)
           .then((json) => {
             console.log(json);
             var addressComponent = json.results[0].address_components;
 
-            // setHomeAddress(addressComponent);
+            props.updateBusinessDetail({
+              location: {
+                ...props.businessDetail.location,
+                latitude: currentLatitude,
+                longitude: currentLongitude,
+              },
+            });
 
-            alert(JSON.stringify(addressComponent));
+
+            //alert(JSON.stringify(addressComponent));
           })
 
           .catch((error) => console.warn(error));
       },
       (error) => {
-        setLocationStatus(error.message);
+        //setLocationStatus(error.message);
       },
       {
         enableHighAccuracy: false,
@@ -120,10 +145,11 @@ const ThirdRegisterScreen = (props) => {
   const subscribeLocationLocation = () => {
     watchID = Geolocation.watchPosition(
       (position) => {
-        setLocationStatus('You are Here');
+        // setLocationStatus('You are Here');
         const currentLongitude = JSON.stringify(position.coords.longitude);
         const currentLatitude = JSON.stringify(position.coords.latitude);
-        props.updateUserDetail({
+        //props.updateBusinessDetail(null,2)
+        props.updateBusinessDetail({
           address: {
             latitude: currentLatitude,
             longitude: currentLongitude,
@@ -131,7 +157,7 @@ const ThirdRegisterScreen = (props) => {
         });
       },
       (error) => {
-        setLocationStatus(error.message);
+        // setLocationStatus(error.message);
       },
       {
         enableHighAccuracy: false,
@@ -141,108 +167,211 @@ const ThirdRegisterScreen = (props) => {
     console.log('watchID', watchID);
     return watchID;
   };
-
+  //industryList: action.payload , isLoaded : true
   return (
     <View>
       <Loader loading={loading} />
       <View style={styles.container}>
-        <TouchableOpacity onPress={() => alert('hi')}>
-          <View
-            style={{
-              height: 100,
-              width: 100,
-              borderRadius: 15,
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginTop: 20,
-            }}>
-            <ImageBackground
-              source={{
-                uri:
-                  'data:image/jpeg;base64,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',
-              }}
-              style={{height: 100, width: 100}}
-              imageStyle={{borderRadius: 50}}>
-              <View
+
+        <View
+          style={{
+            height: 100,
+            width: 100,
+            borderRadius: 15,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: 20,
+          }}>
+          <ImageBackground
+            source={{
+              uri:
+                'data:image/jpeg;base64,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',
+            }}
+            style={{ height: 100, width: 100 }}
+            imageStyle={{ borderRadius: 50 }}>
+            <View
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Icon
+                name="camera"
+                size={35}
+                color="#fff"
                 style={{
-                  flex: 1,
-                  justifyContent: 'center',
+                  opacity: 0.7,
                   alignItems: 'center',
-                }}>
-                <Icon
-                  name="camera"
-                  size={35}
-                  color="#fff"
-                  style={{
-                    opacity: 0.7,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    borderWidth: 1,
-                    borderColor: '#fff',
-                    borderRadius: 10,
+                  justifyContent: 'center',
+                  borderWidth: 1,
+                  borderColor: '#fff',
+                  borderRadius: 10,
+                }}
+              />
+            </View>
+          </ImageBackground>
+        </View>
+
+
+        <Formik
+          initialValues={{
+            name: '',
+            uenNumber: '',
+            businessImage: '',
+            contactNumber: '',
+            businessEmail: '',
+            businessAddressId: '',
+            facebookLink: '',
+            websiteLink: '',
+            instagramLink: '',
+            industryId: '',
+          }}
+          validationSchema={validationSchema}
+          onSubmit={(values, formikActions) => {
+            setTimeout(() => {
+              Alert.alert(JSON.stringify(values));
+              formikActions.setSubmitting(false);
+            }, 500);
+          }}>
+          {props => (
+            <>
+              <Text>{JSON.stringify(props.values)}</Text>
+              <View style={{ marginBottom: 5 }}>
+                <TextInput
+                  style={styles.inputStyle}
+                  onChangeText={props.handleChange('name')}
+                  onBlur={props.handleBlur('name')}
+                  value={props.values.name}
+                  autoFocus
+                  placeholder="Name of Business"
+                  onSubmitEditing={() => {
+                    // on certain forms, it is nice to move the user's focus
+                    // to the next input when they press enter.
+                    //this.emailInput.focus()
                   }}
                 />
+                {props.touched.name && props.errors.name ? (
+                  <Text style={styles.error}>{props.errors.name}</Text>
+                ) : null}
+
+                <Dropdown
+                  listOfItems={industryReducer.industryList}
+                  isLoaded={industryReducer.isLoaded}
+                  placeholder="Select Your Industry"
+                  onChangeItem={(data) => { props.setFieldValue('industryId', data.value) }}
+                  defaultValue={props.values.industryId}
+                //dropDownStyle = {}
+                ></Dropdown>
+                <TextInput
+                  style={styles.inputStyle}
+                  onChangeText={props.handleChange('uenNumber')}
+                  onBlur={props.handleBlur('uenNumber')}
+                  value={props.values.uenNumber}
+                  autoFocus
+                  placeholder="UEN (Required for Registered Business)"
+                  onSubmitEditing={() => {
+                    // on certain forms, it is nice to move the user's focus
+                    // to the next input when they press enter.
+                    //this.emailInput.focus()
+                  }}
+                />
+                {props.touched.uenNumber && props.errors.uenNumber ? (
+                  <Text style={styles.error}>{props.errors.uenNumber}</Text>
+                ) : null}
+                <TextInput
+                  style={styles.inputStyle}
+                  onChangeText={props.handleChange('location')}
+                  onBlur={props.handleBlur('location')}
+                  value={props.values.location}
+                  autoFocus
+                  placeholder="Location of Business"
+                  onSubmitEditing={() => {
+                    // on certain forms, it is nice to move the user's focus
+                    // to the next input when they press enter.
+                    //this.emailInput.focus()
+                  }}
+                />
+                {props.touched.location && props.errors.location ? (
+                  <Text style={styles.error}>{props.errors.location}</Text>
+                ) : null}
+                <TextInput
+                  style={styles.inputStyle}
+                  onChangeText={props.handleChange('contactNumber')}
+                  onBlur={props.handleBlur('contactNumber')}
+                  value={props.values.contactNumber}
+                  autoFocus
+                  placeholder="Business Contact Number"
+                  onSubmitEditing={() => {
+                    // on certain forms, it is nice to move the user's focus
+                    // to the next input when they press enter.
+                    //this.emailInput.focus()
+                  }}
+                />
+                {props.touched.contactNumber && props.errors.contactNumber ? (
+                  <Text style={styles.error}>{props.errors.contactNumber}</Text>
+                ) : null}
+                <TextInput
+                  onChangeText={props.handleChange('businessEmail')}
+                  onBlur={props.handleBlur('businessEmail')}
+                  value={props.values.businessEmail}
+                  placeholder="Business Email"
+                  style={styles.inputStyle}
+
+                />
+                {props.touched.businessEmail && props.errors.businessEmail ? (
+                  <Text style={styles.error}>{props.errors.businessEmail}</Text>
+                ) : null}
+                <TextInput
+                  onChangeText={props.handleChange('websiteLink')}
+                  onBlur={props.handleBlur('websiteLink')}
+                  value={props.values.websiteLink}
+                  placeholder="Website (Optional)"
+                  style={styles.inputStyle}
+
+                />
+                {props.touched.websiteLink && props.errors.websiteLink ? (
+                  <Text style={styles.error}>{props.errors.websiteLink}</Text>
+                ) : null}
+                <TextInput
+                  onChangeText={props.handleChange('facebookLink')}
+                  onBlur={props.handleBlur('facebookLink')}
+                  value={props.values.facebookLink}
+                  placeholder="Facebook Link (Optional)"
+                  style={styles.inputStyle}
+
+                />
+                {props.touched.facebookLink && props.errors.facebookLink ? (
+                  <Text style={styles.error}>{props.errors.facebookLink}</Text>
+                ) : null}
+                <TextInput
+                  onChangeText={props.handleChange('instagramLink')}
+                  onBlur={props.handleBlur('instagramLink')}
+                  value={props.values.instagramLink}
+                  placeholder="Instagram Link (Optional)"
+                  style={styles.inputStyle}
+
+                />
+                {props.touched.instagramLink && props.errors.instagramLink ? (
+                  <Text style={styles.error}>{props.errors.instagramLink}</Text>
+                ) : null}
+                <View style={{...styles.buttonStyle }}>
+                  <Button
+                    onPress={props.handleSubmit}
+                   // color="black"
+                   // mode="contained"
+                    loading={props.isSubmitting}
+                    disabled={props.isSubmitting}
+                    style={{ height : 40 , margin : 10}}
+                    title="Next"
+                  >
+                  </Button>
+                </View>
               </View>
-            </ImageBackground>
-          </View>
-        </TouchableOpacity>
+
+            </>
+          )}
+        </Formik>
       </View>
-      <View style={styles.SectionStyle}>
-        <TextInput
-          style={styles.inputStyle}
-          // onChangeText={(data) => props.updateUserDetail({displayName: data})}
-          // value={props.userDetail.displayName}
-          placeholder="Display Name on Lokoro"
-          placeholderTextColor="#8b9cb5"
-          autoCapitalize="none"
-          keyboardType="default"
-          returnKeyType="next"
-          underlineColorAndroid="#f000"
-          //blurOnSubmit={false}
-        />
-      </View>
-      <View style={styles.SectionStyle}>
-        <TextInput
-          style={styles.inputStyle}
-          //value={`${props.userDetail.address.latitude},${props.userDetail.address.longitude}`}
-          // onChangeText={(data) => props.updateUserDetail({displayName: data})}
-          placeholder="Home Neighbourhood"
-          placeholderTextColor="#8b9cb5"
-          keyboardType="default"
-          onSubmitEditing={Keyboard.dismiss}
-          blurOnSubmit={false}
-          //secureTextEntry={true}
-          underlineColorAndroid="#f000"
-          returnKeyType="next"
-        />
-      </View>
-      {errortext != '' ? (
-        <Text style={styles.errorTextStyle}> {errortext} </Text>
-      ) : null}
-      <View style={styles.SectionStyle}>
-        <TextInput
-          style={styles.inputStyle}
-          // value={proAddress}
-          // onChangeText={(data) => setProAddress(data)}
-          placeholder="School or Work (Optional)"
-          placeholderTextColor="#8b9cb5"
-          keyboardType="default"
-          onSubmitEditing={Keyboard.dismiss}
-          blurOnSubmit={false}
-          secureTextEntry={true}
-          underlineColorAndroid="#f000"
-          returnKeyType="next"
-        />
-      </View>
-      {errortext != '' ? (
-        <Text style={styles.errorTextStyle}> {errortext} </Text>
-      ) : null}
-      <TouchableOpacity
-        style={styles.buttonStyle}
-        activeOpacity={0.5}
-        onPress={handleSubmitPress}>
-        <Text style={styles.buttonTextStyle}>Next</Text>
-      </TouchableOpacity>
     </View>
   );
 };
@@ -254,6 +383,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  error: {
+    margin: 0,
+    marginBottom: 4,
+    fontSize: 14,
+    color: 'red',
+    fontWeight: 'bold',
   },
   logoText: {
     color: themedColors.default.appColor,
@@ -296,13 +432,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   inputStyle: {
-    flex: 1,
-    //color: 'white',
-    paddingLeft: 15,
-    paddingRight: 15,
+    height: 50,
+    paddingHorizontal: 8,
+    width: '100%',
+    borderColor: '#EBEBEB',
     borderWidth: 1,
-    borderRadius: 6,
-    borderColor: '#dadae8',
+    backgroundColor: '#F7FAFB',
+    color: "#9FA2A4",
+    width: width - 30,
+    margin: 10,
+    marginLeft: 0,
+    marginRight: 0,
+    marginBottom: 1
   },
   registerTextStyle: {
     //color: '#FFFFFF',
@@ -319,3 +460,167 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
 });
+
+/*
+{
+   "plus_code":{
+      "compound_code":"CWC8+Q9 Mountain View, CA, USA",
+      "global_code":"849VCWC8+Q9"
+   },
+   "results":[
+      {
+         "address_components":[
+            "Array"
+         ],
+         "formatted_address":"1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA",
+         "geometry":[
+            "Object"
+         ],
+         "place_id":"ChIJ-4uLeQK6j4AR-TyRRDtksAE",
+         "plus_code":[
+            "Object"
+         ],
+         "types":[
+            "Array"
+         ]
+      },
+      {
+         "address_components":[
+            "Array"
+         ],
+         "formatted_address":"1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA",
+         "geometry":[
+            "Object"
+         ],
+         "place_id":"ChIJhehRjJ-5j4ARKFssUSrwnhY",
+         "plus_code":[
+            "Object"
+         ],
+         "types":[
+            "Array"
+         ]
+      },
+      {
+         "address_components":[
+            "Array"
+         ],
+         "formatted_address":"Google Building 40, 1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA",
+         "geometry":[
+            "Object"
+         ],
+         "place_id":"ChIJj38IfwK6j4ARNcyPDnEGa9g",
+         "types":[
+            "Array"
+         ]
+      },
+      {
+         "address_components":[
+            "Array"
+         ],
+         "formatted_address":"Unnamed Road, Mountain View, CA 94043, USA",
+         "geometry":[
+            "Object"
+         ],
+         "place_id":"ChIJ53O0ZAK6j4ARinpHk0_EvLU",
+         "types":[
+            "Array"
+         ]
+      },
+      {
+         "address_components":[
+            "Array"
+         ],
+         "formatted_address":"Mountain View, CA 94043, USA",
+         "geometry":[
+            "Object"
+         ],
+         "place_id":"ChIJoQmen1G3j4ARbhoe7nVBEoQ",
+         "types":[
+            "Array"
+         ]
+      },
+      {
+         "address_components":[
+            "Array"
+         ],
+         "formatted_address":"Mountain View, CA, USA",
+         "geometry":[
+            "Object"
+         ],
+         "place_id":"ChIJiQHsW0m3j4ARm69rRkrUF3w",
+         "types":[
+            "Array"
+         ]
+      },
+      {
+         "address_components":[
+            "Array"
+         ],
+         "formatted_address":"San Francisco Peninsula, California, USA",
+         "geometry":[
+            "Object"
+         ],
+         "place_id":"ChIJYyep9FV2j4ARqfLae7BmREU",
+         "types":[
+            "Array"
+         ]
+      },
+      {
+         "address_components":[
+            "Array"
+         ],
+         "formatted_address":"Santa Clara County, CA, USA",
+         "geometry":[
+            "Object"
+         ],
+         "place_id":"ChIJd_Y0eVIvkIARuQyDN0F1LBA",
+         "types":[
+            "Array"
+         ]
+      },
+      {
+         "address_components":[
+            "Array"
+         ],
+         "formatted_address":"California, USA",
+         "geometry":[
+            "Object"
+         ],
+         "place_id":"ChIJPV4oX_65j4ARVW8IJ6IJUYs",
+         "types":[
+            "Array"
+         ]
+      },
+      {
+         "address_components":[
+            "Array"
+         ],
+         "formatted_address":"United States",
+         "geometry":[
+            "Object"
+         ],
+         "place_id":"ChIJCzYy5IS16lQRQrfeQ5K5Oxw",
+         "types":[
+            "Array"
+         ]
+      },
+      {
+         "address_components":[
+            "Array"
+         ],
+         "formatted_address":"CWC8+Q9 Mountain View, CA, USA",
+         "geometry":[
+            "Object"
+         ],
+         "place_id":"GhIJ2rtQCgS2QkARTDeJQWCFXsA",
+         "plus_code":[
+            "Object"
+         ],
+         "types":[
+            "Array"
+         ]
+      }
+   ],
+   "status":"OK"
+}
+*/

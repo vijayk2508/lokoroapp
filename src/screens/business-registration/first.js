@@ -1,29 +1,21 @@
-import React, {useState} from 'react';
-import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
 import Loader from '../../components/Loader';
-import {themedColors} from '../../constants/Colors';
-import {width} from '../../constants/generalSettings';
+import { themedColors } from '../../constants/Colors';
+import { width } from '../../constants/generalSettings';
+import { BUSINESSCREATORTYPE } from './constant';
 
 const FirstRegisterScreen = (props) => {
   const [loading, setLoading] = useState(false);
-  const [] = useState('');
-
-  // useEffect(() => {
-  //   setEmail(props.userDetail.email);
-  //   setIsEnabled(props.userDetail.isEnabled);
-  // }, [props.userDetail]);
-
   const handleSubmitPress = () => {
     setLoading(true);
-    const res = props.updateUserDetail({}, 2);
-    if (res === 1) {
-      setLoading(false);
-    }
+    //dispatch(updateStepIndex(2));
+    props.updateBusinessDetail(null,2)
+    setLoading(false);
   };
-
   return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Loader loading={loading} />
       <View>
         <View
@@ -41,25 +33,49 @@ const FirstRegisterScreen = (props) => {
               marginBottom: 0,
             }}>
             <TouchableOpacity
-              style={styles.buttonStyle}
-              activeOpacity={0.5}
-              //onPress={handleSubmitPress}
+              style={{
+                ...styles.buttonStyle,
+                backgroundColor: props.businessDetail.businessCreatorType === BUSINESSCREATORTYPE.OWNER ? themedColors.default.appColor : "#7DCCFF"
+              }}
+              activeOpacity={1}
+              onPressIn={() => { props.updateBusinessDetail({ businessCreatorType: BUSINESSCREATORTYPE.OWNER }) }}
             >
-              <Text style={styles.buttonTextStyle}>Business Owner</Text>
+              <Text
+                style={{ ...styles.buttonTextStyle }}
+              >Business Owner</Text>
             </TouchableOpacity>
             <TouchableOpacity
+              style={{
+                ...styles.buttonStyle,
+                backgroundColor: props.businessDetail.businessCreatorType === BUSINESSCREATORTYPE.CHAMPION ? themedColors.default.appColor : "#7DCCFF"
+              }}
+              activeOpacity={1}
+              onPressIn={() => { props.updateBusinessDetail({ businessCreatorType: BUSINESSCREATORTYPE.CHAMPION }) }}
+            >
+              <Text
+                style={{ ...styles.buttonTextStyle }}
+              >Loko Champion</Text>
+            </TouchableOpacity>
+
+            {/* <TouchableOpacity
               style={{
                 ...styles.buttonStyle,
                 backgroundColor: '#F7FAFB',
                 color: '#1190CB',
               }}
               activeOpacity={0.5}
-              //onPress={handleSubmitPress}
+            //onPress={handleSubmitPress}
             >
-              <Text style={{...styles.buttonTextStyle, color: '#1190CB'}}>
+              <Text style={{
+                ...styles.buttonTextStyle, opacity: 0.7,
+                //color: '#1190CB' 
+                color: '#CCCCCC',
+                backgroundColor: "#F7FAFB"
+                //#CCCCCC
+              }}>
                 Loko Champion
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
           <View
             style={{
@@ -70,10 +86,11 @@ const FirstRegisterScreen = (props) => {
               marginBottom: 0,
               alignSelf: 'flex-start',
             }}>
-            <Text style={{color: '#1190CB', alignSelf: 'center'}}>
+            <Text style={{ color: '#1190CB', alignSelf: 'center' }}>
               What is this?
             </Text>
           </View>
+        
         </View>
 
         <TouchableOpacity
@@ -92,7 +109,7 @@ const FirstRegisterScreen = (props) => {
             alignSelf: 'center',
           }}>
           <Text
-            style={{alignSelf: 'center', fontWeight: 'bold', color: '#1190CB'}}>
+            style={{ alignSelf: 'center', fontWeight: 'bold', color: '#1190CB' }}>
             Our Data Privacy Policies
           </Text>
         </View>

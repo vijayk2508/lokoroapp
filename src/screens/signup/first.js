@@ -64,7 +64,6 @@ const FirstRegisterScreen = (props) => {
     <View>
       <Loader loading={loading} />
       <View>
-        {/* <KeyboardAvoidingView enabled> */}
         <View style={styles.SectionStyle}>
           <TextInput
             style={styles.inputStyle}
@@ -160,13 +159,11 @@ const FirstRegisterScreen = (props) => {
           <Text>{props.userDetail.term ? 'Yes' : 'No'}</Text>
         </View>
         <TouchableOpacity
-          // disabled={isEnabled === false}
           style={styles.buttonStyle}
           activeOpacity={0}
           onPress={handleSubmitPress}>
           <Text style={styles.buttonTextStyle}>Next</Text>
         </TouchableOpacity>
-        {/* </KeyboardAvoidingView> */}
       </View>
     </View>
   );

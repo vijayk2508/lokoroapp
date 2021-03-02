@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ScrollView,
   View,
@@ -7,12 +7,13 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import {SliderBox} from 'react-native-image-slider-box';
-import {useDispatch, useSelector} from 'react-redux';
-import {updateStepIndex} from '../../action-reducers/multisteps/action';
+import { SliderBox } from 'react-native-image-slider-box';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateStepIndex } from '../../action-reducers/multisteps/action';
 
-import {assestImages} from '../../assests';
-import {themedColors} from '../../constants/Colors';
+import { assestImages } from '../../assests';
+import { themedColors } from '../../constants/Colors';
+import { BUSINESSCREATORTYPE, BUSINESSSTATUS, BUSINESSTYPE } from './constant';
 import FirstRegisterScreen from './first';
 import FourthRegisterScreen from './fourth';
 import SecondRegisterScreen from './second';
@@ -21,31 +22,33 @@ import ThirdRegisterScreen from './third';
 const sliderImages = [assestImages.img1, assestImages.img2];
 
 const initialState = {
-  businessCreatorType: 'owner',
-  businessType: 'registered',
-  name: 'Satish Kumar',
+  businessCreatorType: BUSINESSCREATORTYPE.OWNER, //"owner", "champion"
+  businessType: BUSINESSTYPE.REGISTERED,
+  name: '',
   uenNumber: 1234,
-  businessImage: 'nnnnnnnnnnnnn',
-  contactNumber: 1234567890,
-  businessEmail: 'contact2satish.patna@gmail.com',
-  businessAddressId: '60049e5c74196a82e0a61d15',
-  facebookLink: 'kkkkkkkkkkkk',
-  websiteLink: 'jjjjjjjjjjjj',
-  instagramLink: 'uuuuuuuuuuu',
-  businessHourId: '6026cbb5bbc1106ae0ffc3e8',
-  industryId: '6026cd402e01f96e83483881',
-  ownerUserId: '60255d372b91da2affe85b2e',
-  championUserId: '60255d372b91da2affe85b2e',
+  businessImage: '',
+  contactNumber: "",
+  businessEmail: '',
+  businessAddressId: '',
+  facebookLink: '',
+  websiteLink: '',
+  instagramLink: '',
+  businessHourId: '',
+  industryId: '',
+  ownerUserId: '',
+  championUserId: '',
   businessRating: 5,
-  businessStatus: 'active',
+  businessStatus: BUSINESSSTATUS.ACTIVE,
+  location : ""
 };
 
 function BusinessRegistration(props) {
   const activeIndex = useSelector(
     (state) => state.multiStepReducer.activeIndex,
   );
+  console.log("BusinessRegistration", activeIndex);
   const dispatch = useDispatch();
-  const [userDetail, setUserDetail] = useState({...initialState});
+  const [businessDetail, setBusinessDetail] = useState({ ...initialState });
 
   useEffect(
     () =>
@@ -74,8 +77,8 @@ function BusinessRegistration(props) {
           <>
             <Text style={styles.formHeading}>Choose Your Profile</Text>
             <FirstRegisterScreen
-              userDetail={userDetail}
-              updateUserDetail={updateUserDetail}></FirstRegisterScreen>
+              businessDetail={businessDetail}
+              updateBusinessDetail={updateBusinessDetail}></FirstRegisterScreen>
           </>
         );
       case 2:
@@ -83,16 +86,16 @@ function BusinessRegistration(props) {
           <>
             <Text style={styles.formHeading}>Select Business Type</Text>
             <SecondRegisterScreen
-              userDetail={userDetail}
-              updateUserDetail={updateUserDetail}></SecondRegisterScreen>
+              businessDetail={businessDetail}
+              updateBusinessDetail={updateBusinessDetail}></SecondRegisterScreen>
           </>
         );
       case 3:
         return (
           <>
             <ThirdRegisterScreen
-              userDetail={userDetail}
-              updateUserDetail={updateUserDetail}></ThirdRegisterScreen>
+              businessDetail={businessDetail}
+              updateBusinessDetail={updateBusinessDetail}></ThirdRegisterScreen>
           </>
         );
       case 4:
@@ -125,11 +128,11 @@ function BusinessRegistration(props) {
                 paddingBottom: 0,
                 marginBottom: 0,
               }}>
-              Enter the 4-digit code we sent to {userDetail.mobile}
+              Enter the 4-digit code we sent to {businessDetail.mobile}
             </Text>
             <FourthRegisterScreen
-              userDetail={userDetail}
-              updateUserDetail={updateUserDetail}
+              businessDetail={businessDetail}
+              updateBusinessDetail={updateBusinessDetail}
               {...props}></FourthRegisterScreen>
           </>
         );
@@ -138,8 +141,8 @@ function BusinessRegistration(props) {
     }
   }
 
-  function updateUserDetail(data, idx) {
-    setUserDetail({...userDetail, ...data});
+  function updateBusinessDetail(data, idx = null) {
+    if (data) { setBusinessDetail({ ...businessDetail, ...data }); }
     if (idx) {
       dispatch(updateStepIndex(idx));
     }
@@ -148,7 +151,7 @@ function BusinessRegistration(props) {
 
   return (
     <KeyboardAvoidingView
-      style={{flex: 1, backgroundColor: 'white'}}
+      style={{ flex: 1, backgroundColor: 'white' }}
       behavior={Platform.OS === 'ios' ? 'padding' : ''}>
       <ScrollView
         contentContainerStyle={{
