@@ -1,0 +1,2 @@
+export const ADDED_SUCCESSFULL = 'ADDED_SUCCESSFUL';
+export const ADDED_FAILED = 'ADDED_FAILED';

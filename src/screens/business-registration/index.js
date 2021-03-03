@@ -24,8 +24,7 @@ const sliderImages = [assestImages.img1, assestImages.img2];
 const initialState = {
   businessCreatorType: BUSINESSCREATORTYPE.OWNER, //"owner", "champion"
   businessType: BUSINESSTYPE.REGISTERED,
-  name: '',
-  uenNumber: 1234,
+  name: "",
   businessImage: '',
   contactNumber: "",
   businessEmail: '',
@@ -39,14 +38,14 @@ const initialState = {
   championUserId: '',
   businessRating: 5,
   businessStatus: BUSINESSSTATUS.ACTIVE,
-  location : ""
+  location: ""
 };
 
 function BusinessRegistration(props) {
   const activeIndex = useSelector(
     (state) => state.multiStepReducer.activeIndex,
   );
-  console.log("BusinessRegistration", activeIndex);
+  //  console.log("BusinessRegistration", activeIndex);
   const dispatch = useDispatch();
   const [businessDetail, setBusinessDetail] = useState({ ...initialState });
 
@@ -93,6 +92,7 @@ function BusinessRegistration(props) {
       case 3:
         return (
           <>
+            <Text style={{ ...styles.formHeading, color: "#616161" }}>Enter Business Information</Text>
             <ThirdRegisterScreen
               businessDetail={businessDetail}
               updateBusinessDetail={updateBusinessDetail}></ThirdRegisterScreen>
@@ -101,35 +101,7 @@ function BusinessRegistration(props) {
       case 4:
         return (
           <>
-            <View style={styles.headerStyle}>
-              <Text style={styles.title}> Meet New Friends </Text>
-              <Text style={styles.description}>
-                Love to play sports, solve puzzles or go café hopping? Find new
-                friends in your neighbourhood who share common Interests and
-                passions!
-              </Text>
-            </View>
-            <View
-              style={{
-                borderBottomColor: '#E5E5E8',
-                borderBottomWidth: 1,
-                margin: 15,
-                marginLeft: 70,
-                marginRight: 70,
-              }}
-            />
-
-            <Text style={styles.formHeading}>Almost Done!</Text>
-            <Text
-              style={{
-                ...styles.description,
-                padding: 70,
-                paddingTop: 0,
-                paddingBottom: 0,
-                marginBottom: 0,
-              }}>
-              Enter the 4-digit code we sent to {businessDetail.mobile}
-            </Text>
+            <Text style={styles.formHeading}>Enter Business Hours</Text>
             <FourthRegisterScreen
               businessDetail={businessDetail}
               updateBusinessDetail={updateBusinessDetail}

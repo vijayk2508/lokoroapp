@@ -6,6 +6,9 @@ const apiEndpoints = {
 
     INDUSTRY: {
       GETALL: "/industry/getAllIndustry"
+    },
+    BUSINESS : {
+      CREATE : "/business/createBusiness"
     }
   },
 };

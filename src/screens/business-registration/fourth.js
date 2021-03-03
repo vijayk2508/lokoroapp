@@ -1,4 +1,4 @@
-import React, {useState, createRef} from 'react';
+import React, { useState, createRef } from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -11,144 +11,150 @@ import {
   KeyboardAvoidingView,
   AsyncStorage,
 } from 'react-native';
-import {useDispatch} from 'react-redux';
-import {login} from '../../action-reducers/auth/action';
-import {assestImages} from '../../assests';
-import {withNavigation} from 'react-navigation';
+import { useDispatch } from 'react-redux';
+import { login } from '../../action-reducers/auth/action';
+import { assestImages } from '../../assests';
+import { withNavigation } from 'react-navigation';
 
 import Loader from '../../components/Loader';
-import {themedColors} from '../../constants/Colors';
-import {register} from '../../action-reducers/signup/action';
+import { themedColors } from '../../constants/Colors';
+import { register } from '../../action-reducers/signup/action';
+import BusinessHour from '../../components/BusinessHour';
+import DateTimePicker from '@react-native-community/datetimepicker';
+
 //import * as register from '../../action-reducers/signUp/action';
 
-const FourthRegisterScreen = (props) => {
-  console.log('props', props);
+const data = [
+  {
+    day: 'Sunday',
+    status: false,
+    from: '',
+    to: '',
+  },
 
-  const [pin1, setPin1] = useState('1');
-  const [pin2, setPin2] = useState('2');
-  const [pin3, setPin3] = useState('3');
-  const [pin4, setPin4] = useState('4');
+  {
+    day: 'Monday',
+    status: false,
+    from: '',
+    to: '',
+  },
+  {
+    day: 'Tuesday',
+    status: false,
+    from: '',
+    to: '',
+  },
+  {
+    day: 'Wednesday',
+    status: false,
+    from: '',
+    to: '',
+  },
+  {
+    day: 'Thursday',
+    status: false,
+    from: '',
+    to: '',
+  },
+  {
+    day: 'Friday',
+    status: false,
+    from: '',
+    to: '',
+  },
+  {
+    day: 'Saturday',
+    status: false,
+    from: '',
+    to: '',
+  },
+];
+const FourthRegisterScreen = (props) => {
   const [loading, setLoading] = useState(false);
-  const [errortext, setErrortext] = useState('');
+  const [businessHrs, setbusinessHrs] = useState(data);
+  const [date, setDate] = useState(new Date());
+  const [show, setShow] = useState(false);
+  const [editData,setEditData] = useState({
+
+  })
+
   const dispatch = useDispatch();
 
   const handleSubmitPress = async () => {
-    // setErrortext('');
-    // if (!userEmail) {
-    //   alert('Please fill Email');
-    //   return;
-    // }
-    // if (!userPassword) {
-    //   alert('Please fill Password');
-    //   return;
-    // }
-
-    // let dataToSend = {user_email: userEmail, user_password: userPassword};
-    // let formBody = [];
-    // for (let key in dataToSend) {
-    //   let encodedKey = encodeURIComponent(key);
-    //   let encodedValue = encodeURIComponent(dataToSend[key]);
-    //   formBody.push(encodedKey + '=' + encodedValue);
-    // }
-    // formBody = formBody.join('&');
-    // let data = {email: userEmail, password: userPassword};
-    // setLoading(true);
-    // const res = await dispatch(login(data));
-    // if (res.status === 'success') {
-    //   navigation.replace('userscreen', {data: res.data});
-    // }
-    let currentOtp = `${pin1}${pin2}${pin3}${pin4}`;
-    if (currentOtp === '1234') {
-      const {
-        mobile,
-        email,
-        password,
-        displayName,
-        userImage,
-        roleId,
-        address,
-        deviceId,
-        notification,
-        term,
-      } = props.userDetail;
-      debugger;
-      const formData = new FormData();
-      formData.append('mobile', mobile);
-      formData.append('email', email);
-      formData.append('password', password);
-      formData.append('displayName', displayName);
-      formData.append('otp', currentOtp);
-      formData.append('notification', notification);
-      formData.append('term', true);
-      //formData.append("locoCoinId")
-      //formData.append("image",userImage)
-      // formData.append("roleId",roleId)
-      // formData.append("address",address)
-      // formData.append("deviceId",deviceId)
-      const res = await dispatch(register(formData));
-      if (res.status === 'success') {
-        if (res.data.userObj) {
-          props.navigation.navigate('startscreen');
-          return;
-        } else {
-          alert(JSON.stringify(res.message));
-          return;
-        }
-      }
-    } else {
-      alert('OTP is incorrect.');
-      return await 1;
-    }
-
     setLoading(false);
+  };
+
+  function onChange(data, idx) {
+    let tmpData = [...businessHrs];
+    tmpData[idx] = { ...tmpData[idx], ...data };
+    setbusinessHrs(tmpData);
+  }
+
+  const onChangeDateTime = (event, selectedDate) => {
+    console.log("event", event, selectedDate);
+    setShow(false);
+  };
+
+  const showTimepicker = (data, idx) => {
+    setShow(true);
+    //editData,
+    setEditData({
+       idx : idx,
+       data : data
+    })
   };
 
   return (
     <View>
       <Loader loading={loading} />
-      <View style={styles.SectionStyle}>
-        <View style={{flex: 1}}>
-          <View style={styles.otp}>
-            <TextInput
-              style={styles.otpBox}
-              value={pin1}
-              maxLength={1}
-              keyboardType="number-pad"
-              returnKeyType="next"
-              onChangeText={(val) => setPin1(val)}></TextInput>
-            <TextInput
-              style={styles.otpBox}
-              value={pin2}
-              maxLength={1}
-              keyboardType="number-pad"
-              returnKeyType="next"
-              onChangeText={(val) => setPin2(val)}></TextInput>
-            <TextInput
-              style={styles.otpBox}
-              value={pin3}
-              maxLength={1}
-              keyboardType="number-pad"
-              returnKeyType="next"
-              onChangeText={(val) => setPin3(val)}></TextInput>
-            <TextInput
-              style={styles.otpBox}
-              value={pin4}
-              maxLength={1}
-              keyboardType="number-pad"
-              returnKeyType="next"
-              onChangeText={(val) => setPin4(val)}></TextInput>
-          </View>
+      <View
+        style={{
+          ...styles.SectionStyle,
+          flexDirection: 'row',
+          justifyContent: 'flex-end',
+          alignItems: 'center',
+          alignContent: 'center',
+        }}>
+        <View style={{ flexDirection: 'column', width: 70 }}>
+          <Text>From</Text>
+        </View>
+        <View style={{ flexDirection: 'column', width: 60 }}>
+          <Text>To</Text>
         </View>
       </View>
+      {businessHrs.map((item, idx) => {
+        return (
+          <BusinessHour
+            day={item.day}
+            status={item.status}
+            from={item.from}
+            to={item.to}
+            key={idx}
+            onChange={(data) => onChange(data, idx)}
+            showTimepicker={showTimepicker}
+          ></BusinessHour>
+        );
+      })}
+
       <TouchableOpacity
         style={styles.buttonStyle}
         activeOpacity={0.5}
         onPress={handleSubmitPress}>
         <Text style={styles.buttonTextStyle}>Next</Text>
       </TouchableOpacity>
+
+      {show && <DateTimePicker
+        //testID="dateTimePicker"
+        value={date}
+        mode={"time"}
+        is24Hour={true}
+        display="default"
+        onChange={onChangeDateTime}
+      />}
     </View>
   );
 };
+
 export default withNavigation(FourthRegisterScreen);
 
 const styles = StyleSheet.create({

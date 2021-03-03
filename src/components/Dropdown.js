@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 const data = [
@@ -22,7 +22,10 @@ const data = [
 
 function Dropdown(props) {
     const [items, setItems] = useState([]);
-    const [currentItem, setCurrentItem] = useState("");
+    const [currentItem, setCurrentItem] = useState('');
+    //const [visible, setvisible] = useState(true)
+    let dropdownRef = null;
+
     useEffect(() => {
         if (Array.isArray(props.listOfItems)) {
             let dataItems = [];
@@ -39,16 +42,19 @@ function Dropdown(props) {
         }
         return () => { };
     }, [props.listOfItems]);
+
+
     return (
         <DropDownPicker
+            //controller={(instance) => (dropdownRef = instance)}
             items={items}
             containerStyle={props.containerStyle}
             style={props.style}
             itemStyle={props.itemStyle}
             dropDownStyle={props.dropDownStyle}
-            onChangeItem={item => {
-                setCurrentItem(item.value)
-                props.onChangeItem(item)
+            onChangeItem={(item) => {
+                setCurrentItem(item.value);
+                props.onChangeItem(item);
             }}
             placeholder={props.placeholder}
             defaultValue={currentItem}
@@ -61,18 +67,20 @@ Dropdown.defaultProps = {
     isLoaded: false,
     lable: 'name',
     value: '_id',
-    placeholder: "Select",
-    dropDownStyle: { backgroundColor: '#F7FAFB', color: "#9FA2A4", },
+    placeholder: 'Select',
+    dropDownStyle: { backgroundColor: '#F7FAFB', color: '#9FA2A4' },
     onChangeItem: () => { },
     itemStyle: {
         justifyContent: 'flex-start',
     },
     style: {
-        backgroundColor: '#F7FAFB', margin: 10,
+        backgroundColor: '#F7FAFB',
+        margin: 10,
         marginLeft: 0,
         marginRight: 0,
-        marginBottom: 1, color: "#9FA2A4",
+        marginBottom: 1,
+        color: '#9FA2A4',
     },
-    containerStyle: { height: 50 }
+    containerStyle: { height: 50 },
 };
 export default Dropdown;
