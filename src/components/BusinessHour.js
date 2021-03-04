@@ -46,12 +46,9 @@ function BusinessHour(props) {
                     }}>
                     <Text
                         style={{}}
-                        // onChangeText={(data) => {
-                        //     props.onChange({
-                        //         from: data,
-                        //     });
-                        // }}
-                        onPress={props.showTimepicker}
+                        onPress={() => {
+                            props.showTimepicker({ ...props, type: "from" })
+                        }}
                     >
                         {props.from}
                     </Text>
@@ -66,12 +63,7 @@ function BusinessHour(props) {
                     }}>
                     <Text
                         style={{}}
-                        // onChangeText={(data) => {
-                        //     props.onChange({
-                        //         to: data,
-                        //     });
-                        // }}
-                        onPress={props.showTimepicker}
+                        onPress={() => { props.showTimepicker({ ...props, type: "to" }) }}
                     >
                         {props.to}
                     </Text>

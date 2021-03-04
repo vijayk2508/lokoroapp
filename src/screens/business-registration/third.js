@@ -271,7 +271,7 @@ const ThirdRegisterScreen = (props) => {
                   onChangeText={fProps.handleChange('location')}
                   onBlur={fProps.handleBlur('location')}
                   //value={fProps.values.location}
-                  value={props.businessDetail.location.formatted_address}
+                  value={fProps.businessDetail.location.formatted_address}
 
                   placeholder="Location of Business"
                   onSubmitEditing={() => {

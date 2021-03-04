@@ -63,7 +63,7 @@ function BusinessRegistration(props) {
   );
 
   useEffect(() => {
-    dispatch(updateStepIndex(1));
+    dispatch(updateStepIndex(4));
     return () => {
       dispatch(updateStepIndex(1));
     };
@@ -122,6 +122,7 @@ function BusinessRegistration(props) {
   }
 
   return (
+    <>
     <KeyboardAvoidingView
       style={{ flex: 1, backgroundColor: 'white' }}
       behavior={Platform.OS === 'ios' ? 'padding' : ''}>
@@ -201,6 +202,7 @@ function BusinessRegistration(props) {
         {steps()}
       </ScrollView>
     </KeyboardAvoidingView>
+  </>
   );
 }
 

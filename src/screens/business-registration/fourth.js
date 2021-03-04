@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   AsyncStorage,
+  Button,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { login } from '../../action-reducers/auth/action';
@@ -21,7 +22,7 @@ import { themedColors } from '../../constants/Colors';
 import { register } from '../../action-reducers/signup/action';
 import BusinessHour from '../../components/BusinessHour';
 import DateTimePicker from '@react-native-community/datetimepicker';
-
+import moment from "moment";
 //import * as register from '../../action-reducers/signUp/action';
 
 const data = [
@@ -72,10 +73,10 @@ const data = [
 const FourthRegisterScreen = (props) => {
   const [loading, setLoading] = useState(false);
   const [businessHrs, setbusinessHrs] = useState(data);
-  const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
-  const [editData,setEditData] = useState({
-
+  const [editData, setEditData] = useState({
+    idx: -1,
+    name: ""
   })
 
   const dispatch = useDispatch();
@@ -88,19 +89,20 @@ const FourthRegisterScreen = (props) => {
     let tmpData = [...businessHrs];
     tmpData[idx] = { ...tmpData[idx], ...data };
     setbusinessHrs(tmpData);
+    setShow(false);
   }
 
   const onChangeDateTime = (event, selectedDate) => {
-    console.log("event", event, selectedDate);
     setShow(false);
+    let tmpData = [...businessHrs];
+    tmpData[editData.idx] = { ...tmpData[editData.idx], [editData.name]: moment(event.nativeEvent.timestamp).format('h:mm a') };
+    setbusinessHrs([...tmpData]);
   };
 
-  const showTimepicker = (data, idx) => {
+  const showTimepicker = (data) => {
     setShow(true);
-    //editData,
     setEditData({
-       idx : idx,
-       data : data
+      idx: data.idx, name: data.type
     })
   };
 
@@ -129,13 +131,14 @@ const FourthRegisterScreen = (props) => {
             status={item.status}
             from={item.from}
             to={item.to}
+            idx={idx}
             key={idx}
             onChange={(data) => onChange(data, idx)}
             showTimepicker={showTimepicker}
+
           ></BusinessHour>
         );
       })}
-
       <TouchableOpacity
         style={styles.buttonStyle}
         activeOpacity={0.5}
@@ -143,19 +146,74 @@ const FourthRegisterScreen = (props) => {
         <Text style={styles.buttonTextStyle}>Next</Text>
       </TouchableOpacity>
 
-      {show && <DateTimePicker
+      {show === true ? <DateTimePicker
         //testID="dateTimePicker"
-        value={date}
+        value={new Date()}
         mode={"time"}
-        is24Hour={true}
+        is24Hour={false}
         display="default"
         onChange={onChangeDateTime}
-      />}
+      /> : null}
     </View>
   );
 };
 
 export default withNavigation(FourthRegisterScreen);
+
+
+// import React, { useState } from 'react';
+// import { View, Button, Platform, StyleSheet, Text } from 'react-native';
+// import DateTimePicker from '@react-native-community/datetimepicker';
+// import { themedColors } from '../../constants/Colors';
+
+// const FourthRegisterScreen = (props) => {
+//   const [date, setDate] = useState(new Date(1598051730000));
+//   const [mode, setMode] = useState('date');
+//   const [show, setShow] = useState(false);
+
+//   const onChange = (event, selectedDate) => {
+//     const currentDate = selectedDate || date;
+//     setShow(false);
+//     setDate(currentDate);
+//   };
+
+//   const showMode = (currentMode) => {
+//     setShow(true);
+//     setMode(currentMode);
+//   };
+
+//   const showDatepicker = () => {
+//     showMode('date');
+//   };
+
+//   const showTimepicker = () => {
+//     showMode('time');
+//   };
+
+//   return (
+//     <View>
+//       <Text>{JSON.stringify(date)}</Text>
+//       <View>
+//         <Button onPress={showDatepicker} title="Show date picker!" />
+//       </View>
+//       <View>
+//         <Button onPress={showTimepicker} title="Show time picker!" />
+//       </View>
+//       {show && (
+//         <DateTimePicker
+//           testID="dateTimePicker"
+//           value={date}
+//           mode={mode}
+//           is24Hour={true}
+//           display="default"
+//           onChange={onChange}
+//         />
+//       )}
+//     </View>
+//   );
+// };
+
+// export default FourthRegisterScreen;
 
 const styles = StyleSheet.create({
   otp: {
