@@ -1,27 +1,16 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-
-import Loader from '../../components/Loader';
 import { themedColors } from '../../constants/Colors';
 import { width } from '../../constants/generalSettings';
 import { BUSINESSTYPE } from './constant';
 
 const SecondRegisterScreen = (props) => {
-  const [loading] = useState(false);
-  const [] = useState('');
-
-  // useEffect(() => {
-  //   setEmail(props.userDetail.email);
-  //   setIsEnabled(props.userDetail.isEnabled);
-  // }, [props.userDetail]);
-
   const handleSubmitPress = () => {
-    props.updateBusinessDetail(null,3)
+    props.updateBusinessDetail(null, 3)
   };
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Loader loading={loading} />
       <View>
         <View
           style={{
@@ -117,7 +106,6 @@ const SecondRegisterScreen = (props) => {
         <TouchableOpacity
           // disabled={isEnabled === false}
           style={styles.buttonStyle}
-          activeOpacity={0}
           onPress={handleSubmitPress}>
           <Text style={styles.buttonTextStyle}>Next</Text>
         </TouchableOpacity>

@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React, { useState } from 'react';
 import { StyleSheet, Switch, Text, TextInput, View } from 'react-native';
 import { themedColors } from '../constants/Colors';
@@ -27,8 +28,13 @@ function BusinessHour(props) {
                             trackColor={{ false: '#767577', true: '#81b0ff' }}
                             thumbColor="#f4f3f4"
                             onValueChange={() => {
+                                let currenStatus = !props.status;
+                                let setTime = currenStatus ? moment().format('h:mm a') : ""
+
                                 props.onChange({
-                                    status: !props.status,
+                                    status: currenStatus,
+                                    from: setTime,
+                                    to: setTime
                                 });
                             }}
                             value={props.status}

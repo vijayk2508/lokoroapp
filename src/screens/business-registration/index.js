@@ -24,7 +24,7 @@ const sliderImages = [assestImages.img1, assestImages.img2];
 const initialState = {
   businessCreatorType: BUSINESSCREATORTYPE.OWNER, //"owner", "champion"
   businessType: BUSINESSTYPE.REGISTERED,
-  name: "",
+  name: "test",
   businessImage: '',
   contactNumber: "",
   businessEmail: '',
@@ -34,11 +34,12 @@ const initialState = {
   instagramLink: '',
   businessHourId: '',
   industryId: '',
-  ownerUserId: '',
-  championUserId: '',
+  ownerUserId: '6036862a1f71c07253909454',
+  championUserId: '6036862a1f71c07253909454',
   businessRating: 5,
   businessStatus: BUSINESSSTATUS.ACTIVE,
-  location: ""
+  location: { formatted_address: "" },
+  uenNumber: ""
 };
 
 function BusinessRegistration(props) {
@@ -63,7 +64,7 @@ function BusinessRegistration(props) {
   );
 
   useEffect(() => {
-    dispatch(updateStepIndex(4));
+    dispatch(updateStepIndex(1));
     return () => {
       dispatch(updateStepIndex(1));
     };
@@ -123,86 +124,86 @@ function BusinessRegistration(props) {
 
   return (
     <>
-    <KeyboardAvoidingView
-      style={{ flex: 1, backgroundColor: 'white' }}
-      behavior={Platform.OS === 'ios' ? 'padding' : ''}>
-      <ScrollView
-        contentContainerStyle={{
-          backgroundColor: 'white',
-        }}
-        bounces={true}>
-        {(activeIndex === 1 || activeIndex === 2) && (
-          <>
-            <View
-              style={{
-                flex: 0.7,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <SliderBox
-                //ImageComponent={FastImage}
-                images={sliderImages}
-                sliderBoxHeight={200}
-                onCurrentImagePressed={(index) =>
-                  console.warn(`image ${index} pressed`)
-                }
-                dotColor={themedColors.default.appColor}
-                inactiveDotColor="#90A4AE"
-                paginationBoxVerticalPadding={20}
-                autoplay
-                circleLoop
-                resizeMethod={'resize'}
-                resizeMode={'cover'}
-                paginationBoxStyle={{
-                  position: 'absolute',
-                  bottom: 0,
-                  padding: 0,
-                  alignItems: 'center',
-                  alignSelf: 'center',
+      <KeyboardAvoidingView
+        style={{ flex: 1, backgroundColor: 'white' }}
+        behavior={Platform.OS === 'ios' ? 'padding' : ''}>
+        <ScrollView
+          contentContainerStyle={{
+            backgroundColor: 'white',
+          }}
+          bounces={true}>
+          {(activeIndex === 1 || activeIndex === 2) && (
+            <>
+              <View
+                style={{
+                  flex: 0.7,
                   justifyContent: 'center',
-                  paddingVertical: 10,
-                }}
-                dotStyle={{
-                  width: 10,
-                  height: 10,
-                  borderRadius: 5,
-                  marginHorizontal: 0,
-                  padding: 0,
-                  margin: 0,
-                  backgroundColor: 'white',
-                }}
-                ImageComponentStyle={{
-                  borderRadius: 15,
-                  width: '97%',
-                  marginTop: 5,
-                }}
-                imageLoadingColor="#2196F3"
-              />
-            </View>
-            <View style={styles.headerStyle}>
-              <Text style={styles.title}> Get Discovered! </Text>
-              <Text style={styles.description}>
-                New to the neighbourhood and want to get more people to know
-                about you? Forget about distributing flyers. Get listed on
-                Lokoro to spread the word!
+                  alignItems: 'center',
+                }}>
+                <SliderBox
+                  //ImageComponent={FastImage}
+                  images={sliderImages}
+                  sliderBoxHeight={200}
+                  onCurrentImagePressed={(index) =>
+                    console.warn(`image ${index} pressed`)
+                  }
+                  dotColor={themedColors.default.appColor}
+                  inactiveDotColor="#90A4AE"
+                  paginationBoxVerticalPadding={20}
+                  autoplay
+                  circleLoop
+                  resizeMethod={'resize'}
+                  resizeMode={'cover'}
+                  paginationBoxStyle={{
+                    position: 'absolute',
+                    bottom: 0,
+                    padding: 0,
+                    alignItems: 'center',
+                    alignSelf: 'center',
+                    justifyContent: 'center',
+                    paddingVertical: 10,
+                  }}
+                  dotStyle={{
+                    width: 10,
+                    height: 10,
+                    borderRadius: 5,
+                    marginHorizontal: 0,
+                    padding: 0,
+                    margin: 0,
+                    backgroundColor: 'white',
+                  }}
+                  ImageComponentStyle={{
+                    borderRadius: 15,
+                    width: '97%',
+                    marginTop: 5,
+                  }}
+                  imageLoadingColor="#2196F3"
+                />
+              </View>
+              <View style={styles.headerStyle}>
+                <Text style={styles.title}> Get Discovered! </Text>
+                <Text style={styles.description}>
+                  New to the neighbourhood and want to get more people to know
+                  about you? Forget about distributing flyers. Get listed on
+                  Lokoro to spread the word!
               </Text>
-            </View>
-            <View
-              style={{
-                borderBottomColor: '#E5E5E8',
-                borderBottomWidth: 1,
-                margin: 15,
-                marginLeft: 70,
-                marginRight: 70,
-              }}
-            />
-          </>
-        )}
+              </View>
+              <View
+                style={{
+                  borderBottomColor: '#E5E5E8',
+                  borderBottomWidth: 1,
+                  margin: 15,
+                  marginLeft: 70,
+                  marginRight: 70,
+                }}
+              />
+            </>
+          )}
 
-        {steps()}
-      </ScrollView>
-    </KeyboardAvoidingView>
-  </>
+          {steps()}
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </>
   );
 }
 

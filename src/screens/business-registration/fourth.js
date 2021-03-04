@@ -1,29 +1,19 @@
-import React, { useState, createRef } from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
-  TextInput,
   View,
   Text,
-  ScrollView,
-  Image,
-  Keyboard,
   TouchableOpacity,
-  KeyboardAvoidingView,
-  AsyncStorage,
-  Button,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { login } from '../../action-reducers/auth/action';
-import { assestImages } from '../../assests';
 import { withNavigation } from 'react-navigation';
 
 import Loader from '../../components/Loader';
 import { themedColors } from '../../constants/Colors';
-import { register } from '../../action-reducers/signup/action';
 import BusinessHour from '../../components/BusinessHour';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from "moment";
-//import * as register from '../../action-reducers/signUp/action';
+import { businessRegister } from '../../action-reducers/business/action';
 
 const data = [
   {
@@ -83,6 +73,60 @@ const FourthRegisterScreen = (props) => {
 
   const handleSubmitPress = async () => {
     setLoading(false);
+
+    const {
+      businessCreatorType,
+      businessType,
+      name,
+      businessImage,
+      contactNumber,
+      businessEmail,
+      businessAddressId,
+      facebookLink,
+      websiteLink,
+      instagramLink,
+      businessHourId,
+      industryId,
+      ownerUserId,
+      championUserId,
+      businessRating,
+      businessStatus,
+      location
+    } = props.businessDetail
+    const formData = new FormData();
+    formData.append('businessCreatorType', businessCreatorType);
+    formData.append('businessType', businessType);
+    formData.append('name', name);
+    formData.append('uenNumber', uenNumber);
+    formData.append('businessImage', businessImage);
+    formData.append('businessEmail', businessEmail);
+    formData.append('contactNumber', contactNumber);
+    formData.append('businessAddressId', businessAddressId);
+    if (facebookLink) { formData.append('facebookLink', facebookLink); }
+    if (websiteLink) { formData.append('websiteLink', websiteLink); }
+    if (instagramLink) { formData.append('instagramLink', instagramLink); }
+    formData.append('businessHour', businessHourId);
+    formData.append('industryId', industryId);
+    formData.append('ownerUserId', ownerUserId);
+    formData.append('championUserId', championUserId);
+    formData.append("businessRating", businessRating)
+    formData.append("businessStatus", businessStatus)
+    formData.append("location", location)
+    setLoading(true);
+    const res = await dispatch(businessRegister(formData));
+    if (res.status === 'success') {
+      if (res.data.userObj) {
+        props.navigation.navigate('startscreen');
+        props.updateUserDetail({}, 1);
+        setLoading(false);
+        return;
+      } else {
+        alert(JSON.stringify(res.message));
+        setLoading(false);
+        return;
+      }
+    }
+
   };
 
   function onChange(data, idx) {
@@ -92,7 +136,7 @@ const FourthRegisterScreen = (props) => {
     setShow(false);
   }
 
-  const onChangeDateTime = (event, selectedDate) => {
+  const onChangeDateTime = (event) => {
     setShow(false);
     let tmpData = [...businessHrs];
     tmpData[editData.idx] = { ...tmpData[editData.idx], [editData.name]: moment(event.nativeEvent.timestamp).format('h:mm a') };
@@ -143,7 +187,7 @@ const FourthRegisterScreen = (props) => {
         style={styles.buttonStyle}
         activeOpacity={0.5}
         onPress={handleSubmitPress}>
-        <Text style={styles.buttonTextStyle}>Next</Text>
+        <Text style={styles.buttonTextStyle}>Finish</Text>
       </TouchableOpacity>
 
       {show === true ? <DateTimePicker
@@ -159,61 +203,6 @@ const FourthRegisterScreen = (props) => {
 };
 
 export default withNavigation(FourthRegisterScreen);
-
-
-// import React, { useState } from 'react';
-// import { View, Button, Platform, StyleSheet, Text } from 'react-native';
-// import DateTimePicker from '@react-native-community/datetimepicker';
-// import { themedColors } from '../../constants/Colors';
-
-// const FourthRegisterScreen = (props) => {
-//   const [date, setDate] = useState(new Date(1598051730000));
-//   const [mode, setMode] = useState('date');
-//   const [show, setShow] = useState(false);
-
-//   const onChange = (event, selectedDate) => {
-//     const currentDate = selectedDate || date;
-//     setShow(false);
-//     setDate(currentDate);
-//   };
-
-//   const showMode = (currentMode) => {
-//     setShow(true);
-//     setMode(currentMode);
-//   };
-
-//   const showDatepicker = () => {
-//     showMode('date');
-//   };
-
-//   const showTimepicker = () => {
-//     showMode('time');
-//   };
-
-//   return (
-//     <View>
-//       <Text>{JSON.stringify(date)}</Text>
-//       <View>
-//         <Button onPress={showDatepicker} title="Show date picker!" />
-//       </View>
-//       <View>
-//         <Button onPress={showTimepicker} title="Show time picker!" />
-//       </View>
-//       {show && (
-//         <DateTimePicker
-//           testID="dateTimePicker"
-//           value={date}
-//           mode={mode}
-//           is24Hour={true}
-//           display="default"
-//           onChange={onChange}
-//         />
-//       )}
-//     </View>
-//   );
-// };
-
-// export default FourthRegisterScreen;
 
 const styles = StyleSheet.create({
   otp: {

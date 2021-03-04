@@ -33,30 +33,6 @@ const FourthRegisterScreen = (props) => {
   const dispatch = useDispatch();
 
   const handleSubmitPress = async () => {
-    // setErrortext('');
-    // if (!userEmail) {
-    //   alert('Please fill Email');
-    //   return;
-    // }
-    // if (!userPassword) {
-    //   alert('Please fill Password');
-    //   return;
-    // }
-
-    // let dataToSend = {user_email: userEmail, user_password: userPassword};
-    // let formBody = [];
-    // for (let key in dataToSend) {
-    //   let encodedKey = encodeURIComponent(key);
-    //   let encodedValue = encodeURIComponent(dataToSend[key]);
-    //   formBody.push(encodedKey + '=' + encodedValue);
-    // }
-    // formBody = formBody.join('&');
-    // let data = {email: userEmail, password: userPassword};
-    // setLoading(true);
-    // const res = await dispatch(login(data));
-    // if (res.status === 'success') {
-    //   navigation.replace('userscreen', {data: res.data});
-    // }
     let currentOtp = `${pin1}${pin2}${pin3}${pin4}`;
     if (currentOtp === '1234') {
       const {

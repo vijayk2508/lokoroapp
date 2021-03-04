@@ -28,16 +28,16 @@ import Dropdown from '../../components/Dropdown';
 
 const validationSchema = Yup.object({
   name: Yup.string().required('Required'),
-  uenNumber: Yup.string().required('Required'),
-  businessImage: Yup.mixed().required('Required'),
-  contactNumber: Yup.string().required('Required'),
-  businessEmail: Yup.string().email('Invalid Email').required('Required'),
-  businessAddressId: Yup.string().required('Required'),
-  industryId: Yup.string().required('Required'),
-  location: Yup.string().required('Required'),
-  facebookLink: Yup.string(),
-  websiteLink: Yup.string(),
-  instagramLink: Yup.string(),
+  // uenNumber: Yup.string().required('Required'),
+  // businessImage: Yup.mixed().required('Required'),
+  // contactNumber: Yup.string().required('Required'),
+  // businessEmail: Yup.string().email('Invalid Email').required('Required'),
+  // businessAddressId: Yup.string().required('Required'),
+  // industryId: Yup.string().required('Required'),
+  // location: Yup.object().required('Required'),
+  // facebookLink: Yup.string(),
+  // websiteLink: Yup.string(),
+  // instagramLink: Yup.string(),
 });
 
 const ThirdRegisterScreen = (props) => {
@@ -48,16 +48,7 @@ const ThirdRegisterScreen = (props) => {
   const dispatch = useDispatch();
 
   const handleSubmitPress = () => {
-    if (!props.userDetail.displayName) {
-      alert('Please fill your Name');
-      return;
-    }
-    // if (!props.userDetail.homeAddress) {
-    //   alert('Please fill your Address');
-    //   return;
-    // }
-
-    props.updateBusinessDetail({}, 3);
+    props.updateBusinessDetail({}, 4);
   };
 
   useEffect(() => {
@@ -107,8 +98,6 @@ const ThirdRegisterScreen = (props) => {
         Geocoder.from(position.coords.latitude, position.coords.longitude)
           .then((json) => {
             var results = json.results[0];
-            console.log(JSON.stringify(json));
-            alert(JSON.stringify(json))
             props.updateBusinessDetail({
               location: {
                 currentLongitude,
@@ -162,6 +151,7 @@ const ThirdRegisterScreen = (props) => {
       <Loader loading={loading} />
       <View style={styles.container}>
         <Formik
+          enableReinitialize={true}
           initialValues={{
             name: '',
             uenNumber: '',
@@ -173,8 +163,11 @@ const ThirdRegisterScreen = (props) => {
             websiteLink: '',
             instagramLink: '',
             industryId: '',
-            location: ''
+            location: { formatted_address: "" },
+            formatted_address :  props.businessDetail.location.formatted_address, 
+            ...props.businessDetail
           }}
+
           validationSchema={validationSchema}
           onSubmit={(values, formikActions) => {
             props.updateBusinessDetail(null, 4)
@@ -182,9 +175,11 @@ const ThirdRegisterScreen = (props) => {
             //   Alert.alert(JSON.stringify(values));
             //   formikActions.setSubmitting(false);
             // }, 500);
-          }}>
+          }}
+
+        >
           {(fProps) => (
-            <><Text>{JSON.stringify(fProps.errors)}</Text>
+            <>
               <View
                 style={{
                   height: 100,
@@ -268,10 +263,10 @@ const ThirdRegisterScreen = (props) => {
                 ) : null}
                 <TextInput
                   style={styles.inputStyle}
-                  onChangeText={fProps.handleChange('location')}
-                  onBlur={fProps.handleBlur('location')}
+                  onChangeText={fProps.handleChange('formatted_address')}
+                  onBlur={fProps.handleBlur('formatted_address')}
                   //value={fProps.values.location}
-                  value={fProps.businessDetail.location.formatted_address}
+                  value={fProps.values.formatted_address}
 
                   placeholder="Location of Business"
                   onSubmitEditing={() => {
@@ -280,8 +275,8 @@ const ThirdRegisterScreen = (props) => {
                     //this.emailInput.focus()
                   }}
                 />
-                {fProps.touched.location && fProps.errors.location ? (
-                  <Text style={styles.error}>{fProps.errors.location}</Text>
+                {fProps.touched.formatted_address && fProps.errors.formatted_address ? (
+                  <Text style={styles.error}>{fProps.errors.formatted_address}</Text>
                 ) : null}
                 <TextInput
                   style={styles.inputStyle}
