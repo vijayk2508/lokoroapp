@@ -10,8 +10,7 @@
 
 // export default ForgotPassword;
 
-
-import React, { useState, createRef, useEffect } from 'react';
+import React, {useState, createRef, useEffect} from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -23,26 +22,27 @@ import {
   KeyboardAvoidingView,
   BackHandler,
 } from 'react-native';
-import { useDispatch } from 'react-redux';
-import { forgotpassword } from '../../action-reducers/auth/action';
-import { assestImages } from '../../assests';
+import {useDispatch} from 'react-redux';
+import {forgotpassword} from '../../action-reducers/auth/action';
+import {assestImages} from '../../assests';
 
 import Loader from '../../components/Loader';
-import { themedColors } from '../../constants/Colors';
+import {themedColors} from '../../constants/Colors';
+import * as Yup from 'yup';
+import {Formik} from 'formik';
 
-const ForgotPassword = ({ navigation }) => {
-  const [userEmail, setUserEmail] = useState('');
-  const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
+const validationSchema = Yup.object().shape({
+  email: Yup.string().email('Email is invalid').required('Email is required'),
+});
 
-
+const ForgotPassword = ({navigation}) => {
   const handleSubmitPress = async () => {
     if (!userEmail) {
       alert('Please fill Email');
       return;
     }
 
-    let data = { email: userEmail };
+    let data = {email: userEmail};
     setLoading(true);
     //const res = await dispatch(forgotpassword(data));
     //alert(JSON.stringify(res));
@@ -71,7 +71,7 @@ const ForgotPassword = ({ navigation }) => {
 
   return (
     <View style={styles.mainBody}>
-      <Loader loading={loading} />
+      {/* <Loader loading={loading} /> */}
       <ScrollView
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={{
@@ -81,7 +81,7 @@ const ForgotPassword = ({ navigation }) => {
         }}>
         <View>
           <KeyboardAvoidingView enabled>
-            <View style={{ alignItems: 'center' }}>
+            <View style={{alignItems: 'center'}}>
               <Image
                 source={assestImages.logo_white_background}
                 style={{
@@ -90,43 +90,60 @@ const ForgotPassword = ({ navigation }) => {
                   resizeMode: 'contain',
                   margin: 30,
                   marginBottom: 5,
-
                 }}
               />
-              <Text style={styles.logoText}>Building communities for Good</Text>
-              <Text style={{
-                margin: 40,
-                marginTop: 6,
-                marginBottom: 20,
-                fontFamily: 'Quicksand',
-                color: '#676767',
-                fontSize: 16,
-                alignSelf: 'center',
-                textAlign: 'center',
-              }}>
-                Please enter the email address you used for your Lokoro account. We will send an email for you to reset your password.
+              <Text style={styles.logoText}>Building Communities for Good</Text>
+              <Text
+                style={{
+                  margin: 40,
+                  marginTop: 6,
+                  marginBottom: 20,
+                  fontFamily: 'Quicksand',
+                  color: '#676767',
+                  fontSize: 16,
+                  alignSelf: 'center',
+                  textAlign: 'center',
+                }}>
+                Please enter the email address you used for your Lokoro account.
+                We will send an email for you to reset your password.
               </Text>
             </View>
-            <View style={styles.SectionStyle}>
-              <TextInput
-                style={styles.inputStyle}
-                onChangeText={(UserEmail) => setUserEmail(UserEmail)}
-                placeholder="Enter Email" //dummy@abc.com
-                placeholderTextColor="#8b9cb5"
-                autoCapitalize="none"
-                keyboardType="email-address"
-                returnKeyType="next"
-                underlineColorAndroid="#f000"
-                blurOnSubmit={false}
-                value={userEmail}
-              />
-            </View>
-            <TouchableOpacity
-              style={styles.buttonStyle}
-              //activeOpacity={0.5}
-              onPress={handleSubmitPress}>
-              <Text style={styles.buttonTextStyle}>Submit</Text>
-            </TouchableOpacity>
+            <Formik
+              enableReinitialize={true}
+              validationSchema={validationSchema}
+              initialValues={{email: ''}}
+              onSubmit={(values, formikActions) => {}}>
+              {({
+                values,
+                handleChange,
+                handleBlur,
+                touched,
+                errors,
+                handleSubmit,
+                isSubmitting,
+              }) => (
+                <>
+                  <View style={styles.SectionStyle}>
+                    <TextInput
+                      value={values.email}
+                      style={styles.inputStyle}
+                      onChangeText={handleChange('email')}
+                      onBlur={handleBlur('email')}
+                      placeholder="Email" //12345
+                      placeholderTextColor="#8b9cb5"
+                    />
+                  </View>
+                  {touched.email && errors.email ? (
+                    <Text style={{...styles.error}}>{errors.email}</Text>
+                  ) : null}
+                  <TouchableOpacity
+                    style={styles.buttonStyle}
+                    onPress={handleSubmitPress}>
+                    <Text style={styles.buttonTextStyle}>Submit</Text>
+                  </TouchableOpacity>
+                </>
+              )}
+            </Formik>
           </KeyboardAvoidingView>
         </View>
       </ScrollView>
@@ -157,7 +174,7 @@ const styles = StyleSheet.create({
     marginLeft: 35,
     marginRight: 35,
     margin: 10,
-    marginBottom: 0
+    marginBottom: 0,
   },
   buttonStyle: {
     backgroundColor: themedColors.default.appColor,
@@ -195,9 +212,13 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     padding: 5,
   },
-  errorTextStyle: {
-    color: 'red',
-    textAlign: 'center',
+  error: {
+    margin: 3,
+    marginBottom: 4,
+    marginLeft : 35,
+    marginRight : 35,
     fontSize: 14,
+    color: 'red',
+    fontWeight: 'bold',
   },
 });

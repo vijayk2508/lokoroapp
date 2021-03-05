@@ -89,7 +89,7 @@ const Login = ({ navigation }) => {
                   marginBottom: 5,
                 }}
               />
-              <Text style={styles.logoText}>Building communities for Good</Text>
+              <Text style={styles.logoText}>Building Communities for Good</Text>
             </View>
             <View style={styles.SectionStyle}>
               <TextInput

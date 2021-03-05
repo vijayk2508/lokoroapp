@@ -69,7 +69,7 @@ function Splash(props) {
           ) : null}
         </Animated.View>
         <Animated.View style={{ opacity: LogoText }}>
-          <Text style={styles.logoText}> Building communities for Good </Text>
+          <Text style={styles.logoText}> Building Communities for Good </Text>
         </Animated.View>
       </View>
     </>

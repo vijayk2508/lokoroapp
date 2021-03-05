@@ -16,15 +16,18 @@ import {width} from '../../constants/generalSettings';
 
 const validationSchema = Yup.object().shape({
   newPassword: Yup.string().required('Required.'),
+  // confirmPassword: Yup.string()
+  //   .when('newPassword', {
+  //     is: (val) => (val && val.length > 0 ? true : false),
+  //     then: Yup.string().oneOf(
+  //       [Yup.ref('newPassword')],
+  //       'Both password need to be the same.',
+  //     ),
+  //   })
+  //   .required('Required.'),
   confirmPassword: Yup.string()
-    .when('newPassword', {
-      is: (val) => (val && val.length > 0 ? true : false),
-      then: Yup.string().oneOf(
-        [Yup.ref('newPassword')],
-        'Both password need to be the same.',
-      ),
-    })
-    .required('Required.'),
+    .oneOf([Yup.ref('password'), null], 'Passwords must match')
+    .required('Confirm Password is required'),
 });
 
 const ResetPassword = (props) => {
