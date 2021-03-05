@@ -121,7 +121,6 @@ const FourthRegisterScreen = (props) => {
       </View>
       <TouchableOpacity
         style={styles.buttonStyle}
-        //activeOpacity={0.5}
         onPress={handleSubmitPress}>
         <Text style={styles.buttonTextStyle}>Next</Text>
       </TouchableOpacity>

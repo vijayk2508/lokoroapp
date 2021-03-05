@@ -44,13 +44,13 @@ const ForgotPassword = ({ navigation }) => {
 
     let data = { email: userEmail };
     setLoading(true);
-    const res = await dispatch(forgotpassword(data));
-    alert(JSON.stringify(res));
-    if (res.status === 'success') {
-      navigation.replace('otp');
-    } else {
-      alert(`Email is not sent to this ${userEmail}. Try Again!`);
-    }
+    //const res = await dispatch(forgotpassword(data));
+    //alert(JSON.stringify(res));
+    //if (res.status === 'success') {
+    navigation.replace('otp');
+    //} else {
+    //alert(`Email is not sent to this ${userEmail}. Try Again!`);
+    //}
     setLoading(false);
   };
 
@@ -123,7 +123,7 @@ const ForgotPassword = ({ navigation }) => {
             </View>
             <TouchableOpacity
               style={styles.buttonStyle}
-              activeOpacity={0.5}
+              //activeOpacity={0.5}
               onPress={handleSubmitPress}>
               <Text style={styles.buttonTextStyle}>Submit</Text>
             </TouchableOpacity>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -8,36 +8,42 @@ import {
 } from 'react-native';
 
 import Loader from '../../components/Loader';
-import { themedColors } from '../../constants/Colors';
+import {themedColors} from '../../constants/Colors';
 
-const OTP = (props) => {
+const ResetPassword = (props) => {
   const [loading] = useState(false);
   const [errortext, setErrortext] = useState('');
   const [resetPasswordDetails, setresetPasswordDetails] = useState({
-    newPassword: "",
-    confirmPassword: "",
-
-  })
-  const handleSubmitPress = () => { };
+    newPassword: '',
+    confirmPassword: '',
+  });
+  const handleSubmitPress = () => {};
 
   return (
-    <View>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignContent: 'center',
+        backgroundColor: 'white',
+      }}>
       <Loader loading={loading} />
-      <Text style={styles.formHeading}>Secure Your Account</Text>
-      <Text style={styles.description}>
+      <Text style={styles.formHeading}>Reset Your Password</Text>
+      {/* <Text style={styles.description}>
         For the security of your account and the safety of the Lokoro community,
         users need to perform a one-time SMS verification.
-      </Text>
+      </Text> */}
       <View style={styles.SectionStyle}>
         <TextInput
-          onChangeText={(data) => setresetPasswordDetails({ ...resetPasswordDetails, password: data })}
+          onChangeText={(data) =>
+            setresetPasswordDetails({...resetPasswordDetails, password: data})
+          }
           value={resetPasswordDetails.password}
           style={styles.inputStyle}
           placeholder="Password" //12345
           placeholderTextColor="#8b9cb5"
           keyboardType="default"
-
-          onSubmitEditing={Keyboard.dismiss}
+          //onSubmitEditing={Keyboard.dismiss}
           blurOnSubmit={false}
           secureTextEntry={true}
           underlineColorAndroid="#f000"
@@ -49,13 +55,18 @@ const OTP = (props) => {
       ) : null}
       <View style={styles.SectionStyle}>
         <TextInput
-          onChangeText={(data) => setresetPasswordDetails({ ...resetPasswordDetails, confirmPassword: data })}
+          onChangeText={(data) =>
+            setresetPasswordDetails({
+              ...resetPasswordDetails,
+              confirmPassword: data,
+            })
+          }
           value={resetPasswordDetails.confirmPassword}
           style={styles.inputStyle}
           placeholder="Re-Type Password" //12345
           placeholderTextColor="#8b9cb5"
           keyboardType="default"
-          onSubmitEditing={Keyboard.dismiss}
+          //onSubmitEditing={Keyboard.dismiss}
           blurOnSubmit={false}
           secureTextEntry={true}
           underlineColorAndroid="#f000"
@@ -69,12 +80,12 @@ const OTP = (props) => {
         style={styles.buttonStyle}
         //activeOpacity={0.5}
         onPress={handleSubmitPress}>
-        <Text style={styles.buttonTextStyle}>Get One-Time Security Code</Text>
+        <Text style={styles.buttonTextStyle}>Submit</Text>
       </TouchableOpacity>
     </View>
   );
 };
-export default OTP;
+export default ResetPassword;
 
 const styles = StyleSheet.create({
   headerStyle: {
@@ -102,7 +113,7 @@ const styles = StyleSheet.create({
     marginTop: 6,
     fontFamily: 'Quicksand',
     color: '#676767',
-    fontSize: 16,
+    fontSize: 25,
     alignSelf: 'center',
     textAlign: 'center',
     fontWeight: 'bold',
