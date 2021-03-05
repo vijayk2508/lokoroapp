@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Image,
@@ -7,8 +7,8 @@ import {
   Animated,
   ActivityIndicator,
 } from 'react-native';
-import {assestImages} from '../../assests';
-import {themedColors} from '../../constants/Colors';
+import { assestImages } from '../../assests';
+import { themedColors } from '../../constants/Colors';
 
 function Splash(props) {
   const [LogoAnime, setLogoAnime] = useState(new Animated.Value(0));
@@ -35,7 +35,7 @@ function Splash(props) {
       }, 1500);
     });
 
-    return () => {};
+    return () => { };
   }, []);
   return (
     <>
@@ -50,7 +50,7 @@ function Splash(props) {
           }}>
           <Image
             source={assestImages.Transparent_Logo}
-            style={{height: 100, width: 150}}
+            style={{ height: 100, width: 150 }}
           />
           {loadingSpinner ? (
             <ActivityIndicator
@@ -68,7 +68,7 @@ function Splash(props) {
             />
           ) : null}
         </Animated.View>
-        <Animated.View style={{opacity: LogoText}}>
+        <Animated.View style={{ opacity: LogoText }}>
           <Text style={styles.logoText}> Building communities for Good </Text>
         </Animated.View>
       </View>
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
   },
   logoText: {
     color: '#FFFFFF',
-    //fontFamily : "Goo"
+    fontFamily: "quicksand",
     fontSize: 20,
     marginTop: 0,
     fontWeight: '300',

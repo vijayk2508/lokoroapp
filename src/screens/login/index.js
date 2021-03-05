@@ -170,7 +170,7 @@ export default Login;
 const styles = StyleSheet.create({
   logoText: {
     color: themedColors.default.appColor,
-    //fontFamily : "Goo"
+    fontFamily : "quicksand",
     fontSize: 20,
     marginTop: 0,
     fontWeight: '300',

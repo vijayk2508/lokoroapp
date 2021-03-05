@@ -160,7 +160,7 @@ const FirstRegisterScreen = (props) => {
         </View>
         <TouchableOpacity
           style={styles.buttonStyle}
-          activeOpacity={0}
+          //activeOpacity={0}
           onPress={handleSubmitPress}>
           <Text style={styles.buttonTextStyle}>Next</Text>
         </TouchableOpacity>

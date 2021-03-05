@@ -18,6 +18,7 @@ import { Provider, useSelector } from 'react-redux';
 import { store } from '../action-reducers/store';
 import StartScreen from '../screens/signup/startscreen';
 import BusinessRegistration from '../screens/business-registration';
+import OTP from '../screens/forgot-password/otp';
 
 const Stack = createStackNavigator();
 
@@ -107,7 +108,7 @@ export default function AppRouter() {
       <StyleProvider style={getTheme(material)}>
         <NavigationContainer>
           <Stack.Navigator
-            initialRouteName="userBusinessRegistration"
+            initialRouteName="splash"
             screenOptions={{
               gestureEnabled: true,
               headerShown: false,
@@ -119,6 +120,11 @@ export default function AppRouter() {
             <Stack.Screen
               name="auth"
               component={Auth}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="otp"
+              component={OTP}
               options={{ headerShown: false }}
             />
             <Stack.Screen name="userscreen" component={UserScreen} />

@@ -10,20 +10,19 @@ import {
 import Loader from '../../components/Loader';
 import {themedColors} from '../../constants/Colors';
 
-const ThirdRegisterScreen = (props) => {
+const OTP = (props) => {
   const [loading] = useState(false);
 
-  const handleSubmitPress = () => {
-    if (!props.userDetail.mobile) {
-      alert('Please Provide Your Mobile For OTP.');
-      return;
-    }
-    props.updateUserDetail({}, 4);
-  };
+  const handleSubmitPress = () => {};
 
   return (
     <View>
       <Loader loading={loading} />
+      <Text style={styles.formHeading}>Secure Your Account</Text>
+      <Text style={styles.description}>
+        For the security of your account and the safety of the Lokoro community,
+        users need to perform a one-time SMS verification.
+      </Text>
       <View style={styles.SectionStyle}>
         <TextInput
           keyboardType="phone-pad"
@@ -50,9 +49,39 @@ const ThirdRegisterScreen = (props) => {
     </View>
   );
 };
-export default ThirdRegisterScreen;
+export default OTP;
 
 const styles = StyleSheet.create({
+  headerStyle: {
+    marginTop: 20,
+    marginLeft: 35,
+    marginRight: 35,
+    margin: 10,
+    backgroundColor: 'white',
+  },
+  title: {
+    fontFamily: 'Quicksand',
+    fontWeight: 'bold',
+    fontSize: 18,
+    alignSelf: 'center',
+  },
+  description: {
+    marginTop: 6,
+    fontFamily: 'Quicksand',
+    color: '#676767',
+    fontSize: 16,
+    alignSelf: 'center',
+    textAlign: 'center',
+  },
+  formHeading: {
+    marginTop: 6,
+    fontFamily: 'Quicksand',
+    color: '#676767',
+    fontSize: 16,
+    alignSelf: 'center',
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
   logoText: {
     color: themedColors.default.appColor,
     //fontFamily : "Goo"

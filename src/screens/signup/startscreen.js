@@ -123,7 +123,7 @@ const StartScreen = (props) => {
                   backgroundColor: '#F7FAFB',
                   color: '#1190CB',
                 }}
-                activeOpacity={0.5}
+                //activeOpacity={0.5}
                 onPress={() => {
                   props.navigation.navigate('userBusinessRegistration');
                 }}>

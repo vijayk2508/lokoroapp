@@ -47,7 +47,7 @@ const ForgotPassword = ({ navigation }) => {
     const res = await dispatch(forgotpassword(data));
     alert(JSON.stringify(res));
     if (res.status === 'success') {
-      navigation.replace('login');
+      navigation.replace('otp');
     } else {
       alert(`Email is not sent to this ${userEmail}. Try Again!`);
     }
