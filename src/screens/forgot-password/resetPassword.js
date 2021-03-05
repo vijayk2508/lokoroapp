@@ -5,110 +5,105 @@ import {
   View,
   Text,
   TouchableOpacity,
+  Button,
 } from 'react-native';
 
 import Loader from '../../components/Loader';
 import {themedColors} from '../../constants/Colors';
+import * as Yup from 'yup';
+import {Formik} from 'formik';
+import {width} from '../../constants/generalSettings';
+
+const validationSchema = Yup.object().shape({
+  newPassword: Yup.string().required('Required.'),
+  confirmPassword: Yup.string()
+    .when('newPassword', {
+      is: (val) => (val && val.length > 0 ? true : false),
+      then: Yup.string().oneOf(
+        [Yup.ref('newPassword')],
+        'Both password need to be the same.',
+      ),
+    })
+    .required('Required.'),
+});
 
 const ResetPassword = (props) => {
   const [loading] = useState(false);
-  const [errortext, setErrortext] = useState('');
-  const [resetPasswordDetails, setresetPasswordDetails] = useState({
-    newPassword: '',
-    confirmPassword: '',
-  });
   const handleSubmitPress = () => {};
 
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignContent: 'center',
-        backgroundColor: 'white',
-      }}>
-      <Loader loading={loading} />
-      <Text style={styles.formHeading}>Reset Your Password</Text>
-      {/* <Text style={styles.description}>
-        For the security of your account and the safety of the Lokoro community,
-        users need to perform a one-time SMS verification.
-      </Text> */}
-      <View style={styles.SectionStyle}>
-        <TextInput
-          onChangeText={(data) =>
-            setresetPasswordDetails({...resetPasswordDetails, password: data})
-          }
-          value={resetPasswordDetails.password}
-          style={styles.inputStyle}
-          placeholder="Password" //12345
-          placeholderTextColor="#8b9cb5"
-          keyboardType="default"
-          //onSubmitEditing={Keyboard.dismiss}
-          blurOnSubmit={false}
-          secureTextEntry={true}
-          underlineColorAndroid="#f000"
-          returnKeyType="next"
-        />
+    <>
+      <View style={styles.container}>
+        <Formik
+          enableReinitialize={true}
+          validationSchema={validationSchema}
+          initialValues={{newPassword: '', confirmPassword: '', name: ''}}
+          onSubmit={(values, formikActions) => {}}>
+          {({
+            values,
+            handleChange,
+            handleBlur,
+            touched,
+            errors,
+            handleSubmit,
+            isSubmitting,
+          }) => (
+            <>
+              <View
+                style={{
+                  flex: 1,
+                  marginBottom: 5,
+                  justifyContent: 'center',
+                  alignContent: 'center',
+                }}>
+                <Text style={styles.formHeading}>Reset Your Password</Text>
+                <TextInput
+                  value={values.newPassword}
+                  style={styles.inputStyle}
+                  onChangeText={handleChange('newPassword')}
+                  onBlur={handleBlur('newPassword')}
+                  placeholder="New Password" //12345
+                  placeholderTextColor="#8b9cb5"
+                />
+                {touched.newPassword && errors.newPassword ? (
+                  <Text style={styles.error}>{errors.newPassword}</Text>
+                ) : null}
+                <TextInput
+                  value={values.confirmPassword}
+                  style={styles.inputStyle}
+                  onChangeText={handleChange('confirmPassword')}
+                  onBlur={handleBlur('confirmPassword')}
+                  placeholder="Confirm Password" //12345
+                  placeholderTextColor="#8b9cb5"
+                />
+                {touched.confirmPassword && errors.confirmPassword ? (
+                  <Text style={styles.error}>{errors.confirmPassword}</Text>
+                ) : null}
+
+                {/* <Button
+                  onPress={handleSubmit}
+                  loading={isSubmitting}
+                  disabled={isSubmitting}
+                  style={{height: 40, paddingTop: 10}}
+                  title="Submit"
+                /> */}
+                <TouchableOpacity
+                  style={styles.buttonStyle}
+                  onPress={handleSubmit}
+                  disabled={isSubmitting}>
+                  <Text style={styles.buttonTextStyle}> Submit </Text>
+                </TouchableOpacity>
+              </View>
+            </>
+          )}
+        </Formik>
       </View>
-      {errortext != '' ? (
-        <Text style={styles.errorTextStyle}> {errortext} </Text>
-      ) : null}
-      <View style={styles.SectionStyle}>
-        <TextInput
-          onChangeText={(data) =>
-            setresetPasswordDetails({
-              ...resetPasswordDetails,
-              confirmPassword: data,
-            })
-          }
-          value={resetPasswordDetails.confirmPassword}
-          style={styles.inputStyle}
-          placeholder="Re-Type Password" //12345
-          placeholderTextColor="#8b9cb5"
-          keyboardType="default"
-          //onSubmitEditing={Keyboard.dismiss}
-          blurOnSubmit={false}
-          secureTextEntry={true}
-          underlineColorAndroid="#f000"
-          returnKeyType="next"
-        />
-      </View>
-      {errortext != '' ? (
-        <Text style={styles.errorTextStyle}> {errortext} </Text>
-      ) : null}
-      <TouchableOpacity
-        style={styles.buttonStyle}
-        //activeOpacity={0.5}
-        onPress={handleSubmitPress}>
-        <Text style={styles.buttonTextStyle}>Submit</Text>
-      </TouchableOpacity>
-    </View>
+    </>
   );
 };
 export default ResetPassword;
 
 const styles = StyleSheet.create({
-  headerStyle: {
-    marginTop: 20,
-    marginLeft: 35,
-    marginRight: 35,
-    margin: 10,
-    backgroundColor: 'white',
-  },
-  title: {
-    fontFamily: 'Quicksand',
-    fontWeight: 'bold',
-    fontSize: 18,
-    alignSelf: 'center',
-  },
-  description: {
-    marginTop: 6,
-    fontFamily: 'Quicksand',
-    color: '#676767',
-    fontSize: 16,
-    alignSelf: 'center',
-    textAlign: 'center',
-  },
   formHeading: {
     marginTop: 6,
     fontFamily: 'Quicksand',
@@ -116,6 +111,19 @@ const styles = StyleSheet.create({
     fontSize: 25,
     alignSelf: 'center',
     textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  error: {
+    margin: 0,
+    marginBottom: 4,
+    fontSize: 14,
+    color: 'red',
     fontWeight: 'bold',
   },
   logoText: {
@@ -148,9 +156,7 @@ const styles = StyleSheet.create({
     height: 40,
     alignItems: 'center',
     borderRadius: 6,
-    marginLeft: 35,
-    marginRight: 35,
-    marginTop: 20,
+    marginTop: 15,
     marginBottom: 25,
   },
   buttonTextStyle: {
@@ -159,13 +165,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   inputStyle: {
-    flex: 1,
-    //color: 'white',
-    paddingLeft: 15,
-    paddingRight: 15,
+    height: 50,
+    paddingHorizontal: 8,
+    width: '100%',
+    borderColor: '#EBEBEB',
     borderWidth: 1,
-    borderRadius: 6,
-    borderColor: '#dadae8',
+    backgroundColor: '#F7FAFB',
+    color: '#9FA2A4',
+    width: width - 30,
+    margin: 10,
+    marginLeft: 0,
+    marginRight: 0,
+    marginBottom: 1,
   },
   registerTextStyle: {
     //color: '#FFFFFF',

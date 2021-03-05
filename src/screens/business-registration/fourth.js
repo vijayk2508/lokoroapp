@@ -1,19 +1,14 @@
-import React, { useState } from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
-import { useDispatch } from 'react-redux';
-import { withNavigation } from 'react-navigation';
+import React, {useState} from 'react';
+import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
+import {useDispatch} from 'react-redux';
+import {withNavigation} from 'react-navigation';
 
 import Loader from '../../components/Loader';
-import { themedColors } from '../../constants/Colors';
+import {themedColors} from '../../constants/Colors';
 import BusinessHour from '../../components/BusinessHour';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import moment from "moment";
-import { businessRegister } from '../../action-reducers/business/action';
+import moment from 'moment';
+import {businessRegister} from '../../action-reducers/business/action';
 
 const data = [
   {
@@ -66,8 +61,8 @@ const FourthRegisterScreen = (props) => {
   const [show, setShow] = useState(false);
   const [editData, setEditData] = useState({
     idx: -1,
-    name: ""
-  })
+    name: '',
+  });
 
   const dispatch = useDispatch();
 
@@ -91,8 +86,8 @@ const FourthRegisterScreen = (props) => {
       championUserId,
       businessRating,
       businessStatus,
-      location
-    } = props.businessDetail
+      location,
+    } = props.businessDetail;
     const formData = new FormData();
     formData.append('businessCreatorType', businessCreatorType);
     formData.append('businessType', businessType);
@@ -102,16 +97,22 @@ const FourthRegisterScreen = (props) => {
     formData.append('businessEmail', businessEmail);
     formData.append('contactNumber', contactNumber);
     formData.append('businessAddressId', businessAddressId);
-    if (facebookLink) { formData.append('facebookLink', facebookLink); }
-    if (websiteLink) { formData.append('websiteLink', websiteLink); }
-    if (instagramLink) { formData.append('instagramLink', instagramLink); }
+    if (facebookLink) {
+      formData.append('facebookLink', facebookLink);
+    }
+    if (websiteLink) {
+      formData.append('websiteLink', websiteLink);
+    }
+    if (instagramLink) {
+      formData.append('instagramLink', instagramLink);
+    }
     formData.append('businessHour', businessHourId);
     formData.append('industryId', industryId);
     formData.append('ownerUserId', ownerUserId);
     formData.append('championUserId', championUserId);
-    formData.append("businessRating", businessRating)
-    formData.append("businessStatus", businessStatus)
-    formData.append("location", location)
+    formData.append('businessRating', businessRating);
+    formData.append('businessStatus', businessStatus);
+    formData.append('location', location);
     setLoading(true);
     const res = await dispatch(businessRegister(formData));
     if (res.status === 'success') {
@@ -126,12 +127,11 @@ const FourthRegisterScreen = (props) => {
         return;
       }
     }
-
   };
 
   function onChange(data, idx) {
     let tmpData = [...businessHrs];
-    tmpData[idx] = { ...tmpData[idx], ...data };
+    tmpData[idx] = {...tmpData[idx], ...data};
     setbusinessHrs(tmpData);
     setShow(false);
   }
@@ -139,15 +139,19 @@ const FourthRegisterScreen = (props) => {
   const onChangeDateTime = (event) => {
     setShow(false);
     let tmpData = [...businessHrs];
-    tmpData[editData.idx] = { ...tmpData[editData.idx], [editData.name]: moment(event.nativeEvent.timestamp).format('h:mm a') };
+    tmpData[editData.idx] = {
+      ...tmpData[editData.idx],
+      [editData.name]: moment(event.nativeEvent.timestamp).format('h:mm a'),
+    };
     setbusinessHrs([...tmpData]);
   };
 
   const showTimepicker = (data) => {
     setShow(true);
     setEditData({
-      idx: data.idx, name: data.type
-    })
+      idx: data.idx,
+      name: data.type,
+    });
   };
 
   return (
@@ -161,10 +165,10 @@ const FourthRegisterScreen = (props) => {
           alignItems: 'center',
           alignContent: 'center',
         }}>
-        <View style={{ flexDirection: 'column', width: 70 }}>
+        <View style={{flexDirection: 'column', width: 70}}>
           <Text>From</Text>
         </View>
-        <View style={{ flexDirection: 'column', width: 60 }}>
+        <View style={{flexDirection: 'column', width: 60}}>
           <Text>To</Text>
         </View>
       </View>
@@ -179,8 +183,7 @@ const FourthRegisterScreen = (props) => {
             key={idx}
             onChange={(data) => onChange(data, idx)}
             showTimepicker={showTimepicker}
-
-          ></BusinessHour>
+          />
         );
       })}
       <TouchableOpacity
@@ -190,14 +193,16 @@ const FourthRegisterScreen = (props) => {
         <Text style={styles.buttonTextStyle}>Finish</Text>
       </TouchableOpacity>
 
-      {show === true ? <DateTimePicker
-        //testID="dateTimePicker"
-        value={new Date()}
-        mode={"time"}
-        is24Hour={false}
-        display="default"
-        onChange={onChangeDateTime}
-      /> : null}
+      {show === true ? (
+        <DateTimePicker
+          //testID="dateTimePicker"
+          value={new Date()}
+          mode={'time'}
+          is24Hour={false}
+          display="default"
+          onChange={onChangeDateTime}
+        />
+      ) : null}
     </View>
   );
 };
