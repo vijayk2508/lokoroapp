@@ -15,7 +15,12 @@ import {Formik} from 'formik';
 import {width} from '../../constants/generalSettings';
 
 const validationSchema = Yup.object().shape({
-  newPassword: Yup.string().required('Required.'),
+  newPassword: Yup.string()
+    .matches(
+      '^(?=.*[A-Za-z])(?=.*d)(?=.*[@$!%*#?&])[A-Za-zd@$!%*#?&]{8,}$',
+      'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character',
+    )
+    .required('Required.'),
   // confirmPassword: Yup.string()
   //   .when('newPassword', {
   //     is: (val) => (val && val.length > 0 ? true : false),
@@ -52,51 +57,43 @@ const ResetPassword = (props) => {
             isSubmitting,
           }) => (
             <>
-              <View
-                style={{
-                  flex: 1,
-                  marginBottom: 5,
-                  justifyContent: 'center',
-                  alignContent: 'center',
-                }}>
-                <Text style={styles.formHeading}>Reset Your Password</Text>
-                <TextInput
-                  value={values.newPassword}
-                  style={styles.inputStyle}
-                  onChangeText={handleChange('newPassword')}
-                  onBlur={handleBlur('newPassword')}
-                  placeholder="New Password" //12345
-                  placeholderTextColor="#8b9cb5"
-                />
-                {touched.newPassword && errors.newPassword ? (
-                  <Text style={styles.error}>{errors.newPassword}</Text>
-                ) : null}
-                <TextInput
-                  value={values.confirmPassword}
-                  style={styles.inputStyle}
-                  onChangeText={handleChange('confirmPassword')}
-                  onBlur={handleBlur('confirmPassword')}
-                  placeholder="Confirm Password" //12345
-                  placeholderTextColor="#8b9cb5"
-                />
-                {touched.confirmPassword && errors.confirmPassword ? (
-                  <Text style={styles.error}>{errors.confirmPassword}</Text>
-                ) : null}
+              <Text style={styles.formHeading}>Reset Your Password</Text>
+              <TextInput
+                value={values.newPassword}
+                style={styles.inputStyle}
+                onChangeText={handleChange('newPassword')}
+                onBlur={handleBlur('newPassword')}
+                placeholder="New Password" //12345
+                placeholderTextColor="#8b9cb5"
+              />
+              {touched.newPassword && errors.newPassword ? (
+                <Text style={styles.error}>{errors.newPassword}</Text>
+              ) : null}
+              <TextInput
+                value={values.confirmPassword}
+                style={styles.inputStyle}
+                onChangeText={handleChange('confirmPassword')}
+                onBlur={handleBlur('confirmPassword')}
+                placeholder="Confirm Password" //12345
+                placeholderTextColor="#8b9cb5"
+              />
+              {touched.confirmPassword && errors.confirmPassword ? (
+                <Text style={styles.error}>{errors.confirmPassword}</Text>
+              ) : null}
 
-                {/* <Button
+              {/* <Button
                   onPress={handleSubmit}
                   loading={isSubmitting}
                   disabled={isSubmitting}
                   style={{height: 40, paddingTop: 10}}
                   title="Submit"
                 /> */}
-                <TouchableOpacity
-                  style={styles.buttonStyle}
-                  onPress={handleSubmit}
-                  disabled={isSubmitting}>
-                  <Text style={styles.buttonTextStyle}> Submit </Text>
-                </TouchableOpacity>
-              </View>
+              <TouchableOpacity
+                style={styles.buttonStyle}
+                onPress={handleSubmit}
+                disabled={isSubmitting}>
+                <Text style={styles.buttonTextStyle}> Submit </Text>
+              </TouchableOpacity>
             </>
           )}
         </Formik>
@@ -123,11 +120,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   error: {
-    margin: 0,
-    marginBottom: 4,
+    //margin: 0,
+    marginTop: 5,
+    marginLeft: 15,
+    marginRight: 0,
+    margin: 10,
     fontSize: 14,
     color: 'red',
     fontWeight: 'bold',
+    alignSelf : "flex-start"
   },
   logoText: {
     color: themedColors.default.appColor,

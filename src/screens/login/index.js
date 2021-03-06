@@ -75,289 +75,109 @@ const Login = ({navigation}) => {
             justifyContent: 'center',
             alignContent: 'center',
           }}>
-          <View>
-            <KeyboardAvoidingView enabled>
-              <View style={{alignItems: 'center'}}>
-                <Image
-                  source={assestImages.logo_white_background}
-                  style={{
-                    width: '50%',
-                    height: 100,
-                    resizeMode: 'contain',
-                    margin: 30,
-                    marginBottom: 5,
-                  }}
-                />
-                <Text style={styles.logoText}>
-                  Building Communities for Good
-                </Text>
-              </View>
+          <KeyboardAvoidingView enabled>
+            <View style={{alignItems: 'center'}}>
+              <Image
+                source={assestImages.logo_white_background}
+                style={{
+                  width: '50%',
+                  height: 100,
+                  resizeMode: 'contain',
+                  margin: 30,
+                  marginBottom: 5,
+                }}
+              />
+              <Text style={styles.logoText}>Building Communities for Good</Text>
+            </View>
+            <Formik
+              enableReinitialize={true}
+              validationSchema={validationSchema}
+              initialValues={{email: '', password: ''}}
+              onSubmit={(values, formikActions) => {
+                handleSubmitPress(values);
+                formikActions.setSubmitting(false);
+              }}>
+              {({
+                values,
+                handleChange,
+                handleBlur,
+                touched,
+                errors,
+                handleSubmit,
+                isSubmitting,
+              }) => (
+                <>
+                  <View>
+                    <TextInput
+                      value={values.email}
+                      style={styles.inputStyle}
+                      onChangeText={handleChange('email')}
+                      onBlur={handleBlur('email')}
+                      placeholder="Enter Email"
+                      placeholderTextColor="#8b9cb5"
+                      autoCapitalize="none"
+                      keyboardType="email-address"
+                      returnKeyType="next"
+                      onSubmitEditing={() =>
+                        passwordInputRef.current &&
+                        passwordInputRef.current.focus()
+                      }
+                      underlineColorAndroid="#f000"
+                      blurOnSubmit={false}
+                    />
+                    {touched.email && errors.email ? (
+                      <Text style={styles.error}>{errors.email}</Text>
+                    ) : null}
+                    <TextInput
+                      value={values.password}
+                      style={styles.inputStyle}
+                      onChangeText={handleChange('password')}
+                      onBlur={handleBlur('password')}
+                      placeholder="Enter Password" //12345
+                      placeholderTextColor="#8b9cb5"
+                      keyboardType="default"
+                      ref={passwordInputRef}
+                      onSubmitEditing={Keyboard.dismiss}
+                      blurOnSubmit={false}
+                      secureTextEntry={true}
+                      underlineColorAndroid="#f000"
+                      returnKeyType="next"
+                    />
+                    {touched.password && errors.password ? (
+                      <Text style={styles.error}>{errors.password}</Text>
+                    ) : null}
 
-              <Formik
-                enableReinitialize={true}
-                validationSchema={validationSchema}
-                initialValues={{email: '', password: ''}}
-                onSubmit={(values, formikActions) => {
-                  handleSubmitPress(values);
-                  formikActions.setSubmitting(false);
-                }}>
-                {({
-                  values,
-                  handleChange,
-                  handleBlur,
-                  touched,
-                  errors,
-                  handleSubmit,
-                  isSubmitting,
-                }) => (
-                  <>
-                    <View>
-                      <TextInput
-                        value={values.email}
-                        style={styles.inputStyle}
-                        onChangeText={handleChange('email')}
-                        onBlur={handleBlur('email')}
-                        placeholder="Enter Email"
-                        placeholderTextColor="#8b9cb5"
-                        autoCapitalize="none"
-                        keyboardType="email-address"
-                        returnKeyType="next"
-                        onSubmitEditing={() =>
-                          passwordInputRef.current &&
-                          passwordInputRef.current.focus()
-                        }
-                        underlineColorAndroid="#f000"
-                        blurOnSubmit={false}
-                      />
-                      {touched.email && errors.email ? (
-                        <Text style={styles.error}>{errors.email}</Text>
-                      ) : null}
-                      <TextInput
-                        value={values.password}
-                        style={styles.inputStyle}
-                        onChangeText={handleChange('password')}
-                        onBlur={handleBlur('password')}
-                        placeholder="Enter Password" //12345
-                        placeholderTextColor="#8b9cb5"
-                        keyboardType="default"
-                        ref={passwordInputRef}
-                        onSubmitEditing={Keyboard.dismiss}
-                        blurOnSubmit={false}
-                        secureTextEntry={true}
-                        underlineColorAndroid="#f000"
-                        returnKeyType="next"
-                      />
-                      {touched.password && errors.password ? (
-                        <Text style={styles.error}>{errors.password}</Text>
-                      ) : null}
+                    <Text
+                      style={{color: '#1190CB', marginTop: 2}}
+                      onPress={() => navigation.navigate('forgotpassword')}>
+                      Forgot Password?
+                    </Text>
 
+                    <TouchableOpacity
+                      style={styles.buttonStyle}
+                      onPress={handleSubmit}
+                      disabled={isSubmitting}>
+                      <Text style={styles.buttonTextStyle}> Login </Text>
+                    </TouchableOpacity>
+                    <Text style={styles.registerTextStyle}>OR</Text>
+                    <TouchableOpacity
+                      style={{...styles.buttonStyle, backgroundColor: 'none'}}
+                      onPress={() => navigation.navigate('signUp')}>
                       <Text
-                        style={{color: '#1190CB', marginTop : 2}}
-                        onPress={() => navigation.navigate('forgotpassword')}>
-                        Forgot Password?
+                        style={{
+                          ...styles.registerTextStyle,
+                          color: themedColors.default.appColor,
+                        }}>
+                        Join Lokoro
                       </Text>
-
-                      <TouchableOpacity
-                        style={styles.buttonStyle}
-                        onPress={handleSubmit}
-                        disabled={isSubmitting}>
-                        <Text style={styles.buttonTextStyle}> Login </Text>
-                      </TouchableOpacity>
-                      <Text style={styles.registerTextStyle}>OR</Text>
-                      <TouchableOpacity
-                        style={{...styles.buttonStyle, backgroundColor: 'none'}}
-                        onPress={() => navigation.navigate('signUp')}>
-                        <Text
-                          style={{
-                            ...styles.registerTextStyle,
-                            color: themedColors.default.appColor,
-                          }}>
-                          Join Lokoro
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
-                  </>
-                )}
-              </Formik>
-
-              {/* <View style={styles.SectionStyle}>
-                <TextInput
-                  style={styles.inputStyle}
-                  onChangeText={(UserEmail) => setUserEmail(UserEmail)}
-                  placeholder="Enter Email" //dummy@abc.com
-                  placeholderTextColor="#8b9cb5"
-                  autoCapitalize="none"
-                  keyboardType="email-address"
-                  returnKeyType="next"
-                  onSubmitEditing={() =>
-                    passwordInputRef.current && passwordInputRef.current.focus()
-                  }
-                  underlineColorAndroid="#f000"
-                  blurOnSubmit={false}
-                  value={userEmail}
-                />
-              </View>
-              <View style={styles.SectionStyle}>
-                <TextInput
-                  value={userPassword}
-                  style={styles.inputStyle}
-                  onChangeText={(UserPassword) => setUserPassword(UserPassword)}
-                  placeholder="Enter Password" //12345
-                  placeholderTextColor="#8b9cb5"
-                  keyboardType="default"
-                  ref={passwordInputRef}
-                  onSubmitEditing={Keyboard.dismiss}
-                  blurOnSubmit={false}
-                  secureTextEntry={true}
-                  underlineColorAndroid="#f000"
-                  returnKeyType="next"
-                />
-              </View>
-              {errortext != '' ? (
-                <Text style={styles.errorTextStyle}> {errortext} </Text>
-              ) : null}
-              <View
-                style={{
-                  ...styles.SectionStyle,
-                  paddingTop: 0,
-                  marginTop: 0,
-                  marginBottom: 0,
-                  alignSelf: 'flex-start',
-                }}>
-                <Text
-                  style={{color: '#1190CB', alignSelf: 'center'}}
-                  onPress={() => navigation.navigate('forgotpassword')}>
-                  Forgot Password?
-                </Text>
-              </View>
-
-              <TouchableOpacity
-                style={styles.buttonStyle}
-                activeOpacity={0.5}
-                onPress={handleSubmitPress}>
-                <Text style={styles.buttonTextStyle}>LOGIN</Text>
-              </TouchableOpacity>
-            
-              <Text style={styles.registerTextStyle}>OR</Text>
-              <TouchableOpacity
-                style={{...styles.buttonStyle, backgroundColor: 'none'}}
-                activeOpacity={0.5}
-                onPress={() => navigation.navigate('signUp')}>
-                <Text
-                  style={{
-                    ...styles.registerTextStyle,
-                    color: themedColors.default.appColor,
-                  }}>
-                  Join Lokoro
-                </Text>
-              </TouchableOpacity>
-             */}
-            </KeyboardAvoidingView>
-          </View>
+                    </TouchableOpacity>
+                  </View>
+                </>
+              )}
+            </Formik>
+          </KeyboardAvoidingView>
         </ScrollView>
       </View>
-
-      {/* <View style={styles.mainBody}>
-        <Loader loading={loading} />
-        <ScrollView
-          keyboardShouldPersistTaps="handled"
-          contentContainerStyle={{
-            flex: 1,
-            justifyContent: 'center',
-            alignContent: 'center',
-          }}>
-          <View>
-            <KeyboardAvoidingView enabled>
-              <View style={{alignItems: 'center'}}>
-                <Image
-                  source={assestImages.logo_white_background}
-                  style={{
-                    width: '50%',
-                    height: 100,
-                    resizeMode: 'contain',
-                    margin: 30,
-                    marginBottom: 5,
-                  }}
-                />
-                <Text style={styles.logoText}>
-                  Building Communities for Good
-                </Text>
-              </View>
-              <View style={styles.SectionStyle}>
-                <TextInput
-                  style={styles.inputStyle}
-                  onChangeText={(UserEmail) => setUserEmail(UserEmail)}
-                  placeholder="Enter Email" //dummy@abc.com
-                  placeholderTextColor="#8b9cb5"
-                  autoCapitalize="none"
-                  keyboardType="email-address"
-                  returnKeyType="next"
-                  onSubmitEditing={() =>
-                    passwordInputRef.current && passwordInputRef.current.focus()
-                  }
-                  underlineColorAndroid="#f000"
-                  blurOnSubmit={false}
-                  value={userEmail}
-                />
-              </View>
-              <View style={styles.SectionStyle}>
-                <TextInput
-                  value={userPassword}
-                  style={styles.inputStyle}
-                  onChangeText={(UserPassword) => setUserPassword(UserPassword)}
-                  placeholder="Enter Password" //12345
-                  placeholderTextColor="#8b9cb5"
-                  keyboardType="default"
-                  ref={passwordInputRef}
-                  onSubmitEditing={Keyboard.dismiss}
-                  blurOnSubmit={false}
-                  secureTextEntry={true}
-                  underlineColorAndroid="#f000"
-                  returnKeyType="next"
-                />
-              </View>
-              {errortext != '' ? (
-                <Text style={styles.errorTextStyle}> {errortext} </Text>
-              ) : null}
-              <View
-                style={{
-                  ...styles.SectionStyle,
-                  paddingTop: 0,
-                  marginTop: 0,
-                  marginBottom: 0,
-                  alignSelf: 'flex-start',
-                }}>
-                <Text
-                  style={{color: '#1190CB', alignSelf: 'center'}}
-                  onPress={() => navigation.navigate('forgotpassword')}>
-                  Forgot Password?
-                </Text>
-              </View>
-
-              <TouchableOpacity
-                style={styles.buttonStyle}
-                activeOpacity={0.5}
-                onPress={handleSubmitPress}>
-                <Text style={styles.buttonTextStyle}>LOGIN</Text>
-              </TouchableOpacity>
-              <Text style={styles.registerTextStyle}>OR</Text>
-              <TouchableOpacity
-                style={{...styles.buttonStyle, backgroundColor: 'none'}}
-                activeOpacity={0.5}
-                onPress={() => navigation.navigate('signUp')}>
-                <Text
-                  style={{
-                    ...styles.registerTextStyle,
-                    color: themedColors.default.appColor,
-                  }}>
-                  Join Lokoro
-                </Text>
-              </TouchableOpacity>
-            </KeyboardAvoidingView>
-          </View>
-        </ScrollView>
-      </View>
-   */}
     </>
   );
 };

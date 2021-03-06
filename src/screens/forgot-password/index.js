@@ -36,14 +36,9 @@ const validationSchema = Yup.object().shape({
 });
 
 const ForgotPassword = ({navigation}) => {
-  const handleSubmitPress = async () => {
-    if (!userEmail) {
-      alert('Please fill Email');
-      return;
-    }
-
-    let data = {email: userEmail};
-    setLoading(true);
+  const handleSubmitPress = () => {
+    // let data = {email: userEmail};
+    //setLoading(true);
     //const res = await dispatch(forgotpassword(data));
     //alert(JSON.stringify(res));
     //if (res.status === 'success') {
@@ -51,7 +46,7 @@ const ForgotPassword = ({navigation}) => {
     //} else {
     //alert(`Email is not sent to this ${userEmail}. Try Again!`);
     //}
-    setLoading(false);
+    //setLoading(false);
   };
 
   function handleBackButtonClick() {
@@ -215,8 +210,8 @@ const styles = StyleSheet.create({
   error: {
     margin: 3,
     marginBottom: 4,
-    marginLeft : 35,
-    marginRight : 35,
+    marginLeft: 35,
+    marginRight: 35,
     fontSize: 14,
     color: 'red',
     fontWeight: 'bold',

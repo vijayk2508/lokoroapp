@@ -19,15 +19,10 @@ import {assestImages} from '../../assests';
 
 import Loader from '../../components/Loader';
 import {themedColors} from '../../constants/Colors';
-
+import {withNavigation} from 'react-navigation';
 const FirstRegisterScreen = (props) => {
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
-
-  // useEffect(() => {
-  //   setEmail(props.userDetail.email);
-  //   setIsEnabled(props.userDetail.isEnabled);
-  // }, [props.userDetail]);
 
   const handleSubmitPress = async () => {
     setErrortext('');
@@ -130,7 +125,11 @@ const FirstRegisterScreen = (props) => {
           }}>
           <Text style={{alignSelf: 'center', fontWeight: 'bold'}}>
             I have read and agree to the{' '}
-            <Text style={{color: '#1190CB'}}>terms and conditions</Text>
+            <Text
+              style={{color: '#1190CB'}}
+              onPress={props.navigation.navigate('termcondition')}>
+              terms and conditions
+            </Text>
           </Text>
         </View>
 
@@ -169,7 +168,7 @@ const FirstRegisterScreen = (props) => {
   );
 };
 
-export default FirstRegisterScreen;
+export default withNavigation(FirstRegisterScreen);
 
 const styles = StyleSheet.create({
   logoText: {

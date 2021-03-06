@@ -20,6 +20,7 @@ import StartScreen from '../screens/signup/startscreen';
 import BusinessRegistration from '../screens/business-registration';
 import OTP from '../screens/forgot-password/otp';
 import ResetPassword from '../screens/forgot-password/resetPassword';
+import TermCondition from '../screens/term&condition';
 
 const Stack = createStackNavigator();
 
@@ -119,6 +120,8 @@ export default function AppRouter() {
             //headerMode="float"
           >
             <Stack.Screen name="splash" component={Splash} />
+            <Stack.Screen name="termcondition" component={TermCondition} />
+            
             <Stack.Screen
               name="auth"
               component={Auth}
