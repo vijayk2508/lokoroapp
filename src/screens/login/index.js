@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   BackHandler,
+  Alert,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useDispatch} from 'react-redux';
@@ -34,26 +35,17 @@ const Login = ({navigation}) => {
 
   const passwordInputRef = createRef();
 
-  const handleSubmitPress = async () => {
-    // setErrortext('');
-    // if (!userEmail) {
-    //   alert('Please fill Email');
-    //   return;
-    // }
-    // if (!userPassword) {
-    //   alert('Please fill Password');
-    //   return;
-    // }
+  const handleSubmitPress = async (values) => {
+    let data = {email: values.email, password: values.password};
 
-    // let data = { email: userEmail, password: userPassword };
-    // setLoading(true);
-    // const res = await dispatch(login(data));
-    // if (res.status === 'success') {
-    //   await AsyncStorage.setItem('user_id', JSON.stringify(res.data));
-    //   await navigation.replace('userscreen', { data: res.data });
-    // } else {
-    //   alert('Username and password are incorrect.');
-    // }
+    setLoading(true);
+    const res = await dispatch(login(data));
+    if (res.status === 'success') {
+      await AsyncStorage.setItem('user_id', JSON.stringify(res.data));
+      await navigation.replace('userscreen', {data: res.data});
+    } else {
+      Alert.alert('Username and password are incorrect.');
+    }
     setLoading(false);
   };
 
@@ -105,7 +97,10 @@ const Login = ({navigation}) => {
                 enableReinitialize={true}
                 validationSchema={validationSchema}
                 initialValues={{email: '', password: ''}}
-                onSubmit={(values, formikActions) => {}}>
+                onSubmit={(values, formikActions) => {
+                  handleSubmitPress(values);
+                  formikActions.setSubmitting(false);
+                }}>
                 {({
                   values,
                   handleChange,
@@ -155,6 +150,13 @@ const Login = ({navigation}) => {
                       {touched.password && errors.password ? (
                         <Text style={styles.error}>{errors.password}</Text>
                       ) : null}
+
+                      <Text
+                        style={{color: '#1190CB', marginTop : 2}}
+                        onPress={() => navigation.navigate('forgotpassword')}>
+                        Forgot Password?
+                      </Text>
+
                       <TouchableOpacity
                         style={styles.buttonStyle}
                         onPress={handleSubmit}
