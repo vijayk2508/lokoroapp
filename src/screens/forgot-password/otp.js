@@ -93,6 +93,16 @@ const FourthRegisterScreen = (props) => {
         backgroundColor: 'white',
       }}>
       <Loader loading={loading} />
+      <Image
+        source={assestImages.logo_white_background}
+        style={{
+          width: '80%',
+          height: 100,
+          resizeMode: 'contain',
+          margin: 30,
+          marginBottom: 5,
+        }}
+      />
       <Text style={styles.formHeading}>OTP Verification</Text>
       <Text style={styles.description}>
         For the security of your account and the safety of the Lokoro community,

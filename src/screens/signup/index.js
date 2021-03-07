@@ -1,4 +1,6 @@
 import React, {useEffect, useState} from 'react';
+import {Image} from 'react-native';
+
 import {
   ScrollView,
   View,
@@ -6,19 +8,69 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
+  ImageBackground,
+  Dimensions,
 } from 'react-native';
 import {SliderBox} from 'react-native-image-slider-box';
+import SwiperFlatList from 'react-native-swiper-flatlist';
 import {useDispatch, useSelector} from 'react-redux';
 import {updateStepIndex} from '../../action-reducers/multisteps/action';
 
 import {assestImages} from '../../assests';
 import {themedColors} from '../../constants/Colors';
+import CustomPagination from './CustomPagination';
 import FirstRegisterScreen from './first';
 import FourthRegisterScreen from './fourth';
 import SecondRegisterScreen from './second';
 import ThirdRegisterScreen from './third';
 
-const sliderImages = [assestImages.img1, assestImages.img2];
+const {width} = Dimensions.get('window');
+const newImage = [assestImages.img1, assestImages.img2];
+
+const dimensions = Dimensions.get('window');
+let imageHeight = Math.round((dimensions.width * 9) / 16);
+let imageWidth = dimensions.width;
+
+const swiperData = [
+  {
+    image: assestImages.img1,
+    title: 'Buy and Sell with Neighbours',
+    description: `List items you want to sell, rent, share or giveaway to your neighbours. Contribute to a greener planet by passing on pre-loved items you no longer need to others!`,
+  },
+  {
+    image: assestImages.img2,
+    title: 'Post and Find Jobs',
+    description: `Whether you need help with an urgent delivery or a babysitter for your kids, find someone you can trust from the neighbourhood on Lokoro!`,
+  },
+  {
+    image: assestImages.img3,
+    title: 'Meet New Friends',
+    description: `Love to play sports, solve puzzles or go café hopping? Find new friends in your neighbourhood who share common Interests and passions!`,
+  },
+];
+
+{
+  /* <View style={styles.headerStyle}>
+              <Text style={styles.title}> Meet New Friends </Text>
+              <Text style={styles.description}>
+                Love to play sports, solve puzzles or go café hopping? Find new
+                friends in your neighbourhood who share common Interests and
+                passions!
+              </Text>
+            </View>
+            <View
+              style={{
+                borderBottomColor: '#E5E5E8',
+                borderBottomWidth: 1,
+                margin: 15,
+                marginLeft: 70,
+                marginRight: 70,
+              }}
+            /> */
+}
+//const newImage = [lion, fox, cat, background, element];
+// const image = (index) => ({image: newImage[index % newImage.length]});
+// const items = Array.from(Array(5)).map((_, index) => image(index));
 
 const initialState = {
   mobile: '',
@@ -95,14 +147,14 @@ function SignUp(props) {
       case 1:
         return (
           <>
-            <View style={styles.headerStyle}>
+            {/* <View style={styles.headerStyle}>
               <Text style={styles.title}> Buy and Sell with Neighbours </Text>
               <Text style={styles.description}>
                 List items you want to sell, rent, share or giveaway to your
                 neighbours. Contribute to a greener planet by passing on
                 pre-loved items you no longer need to others!
               </Text>
-            </View>
+            </View> */}
             <View
               style={{
                 borderBottomColor: '#E5E5E8',
@@ -122,14 +174,14 @@ function SignUp(props) {
       case 2:
         return (
           <>
-            <View style={styles.headerStyle}>
+            {/* <View style={styles.headerStyle}>
               <Text style={styles.title}> Post and Find Jobs </Text>
               <Text style={styles.description}>
                 Whether you need help with an urgent delivery or a babysitter
                 for your kids, find someone you can trust from the neighbourhood
                 on Lokoro!
               </Text>
-            </View>
+            </View> */}
             <View
               style={{
                 borderBottomColor: '#E5E5E8',
@@ -149,7 +201,7 @@ function SignUp(props) {
       case 3:
         return (
           <>
-            <View style={styles.headerStyle}>
+            {/* <View style={styles.headerStyle}>
               <Text style={styles.title}> Meet New Friends </Text>
               <Text style={styles.description}>
                 Love to play sports, solve puzzles or go café hopping? Find new
@@ -165,7 +217,7 @@ function SignUp(props) {
                 marginLeft: 70,
                 marginRight: 70,
               }}
-            />
+            /> */}
 
             <Text style={styles.formHeading}>Secure Your Account</Text>
             <Text style={styles.description}>
@@ -180,7 +232,7 @@ function SignUp(props) {
       case 4:
         return (
           <>
-            <View style={styles.headerStyle}>
+            {/* <View style={styles.headerStyle}>
               <Text style={styles.title}> Meet New Friends </Text>
               <Text style={styles.description}>
                 Love to play sports, solve puzzles or go café hopping? Find new
@@ -197,7 +249,7 @@ function SignUp(props) {
                 marginRight: 70,
               }}
             />
-
+ */}
             <Text style={styles.formHeading}>Almost Done!</Text>
             <Text
               style={{
@@ -227,6 +279,7 @@ function SignUp(props) {
     }
     return 1;
   }
+
   return (
     <KeyboardAvoidingView
       style={{flex: 1, backgroundColor: 'white'}}
@@ -242,7 +295,48 @@ function SignUp(props) {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <SliderBox
+          <SwiperFlatList
+            autoplay
+            autoplayDelay={2}
+            // index={3}
+            autoplayLoop
+            // autoplayInvertDirection
+            data={swiperData}
+            renderItem={({item, index}) => (
+              <>
+                <ImageBackground
+                  source={item.image}
+                  style={{
+                    ...styles.image,
+                  }}>
+                  <View
+                    style={{
+                      ...styles.headerStyle,
+                    }}>
+                    <Text style={{...styles.title}}> {item.title} </Text>
+                    <Text style={{...styles.description}}>
+                      {item.description}
+                    </Text>
+                  </View>
+                </ImageBackground>
+              </>
+            )}
+            contentContainerStyle={{
+              height: imageHeight + 133,
+            }}
+            e2eID="swiper_1"
+          />
+          <View
+            style={{
+              borderBottomColor: '#E5E5E8',
+              borderBottomWidth: 1,
+              // margin: 15,
+              marginLeft: 70,
+              marginRight: 70,
+              // marginTop : 0
+            }}
+          />
+          {/* <SliderBox
             //ImageComponent={FastImage}
             images={sliderImages}
             sliderBoxHeight={200}
@@ -274,9 +368,13 @@ function SignUp(props) {
               margin: 0,
               backgroundColor: 'rgba(128, 128, 128, 0.92)',
             }}
-            ImageComponentStyle={{borderRadius: 15, width: '97%', marginTop: 5}}
+            ImageComponentStyle={{
+              borderRadius: 15,
+              width: '97%',
+              marginTop: 5,
+            }}
             imageLoadingColor="#2196F3"
-          />
+          /> */}
         </View>
         {steps()}
       </ScrollView>
@@ -292,7 +390,11 @@ const styles = StyleSheet.create({
     marginLeft: 35,
     marginRight: 35,
     margin: 10,
-    backgroundColor: 'white',
+    marginBottom: 0,
+    //backgroundColor: 'white',
+    backgroundColor: 'transparent',
+    marginTop: imageHeight + 24,
+    marginBottom: 0,
   },
   title: {
     fontFamily: 'Quicksand',
@@ -316,5 +418,17 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     textAlign: 'center',
     fontWeight: 'bold',
+  },
+  image: {
+    width: imageWidth,
+    height: imageHeight,
+    resizeMode: 'center',
+    //resizeMode: '',
+    //justifyContent: 'flex-end',
+  },
+  text: {
+    fontSize: width * 0.1,
+    color: 'black',
+    textAlign: 'center',
   },
 });

@@ -74,7 +74,7 @@ const ResetPassword = (props) => {
                 style={styles.inputStyle}
                 onChangeText={handleChange('confirmPassword')}
                 onBlur={handleBlur('confirmPassword')}
-                placeholder="Confirm Password" //12345
+                placeholder="Re- Type Password" //12345
                 placeholderTextColor="#8b9cb5"
               />
               {touched.confirmPassword && errors.confirmPassword ? (

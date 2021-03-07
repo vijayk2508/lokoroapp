@@ -19,7 +19,7 @@ import {assestImages} from '../../assests';
 
 import Loader from '../../components/Loader';
 import {themedColors} from '../../constants/Colors';
-import {withNavigation} from 'react-navigation';
+
 const FirstRegisterScreen = (props) => {
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
@@ -127,7 +127,8 @@ const FirstRegisterScreen = (props) => {
             I have read and agree to the{' '}
             <Text
               style={{color: '#1190CB'}}
-              onPress={props.navigation.navigate('termcondition')}>
+              //onPress={props.navigation.navigate('termcondition')}
+            >
               terms and conditions
             </Text>
           </Text>
@@ -168,7 +169,7 @@ const FirstRegisterScreen = (props) => {
   );
 };
 
-export default withNavigation(FirstRegisterScreen);
+export default FirstRegisterScreen;
 
 const styles = StyleSheet.create({
   logoText: {
