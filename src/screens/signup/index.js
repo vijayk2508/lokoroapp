@@ -75,16 +75,16 @@ const swiperData = [
 
 const initialState = {
   mobile: '',
-  email: '',
-  password: '',
+  email: 'test@gmail.com',
+  password: 'Test@123',
   displayName: '',
   userImage: '',
   roleId: '',
   address: {latitude: 0, longitude: 0},
   deviceId: '',
   notification: false,
-  term: false,
-  confirmPassword: '',
+  term: true,
+  confirmPassword: 'Test@123',
 };
 
 function SignUp(props) {

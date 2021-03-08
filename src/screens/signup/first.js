@@ -26,23 +26,24 @@ import Button from '../../components/Button';
 import {commonStyle} from '../../constants/generalSettings';
 
 const validationSchema = Yup.object().shape({
-  email: Yup.string().email('Email is invalid').required(),
+  email: Yup.string().email('Email is invalid').required(''),
   password: Yup.string()
-    .required()
+    .required('')
     .matches(
       /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
       'Password must contain at least 8 characters, one uppercase, one number and one special case character',
     ),
   confirmPassword: Yup.string()
-    .oneOf([Yup.ref('password'), null], 'Passwords must match.')
-    .required(),
+    .required('')
+    .oneOf([Yup.ref('password'), null], 'Passwords must match.'),
+  term: Yup.bool().oneOf([true], 'T & C must be checked'),
 });
 
 const FirstRegisterScreen = (props) => {
   const [loading, setLoading] = useState(false);
   // const [errortext, setErrortext] = useState('');
 
-  const handleSubmitPress = async () => {
+  const handleSubmitPress = async (values) => {
     // if (!props.userDetail.email) {
     //   alert('Please fill Email');
     //   return;
@@ -66,7 +67,7 @@ const FirstRegisterScreen = (props) => {
     //   return;
     // }
     setLoading(true);
-    const res = props.updateUserDetail({}, 2);
+    const res = props.updateUserDetail({...values}, 2);
     setLoading(false);
     if (res === 1) {
     }
@@ -78,7 +79,13 @@ const FirstRegisterScreen = (props) => {
       <Formik
         enableReinitialize={true}
         validationSchema={validationSchema}
-        initialValues={{email: '', password: ''}}
+        initialValues={{
+          // email: '',
+          // password: '',
+          // confirmPassword: '',
+          // term: false,
+          ...props.userDetail,
+        }}
         onSubmit={(values, formikActions) => {
           handleSubmitPress(values);
           formikActions.setSubmitting(false);
@@ -93,6 +100,7 @@ const FirstRegisterScreen = (props) => {
           isSubmitting,
           setValues,
           resetForm,
+          setFieldValue
         }) => {
           return (
             <>
@@ -122,13 +130,13 @@ const FirstRegisterScreen = (props) => {
                   showError={true}
                   //placeholderTextColor="#8b9cb5"
                 />
-                 <PasswordInput
-                  value={values.password}
-                  onChangeText={handleChange('password')}
+                <PasswordInput
+                  value={values.confirmPassword}
+                  onChangeText={handleChange('confirmPassword')}
                   placeholder="Re-Type Password *"
-                  onBlur={handleBlur('password')}
-                  touched={touched.password}
-                  errors={errors.password}
+                  onBlur={handleBlur('confirmPassword')}
+                  touched={touched.confirmPassword}
+                  errors={errors.confirmPassword}
                   returnKeyType="next"
                   keyboardType="default"
                   autoCapitalize="none"
@@ -140,6 +148,49 @@ const FirstRegisterScreen = (props) => {
                   onPress={() => navigation.navigate('forgotpassword')}>
                   Forgot Password?
                 </Text> */}
+                <View
+                  style={{
+                    //...styles.SectionStyle,
+                    padding: 0,
+                    marginTop: 0,
+                    marginBottom: 0,
+                    //alignSelf: 'center',
+                    alignSelf: 'flex-start',
+                  }}>
+                  <Text style={{alignSelf: 'center', fontWeight: 'bold'}}>
+                    I have read and agree to the {''}
+                    <Text
+                      style={{color: '#1190CB'}}
+                      //onPress={props.navigation.navigate('termcondition')}
+                    >
+                      terms and conditions
+                    </Text>
+                  </Text>
+                </View>
+
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignSelf: 'flex-start',
+                    alignItems: 'center',
+                  }}>
+                  <Switch
+                    trackColor={{false: '#767577', true: '#81b0ff'}}
+                    thumbColor={
+                      values.term
+                        ? themedColors.default.appColor
+                        : '#f4f3f4'
+                    }
+                    ios_backgroundColor="#3e3e3e"
+                    onValueChange={(value) => setFieldValue('term', value)}
+                    value={values.term}
+                    // onValueChange={() =>
+                    //   props.updateUserDetail({term: !props.userDetail.term})
+                    // }
+                    // value={props.userDetail.term}
+                  />
+                  <Text>{values.term ? 'Yes' : 'No'}</Text>
+                </View>
 
                 <Button
                   onPress={handleSubmit}
@@ -210,57 +261,13 @@ const FirstRegisterScreen = (props) => {
                 {errortext != '' ? (
                   <Text style={styles.errorTextStyle}> {errortext} </Text>
                 ) : null} */}
-                <View
-                  style={{
-                    ...styles.SectionStyle,
-                    padding: 0,
-                    marginTop: 0,
-                    marginBottom: 0,
-                    alignSelf: 'center',
-                  }}>
-                  <Text style={{alignSelf: 'center', fontWeight: 'bold'}}>
-                    I have read and agree to the{' '}
-                    <Text
-                      style={{color: '#1190CB'}}
-                      //onPress={props.navigation.navigate('termcondition')}
-                    >
-                      terms and conditions
-                    </Text>
-                  </Text>
-                </View>
 
-                <View
-                  style={{
-                    ...styles.SectionStyle,
-                    padding: 0,
-                    marginTop: 0,
-                    marginBottom: 0,
-                    flex: 1,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'flex-start',
-                  }}>
-                  <Switch
-                    trackColor={{false: '#767577', true: '#81b0ff'}}
-                    thumbColor={
-                      props.userDetail.term
-                        ? themedColors.default.appColor
-                        : '#f4f3f4'
-                    }
-                    ios_backgroundColor="#3e3e3e"
-                    onValueChange={() =>
-                      props.updateUserDetail({term: !props.userDetail.term})
-                    }
-                    value={props.userDetail.term}
-                  />
-                  <Text>{props.userDetail.term ? 'Yes' : 'No'}</Text>
-                </View>
-                <TouchableOpacity
+                {/* <TouchableOpacity
                   style={styles.buttonStyle}
                   //activeOpacity={0}
                   onPress={handleSubmitPress}>
                   <Text style={styles.buttonTextStyle}>Next</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </View>
             </>
           );

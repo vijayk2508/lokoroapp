@@ -15,6 +15,7 @@ function Button(props) {
   return (
     <View style={{...props.style}}>
       <TouchableOpacity
+        activeOpacity={0.8}
         style={containerStyle}
         onPress={props.onPress}
         disabled={props.disabled}>

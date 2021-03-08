@@ -23,6 +23,15 @@ import ResetPassword from '../screens/forgot-password/resetPassword';
 import TermCondition from '../screens/term&condition';
 
 const Stack = createStackNavigator();
+const options = {
+  headerStyle: {
+    elevation: 0,
+    shadowOpacity: 0,
+  },
+  title: '',
+  headerTitleAlign: 'center',
+  headerShown: true,
+};
 
 const Auth = () => {
   const multiStepReducer = useSelector((state) => state.multiStepReducer);
@@ -111,7 +120,7 @@ export default function AppRouter() {
       <StyleProvider style={getTheme(material)}>
         <NavigationContainer>
           <Stack.Navigator
-            initialRouteName="termcondition"
+            initialRouteName="splash"
             screenOptions={{
               gestureEnabled: true,
               headerShown: false,
@@ -120,35 +129,29 @@ export default function AppRouter() {
             //headerMode="float"
           >
             <Stack.Screen name="splash" component={Splash} />
-            <Stack.Screen name="termcondition" component={TermCondition} />
+            <Stack.Screen
+              name="termcondition"
+              component={TermCondition}
+              options={options}
+            />
 
             <Stack.Screen
               name="auth"
               component={Auth}
               options={{headerShown: false}}
             />
-            <Stack.Screen
-              name="otp"
-              component={OTP}
-              options={{headerShown: false, headerShown: true, title: ''}}
-            />
+            <Stack.Screen name="otp" component={OTP} options={options} />
             <Stack.Screen
               name="resetpassword"
               component={ResetPassword}
-              options={{headerShown: false, headerShown: true, title: ''}}
+              options={options}
             />
 
             <Stack.Screen name="userscreen" component={UserScreen} />
             <Stack.Screen
               name="startscreen"
               options={{
-                headerStyle: {
-                  elevation: 0,
-                  shadowOpacity: 0,
-                },
-                title: '',
-                headerTitleAlign: 'center',
-                headerShown: true,
+                ...options,
                 headerRight: () => (
                   <Text
                     style={{marginRight: 10, fontWeight: '900', fontSize: 18}}>
@@ -161,7 +164,7 @@ export default function AppRouter() {
             <Stack.Screen
               name="userBusinessRegistration"
               component={UserBusinessRegistration}
-              options={{headerShown: false}}
+              options={options}
             />
           </Stack.Navigator>
         </NavigationContainer>

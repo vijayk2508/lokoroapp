@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { assestImages } from '../../assests';
 import { themedColors } from '../../constants/Colors';
+import { defaultfontFamily } from '../../constants/generalSettings';
 
 function Splash(props) {
   const [LogoAnime, setLogoAnime] = useState(new Animated.Value(0));
@@ -85,7 +86,7 @@ const styles = StyleSheet.create({
   },
   logoText: {
     color: '#FFFFFF',
-    fontFamily: "quicksand",
+    fontFamily: defaultfontFamily.quicksand.bold,
     fontSize: 20,
     marginTop: 0,
     fontWeight: '300',
