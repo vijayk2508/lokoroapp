@@ -1,3 +1,4 @@
+import {Formik} from 'formik';
 import React, {useState, createRef, useEffect} from 'react';
 import {
   StyleSheet,
@@ -16,9 +17,21 @@ import {useDispatch} from 'react-redux';
 import {login} from '../../action-reducers/auth/action';
 import {UpdateSignUpStep} from '../../action-reducers/signup/action';
 import {assestImages} from '../../assests';
-
+import * as Yup from 'yup';
 import Loader from '../../components/Loader';
 import {themedColors} from '../../constants/Colors';
+
+const validationSchema = Yup.object().shape({
+  email: Yup.string().email('Email is invalid').required('Email is required'),
+  password: Yup.string()
+    .matches(
+      '^(?=.*[A-Za-z])(?=.*d)(?=.*[@$!%*#?&])[A-Za-zd@$!%*#?&]{8,}$',
+      'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character',
+    ).required('Required.'),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref('password'), null], 'Passwords must match')
+    .required('Confirm Password is required'),
+});
 
 const FirstRegisterScreen = (props) => {
   const [loading, setLoading] = useState(false);
@@ -58,6 +71,43 @@ const FirstRegisterScreen = (props) => {
   return (
     <View>
       <Loader loading={loading} />
+      <Formik
+        enableReinitialize={true}
+        validationSchema={validationSchema}
+        initialValues={{email: ''}}
+        onSubmit={(values, formikActions) => {}}>
+        {({
+          values,
+          handleChange,
+          handleBlur,
+          touched,
+          errors,
+          handleSubmit,
+          isSubmitting,
+        }) => (
+          <>
+            <View style={styles.SectionStyle}>
+              <TextInput
+                value={values.email}
+                style={styles.inputStyle}
+                onChangeText={handleChange('email')}
+                onBlur={handleBlur('email')}
+                placeholder="Email" //12345
+                placeholderTextColor="#8b9cb5"
+              />
+            </View>
+            {touched.email && errors.email ? (
+              <Text style={{...styles.error}}>{errors.email}</Text>
+            ) : null}
+            <TouchableOpacity
+              style={styles.buttonStyle}
+              onPress={handleSubmitPress}>
+              <Text style={styles.buttonTextStyle}>Submit</Text>
+            </TouchableOpacity>
+          </>
+        )}
+      </Formik>
+
       <View>
         <View style={styles.SectionStyle}>
           <TextInput

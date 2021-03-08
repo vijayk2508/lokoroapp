@@ -13,3 +13,9 @@ git commit -m "any msg"
 git push
 
 git push origin nim:test
+
+// responsive-screen
+https://www.npmjs.com/package/react-native-responsive-screen
+
+//
+https://heartbeat.fritz.ai/handling-responsive-layouts-in-react-native-apps-1494b3f85984

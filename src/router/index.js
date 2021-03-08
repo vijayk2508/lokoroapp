@@ -121,7 +121,7 @@ export default function AppRouter() {
           >
             <Stack.Screen name="splash" component={Splash} />
             <Stack.Screen name="termcondition" component={TermCondition} />
-            
+
             <Stack.Screen
               name="auth"
               component={Auth}
@@ -130,12 +130,12 @@ export default function AppRouter() {
             <Stack.Screen
               name="otp"
               component={OTP}
-              options={{headerShown: false}}
+              options={{headerShown: false, headerShown: true, title: ''}}
             />
             <Stack.Screen
               name="resetpassword"
               component={ResetPassword}
-              options={{headerShown: false}}
+              options={{headerShown: false, headerShown: true, title: ''}}
             />
 
             <Stack.Screen name="userscreen" component={UserScreen} />

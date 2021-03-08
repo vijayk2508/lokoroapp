@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   Button,
+  Image,
 } from 'react-native';
 
 import Loader from '../../components/Loader';
@@ -13,26 +14,20 @@ import {themedColors} from '../../constants/Colors';
 import * as Yup from 'yup';
 import {Formik} from 'formik';
 import {width} from '../../constants/generalSettings';
+import {assestImages} from '../../assests';
 
 const validationSchema = Yup.object().shape({
   newPassword: Yup.string()
+    .required('Required.')
     .matches(
-      '^(?=.*[A-Za-z])(?=.*d)(?=.*[@$!%*#?&])[A-Za-zd@$!%*#?&]{8,}$',
-      'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character',
-    )
-    .required('Required.'),
-  // confirmPassword: Yup.string()
-  //   .when('newPassword', {
-  //     is: (val) => (val && val.length > 0 ? true : false),
-  //     then: Yup.string().oneOf(
-  //       [Yup.ref('newPassword')],
-  //       'Both password need to be the same.',
-  //     ),
-  //   })
-  //   .required('Required.'),
+      /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
+      'Password must contain at least 8 characters, one uppercase, one number and one special case character',
+    ),
   confirmPassword: Yup.string()
-    .oneOf([Yup.ref('password'), null], 'Passwords must match')
-    .required('Confirm Password is required'),
+    
+    .oneOf([Yup.ref('newPassword'), null], 'Passwords must match.')
+
+    .required('Confirm Password is required.'),
 });
 
 const ResetPassword = (props) => {
@@ -41,62 +36,81 @@ const ResetPassword = (props) => {
 
   return (
     <>
-      <View style={styles.container}>
-        <Formik
-          enableReinitialize={true}
-          validationSchema={validationSchema}
-          initialValues={{newPassword: '', confirmPassword: '', name: ''}}
-          onSubmit={(values, formikActions) => {}}>
-          {({
-            values,
-            handleChange,
-            handleBlur,
-            touched,
-            errors,
-            handleSubmit,
-            isSubmitting,
-          }) => (
-            <>
-              <Text style={styles.formHeading}>Reset Your Password</Text>
-              <TextInput
-                value={values.newPassword}
-                style={styles.inputStyle}
-                onChangeText={handleChange('newPassword')}
-                onBlur={handleBlur('newPassword')}
-                placeholder="New Password" //12345
-                placeholderTextColor="#8b9cb5"
-              />
-              {touched.newPassword && errors.newPassword ? (
-                <Text style={styles.error}>{errors.newPassword}</Text>
-              ) : null}
-              <TextInput
-                value={values.confirmPassword}
-                style={styles.inputStyle}
-                onChangeText={handleChange('confirmPassword')}
-                onBlur={handleBlur('confirmPassword')}
-                placeholder="Re- Type Password" //12345
-                placeholderTextColor="#8b9cb5"
-              />
-              {touched.confirmPassword && errors.confirmPassword ? (
-                <Text style={styles.error}>{errors.confirmPassword}</Text>
-              ) : null}
+      <View style={{flex: 1, justifyContent: 'center'}}>
+        <View style={styles.container}>
+          <Image
+            source={assestImages.logo_white_background}
+            style={{
+              width: '80%',
+              height: 100,
+              resizeMode: 'contain',
+              margin: 30,
+              marginBottom: 5,
+            }}
+          />
+          <Text style={styles.logoText}>Building Communities for Good</Text>
 
-              {/* <Button
+          <Formik
+            enableReinitialize={true}
+            validationSchema={validationSchema}
+            initialValues={{newPassword: '', confirmPassword: ''}}
+            onSubmit={(values, formikActions) => {}}>
+            {({
+              values,
+              handleChange,
+              handleBlur,
+              touched,
+              errors,
+              handleSubmit,
+              isSubmitting,
+            }) => (
+              <>
+                <TextInput
+                  value={values.newPassword}
+                  style={
+                    touched.newPassword === true &&
+                    errors.newPassword &&
+                    errors.newPassword.length > 0
+                      ? styles.errorinputStyle
+                      : styles.inputStyle
+                  }
+                  onChangeText={handleChange('newPassword')}
+                  onBlur={handleBlur('newPassword')}
+                  placeholder="New Password" //12345
+                  placeholderTextColor="#8b9cb5"
+                />
+                {touched.newPassword && errors.newPassword ? (
+                  <Text style={styles.error}>{errors.newPassword}</Text>
+                ) : null}
+                <TextInput
+                  value={values.confirmPassword}
+                  style={styles.inputStyle}
+                  onChangeText={handleChange('confirmPassword')}
+                  onBlur={handleBlur('confirmPassword')}
+                  placeholder="Re- Type Password" //12345
+                  placeholderTextColor="#8b9cb5"
+                />
+                {touched.confirmPassword && errors.confirmPassword ? (
+                  <Text style={styles.error}>{errors.confirmPassword}</Text>
+                ) : null}
+
+                {/* <Button
                   onPress={handleSubmit}
                   loading={isSubmitting}
                   disabled={isSubmitting}
                   style={{height: 40, paddingTop: 10}}
                   title="Submit"
                 /> */}
-              <TouchableOpacity
-                style={styles.buttonStyle}
-                onPress={handleSubmit}
-                disabled={isSubmitting}>
-                <Text style={styles.buttonTextStyle}> Submit </Text>
-              </TouchableOpacity>
-            </>
-          )}
-        </Formik>
+                <TouchableOpacity
+                  style={styles.buttonStyle}
+                  onPress={handleSubmit}
+                  disabled={isSubmitting}>
+                  <Text style={styles.buttonTextStyle}> Submit </Text>
+                </TouchableOpacity>
+              </>
+            )}
+          </Formik>
+        </View>
       </View>
     </>
   );
@@ -128,7 +142,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: 'red',
     fontWeight: 'bold',
-    alignSelf : "flex-start"
+    alignSelf: 'flex-start',
   },
   logoText: {
     color: themedColors.default.appColor,
@@ -169,7 +183,35 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   inputStyle: {
-    height: 50,
+    height: 42,
+    paddingHorizontal: 8,
+    width: '100%',
+    borderColor: '#EBEBEB',
+    borderWidth: 1,
+    backgroundColor: '#F7FAFB',
+    color: '#9FA2A4',
+    width: width - 30,
+    margin: 10,
+    marginLeft: 0,
+    marginRight: 0,
+    marginBottom: 1,
+  },
+  inputStyle: {
+    height: 42,
+    paddingHorizontal: 8,
+    width: '100%',
+    borderColor: '#EBEBEB',
+    borderWidth: 1,
+    backgroundColor: '#F7FAFB',
+    color: '#9FA2A4',
+    width: width - 30,
+    margin: 10,
+    marginLeft: 0,
+    marginRight: 0,
+    marginBottom: 1,
+  },
+  errorinputStyle: {
+    height: 42,
     paddingHorizontal: 8,
     width: '100%',
     borderColor: '#EBEBEB',

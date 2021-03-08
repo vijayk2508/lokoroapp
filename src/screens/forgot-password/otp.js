@@ -18,6 +18,7 @@ import {withNavigation} from 'react-navigation';
 
 import Loader from '../../components/Loader';
 import {themedColors} from '../../constants/Colors';
+import {width} from '../../constants/generalSettings';
 //import * as register from '../../action-reducers/signUp/action';
 
 const FourthRegisterScreen = (props) => {
@@ -93,7 +94,7 @@ const FourthRegisterScreen = (props) => {
         backgroundColor: 'white',
       }}>
       <Loader loading={loading} />
-      <Image
+      {/* <Image
         source={assestImages.logo_white_background}
         style={{
           width: '80%',
@@ -102,12 +103,45 @@ const FourthRegisterScreen = (props) => {
           margin: 30,
           marginBottom: 5,
         }}
-      />
-      <Text style={styles.formHeading}>OTP Verification</Text>
-      <Text style={styles.description}>
-        For the security of your account and the safety of the Lokoro community,
-        users need to perform a one-time SMS verification.
-      </Text>
+      /> */}
+      <View style={{alignItems: 'center'}}>
+        <Image
+          source={assestImages.logo_white_background}
+          style={{
+            width: '80%',
+            height: 100,
+            resizeMode: 'contain',
+            margin: 30,
+            marginBottom: 5,
+          }}
+        />
+        <Text style={styles.logoText}>Building Communities for Good</Text>
+        <View
+          style={{
+            // borderBottomColor: '#E5E5E8',
+            // borderBottomWidth: 1,
+            backgroundColor: '#E5E5E8',
+            height: 2,
+            width: width - 200,
+            marginBottom : 15
+          }}
+        />
+        <Text style={styles.formHeading}>OTP Verification</Text>
+        <Text
+          style={{
+            margin: 40,
+            marginTop: 6,
+            marginBottom: 20,
+            fontFamily: 'Quicksand',
+            color: '#676767',
+            fontSize: 16,
+            alignSelf: 'center',
+            textAlign: 'center',
+          }}>
+          For the security of your account and the safety of the Lokoro
+          community, users need to perform a one-time SMS verification.
+        </Text>
+      </View>
       <View style={styles.SectionStyle}>
         <View style={{flex: 1}}>
           <View style={styles.otp}>
@@ -194,7 +228,7 @@ const styles = StyleSheet.create({
     marginTop: 6,
     fontFamily: 'Quicksand',
     color: '#676767',
-    fontSize: 30,
+    fontSize: 25,
     alignSelf: 'center',
     textAlign: 'center',
     fontWeight: 'bold',

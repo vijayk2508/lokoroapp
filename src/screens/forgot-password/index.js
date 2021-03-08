@@ -30,6 +30,7 @@ import Loader from '../../components/Loader';
 import {themedColors} from '../../constants/Colors';
 import * as Yup from 'yup';
 import {Formik} from 'formik';
+import {withNavigation} from 'react-navigation';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email('Email is invalid').required('Email is required'),
@@ -42,27 +43,12 @@ const ForgotPassword = ({navigation}) => {
     //const res = await dispatch(forgotpassword(data));
     //alert(JSON.stringify(res));
     //if (res.status === 'success') {
-    navigation.replace('otp');
+    navigation.navigate('otp');
     //} else {
     //alert(`Email is not sent to this ${userEmail}. Try Again!`);
     //}
     //setLoading(false);
   };
-
-  function handleBackButtonClick() {
-    BackHandler.exitApp();
-    return true;
-  }
-
-  useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
-    return () => {
-      BackHandler.removeEventListener(
-        'hardwareBackPress',
-        handleBackButtonClick,
-      );
-    };
-  }, []);
 
   return (
     <View style={styles.mainBody}>
@@ -145,7 +131,7 @@ const ForgotPassword = ({navigation}) => {
     </View>
   );
 };
-export default ForgotPassword;
+export default withNavigation(ForgotPassword);
 
 const styles = StyleSheet.create({
   logoText: {

@@ -1,3 +1,5 @@
+import { Dimensions } from "react-native";
+
 export const regularFontFamily = 'AvenirNextLTPro-Regular';
 export const mediumFontFamily = 'AvenirNextLTPro-Medium';
 export const boldFontFamily = 'AvenirNextLTPro-Bold';
@@ -10,6 +12,7 @@ const colors = {
   secondBg: '#F7F8FA',
   backBtn: '#000',
   replyBg: '#FFF',
+
   // categories colors
   redCBg: '#F75C96',
   purpCBg: '#BE31E3',
@@ -156,4 +159,23 @@ export const themedColors = {
     modalBg: '#000000', // must be 6 or 8 characters color
     modalInner: '#222831',
   },
+};
+
+export const dimensions = {
+  fullHeight: Dimensions.get('window').height,
+  fullWidth: Dimensions.get('window').width,
+};
+
+export const padding = {
+  sm: 10,
+  md: 20,
+  lg: 30,
+  xl: 40,
+};
+
+export const fonts = {
+  sm: 12,
+  md: 18,
+  lg: 28,
+  primary: 'Cochin',
 };

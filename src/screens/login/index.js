@@ -1,4 +1,4 @@
-import React, {useState, createRef, useEffect} from 'react';
+import React, {useState, createRef, useEffect, useRef} from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -22,18 +22,22 @@ import {themedColors} from '../../constants/Colors';
 import * as Yup from 'yup';
 import {Formik} from 'formik';
 import {width} from '../../constants/generalSettings';
+import Button from '../../components/Button';
+import Textbox from '../../components/Textbox';
+import PasswordInput from '../../components/PasswordTextBox';
 
 const validationSchema = Yup.object().shape({
-  email: Yup.string().email('Email is invalid').required('Email is required'),
+  email: Yup.string().email('Email is invalid.').required(''),
   password: Yup.string()
-    //.min(6, 'Password must be at least 6 characters')
-    .required('Password is required'),
+    .required('')
+    .matches(
+      /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
+      'Password must contain at least 8 characters, one uppercase, one number and one special case character',
+    ),
 });
 const Login = ({navigation}) => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-
-  const passwordInputRef = createRef();
 
   const handleSubmitPress = async (values) => {
     let data = {email: values.email, password: values.password};
@@ -105,75 +109,97 @@ const Login = ({navigation}) => {
                 errors,
                 handleSubmit,
                 isSubmitting,
-              }) => (
-                <>
-                  <View>
-                    <TextInput
-                      value={values.email}
-                      style={styles.inputStyle}
-                      onChangeText={handleChange('email')}
-                      onBlur={handleBlur('email')}
-                      placeholder="Enter Email"
-                      placeholderTextColor="#8b9cb5"
-                      autoCapitalize="none"
-                      keyboardType="email-address"
-                      returnKeyType="next"
-                      onSubmitEditing={() =>
-                        passwordInputRef.current &&
-                        passwordInputRef.current.focus()
-                      }
-                      underlineColorAndroid="#f000"
-                      blurOnSubmit={false}
-                    />
-                    {touched.email && errors.email ? (
-                      <Text style={styles.error}>{errors.email}</Text>
-                    ) : null}
-                    <TextInput
-                      value={values.password}
-                      style={styles.inputStyle}
-                      onChangeText={handleChange('password')}
-                      onBlur={handleBlur('password')}
-                      placeholder="Enter Password" //12345
-                      placeholderTextColor="#8b9cb5"
-                      keyboardType="default"
-                      ref={passwordInputRef}
-                      onSubmitEditing={Keyboard.dismiss}
-                      blurOnSubmit={false}
-                      secureTextEntry={true}
-                      underlineColorAndroid="#f000"
-                      returnKeyType="next"
-                    />
-                    {touched.password && errors.password ? (
-                      <Text style={styles.error}>{errors.password}</Text>
-                    ) : null}
+                setValues,
+                resetForm,
+              }) => {
+                return (
+                  <>
+                    <View>
+                      <Textbox
+                        value={values.email}
+                        onChangeText={handleChange('email')}
+                        placeholder="Enter Email"
+                        onBlur={handleBlur('email')}
+                        touched={touched.email}
+                        errors={errors.email ? errors.email : ''}
+                        returnKeyType="next"
+                        keyboardType="email-address"
+                        //placeholderTextColor="#8b9cb5"
+                        autoCapitalize="none"
+                      />
+                      <PasswordInput
+                        value={values.password}
+                        onChangeText={handleChange('password')}
+                        placeholder="Enter Password"
+                        onBlur={handleBlur('password')}
+                        touched={touched.password}
+                        errors={errors.password}
+                        returnKeyType="next"
+                        keyboardType="default"
+                        autoCapitalize="none"
+                        showError={true}
+                        //placeholderTextColor="#8b9cb5"
+                      />
+                      <Text
+                        style={{color: '#1190CB', marginTop: 2}}
+                        onPress={() => navigation.navigate('forgotpassword')}>
+                        Forgot Password?
+                      </Text>
 
-                    <Text
-                      style={{color: '#1190CB', marginTop: 2}}
-                      onPress={() => navigation.navigate('forgotpassword')}>
-                      Forgot Password?
-                    </Text>
-
-                    <TouchableOpacity
+                      {/* <TouchableOpacity
                       style={styles.buttonStyle}
                       onPress={handleSubmit}
                       disabled={isSubmitting}>
                       <Text style={styles.buttonTextStyle}> Login </Text>
-                    </TouchableOpacity>
-                    <Text style={styles.registerTextStyle}>OR</Text>
-                    <TouchableOpacity
-                      style={{...styles.buttonStyle, backgroundColor: 'none'}}
-                      onPress={() => navigation.navigate('signUp')}>
-                      <Text
-                        style={{
-                          ...styles.registerTextStyle,
-                          color: themedColors.default.appColor,
-                        }}>
-                        Join Lokoro
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                </>
-              )}
+                    </TouchableOpacity> */}
+
+                      <Button
+                        onPress={handleSubmit}
+                        disabled={isSubmitting}
+                        title={'Login'}></Button>
+
+                      <View style={{flexDirection: 'row'}}>
+                        <View
+                          style={{
+                            backgroundColor: '#dadae8',
+                            height: 2,
+                            flex: 1,
+                            alignSelf: 'center',
+                          }}
+                        />
+                        <Text
+                          style={{
+                            ...styles.registerTextStyle,
+                            fontSize: 14,
+                            color: '#141414',
+                          }}>
+                          OR
+                        </Text>
+                        <View
+                          style={{
+                            backgroundColor: '#dadae8',
+                            height: 2,
+                            flex: 1,
+                            alignSelf: 'center',
+                          }}
+                        />
+                      </View>
+
+                      <TouchableOpacity
+                        style={{...styles.buttonStyle, backgroundColor: 'none'}}
+                        onPress={() => navigation.navigate('signUp')}>
+                        <Text
+                          style={{
+                            ...styles.registerTextStyle,
+                            color: themedColors.default.appColor,
+                          }}>
+                          Join Lokoro
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </>
+                );
+              }}
             </Formik>
           </KeyboardAvoidingView>
         </ScrollView>

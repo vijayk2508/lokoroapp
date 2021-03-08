@@ -330,10 +330,8 @@ function SignUp(props) {
             style={{
               borderBottomColor: '#E5E5E8',
               borderBottomWidth: 1,
-              // margin: 15,
               marginLeft: 70,
               marginRight: 70,
-              // marginTop : 0
             }}
           />
           {/* <SliderBox
