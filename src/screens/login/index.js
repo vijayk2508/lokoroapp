@@ -25,6 +25,7 @@ import {width} from '../../constants/generalSettings';
 import Button from '../../components/Button';
 import Textbox from '../../components/Textbox';
 import PasswordInput from '../../components/PasswordTextBox';
+import HorizontalRow from '../../components/HorizontalRow';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email('Email is invalid.').required(''),
@@ -146,46 +147,26 @@ const Login = ({navigation}) => {
                         Forgot Password?
                       </Text>
 
-                      {/* <TouchableOpacity
-                      style={styles.buttonStyle}
-                      onPress={handleSubmit}
-                      disabled={isSubmitting}>
-                      <Text style={styles.buttonTextStyle}> Login </Text>
-                    </TouchableOpacity> */}
-
                       <Button
                         onPress={handleSubmit}
                         disabled={isSubmitting}
                         title={'Login'}></Button>
 
-                      <View style={{flexDirection: 'row'}}>
-                        <View
-                          style={{
-                            backgroundColor: '#dadae8',
-                            height: 2,
-                            flex: 1,
-                            alignSelf: 'center',
-                          }}
-                        />
-                        <Text
-                          style={{
-                            ...styles.registerTextStyle,
-                            fontSize: 14,
-                            color: '#141414',
-                          }}>
-                          OR
-                        </Text>
-                        <View
-                          style={{
-                            backgroundColor: '#dadae8',
-                            height: 2,
-                            flex: 1,
-                            alignSelf: 'center',
-                          }}
-                        />
-                      </View>
+                      <HorizontalRow title="OR" width={120} />
 
-                      <TouchableOpacity
+                      <Button
+                        containerStyle={{backgroundColor: 'none'}}
+                        containerTextStyle={{
+                          ...styles.registerTextStyle,
+                          color: themedColors.default.appColor,
+                        }}
+                        onPress={handleSubmit}
+                        disabled={isSubmitting}
+                        title={'Join Lokoro'}
+                        onPress={() => navigation.navigate('signUp')}
+                      />
+
+                      {/* <TouchableOpacity
                         style={{...styles.buttonStyle, backgroundColor: 'none'}}
                         onPress={() => navigation.navigate('signUp')}>
                         <Text
@@ -195,7 +176,7 @@ const Login = ({navigation}) => {
                           }}>
                           Join Lokoro
                         </Text>
-                      </TouchableOpacity>
+                      </TouchableOpacity> */}
                     </View>
                   </>
                 );

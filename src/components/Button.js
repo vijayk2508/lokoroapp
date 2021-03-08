@@ -5,10 +5,10 @@ import {themedColors} from '../constants/Colors';
 function Button(props) {
   return (
     <TouchableOpacity
-      style={styles.buttonStyle}
+      style={{...styles.buttonStyle, ...props.containerStyle}}
       onPress={props.onPress}
       disabled={props.disabled}>
-      <Text style={styles.buttonTextStyle}> {props.title} </Text>
+      <Text style={{...styles.buttonTextStyle, ...props.containerTextStyle}}> {props.title} </Text>
     </TouchableOpacity>
   );
 }
@@ -19,6 +19,8 @@ Button.defaultProps = {
   title: 'Submit',
   buttonStyle: {},
   buttonTextStyle: {},
+  containerStyle: {},
+  containerTextStyle : {}
 };
 
 export default Button;

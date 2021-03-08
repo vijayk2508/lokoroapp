@@ -71,7 +71,7 @@ const FirstRegisterScreen = (props) => {
   return (
     <View>
       <Loader loading={loading} />
-      <Formik
+      {/* <Formik
         enableReinitialize={true}
         validationSchema={validationSchema}
         initialValues={{email: ''}}
@@ -106,7 +106,7 @@ const FirstRegisterScreen = (props) => {
             </TouchableOpacity>
           </>
         )}
-      </Formik>
+      </Formik> */}
 
       <View>
         <View style={styles.SectionStyle}>
