@@ -17,6 +17,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {updateStepIndex} from '../../action-reducers/multisteps/action';
 
 import {assestImages} from '../../assests';
+import LayoutContainer from '../../components/LayoutContainer';
 import {themedColors} from '../../constants/Colors';
 import CustomPagination from './CustomPagination';
 import FirstRegisterScreen from './first';
@@ -35,17 +36,17 @@ const swiperData = [
   {
     image: assestImages.img1,
     title: 'Buy and Sell with Neighbours',
-    description: `List items you want to sell, rent, share or giveaway to your neighbours. Contribute to a greener planet by passing on pre-loved items you no longer need to others!`,
+    description: 'List items you want to sell, rent, share or giveaway to your neighbours. Contribute to a greener planet by passing on pre-loved items you no longer need to others!'
   },
   {
     image: assestImages.img2,
     title: 'Post and Find Jobs',
-    description: `Whether you need help with an urgent delivery or a babysitter for your kids, find someone you can trust from the neighbourhood on Lokoro!`,
+    description: 'Whether you need help with an urgent delivery or a babysitter for your kids, find someone you can trust from the neighbourhood on Lokoro!'
   },
   {
     image: assestImages.img3,
     title: 'Meet New Friends',
-    description: `Love to play sports, solve puzzles or go café hopping? Find new friends in your neighbourhood who share common Interests and passions!`,
+    description: 'Love to play sports, solve puzzles or go café hopping? Find new friends in your neighbourhood who share common Interests and passions!'
   },
 ];
 
@@ -282,7 +283,7 @@ function SignUp(props) {
 
   return (
     <KeyboardAvoidingView
-      style={{flex: 1, backgroundColor: 'white'}}
+      style={{flex: 1, backgroundColor: 'white', justifyContent: 'center'}}
       behavior={Platform.OS === 'ios' ? 'padding' : ''}>
       <ScrollView
         contentContainerStyle={{
@@ -301,6 +302,14 @@ function SignUp(props) {
             // index={3}
             autoplayLoop
             // autoplayInvertDirection
+            showPagination
+            paginationStyleItem={{marginTop: -140}}
+            paginationDefaultColor={themedColors.default.appColor}
+            paginationActiveColor={'white'}
+            paginationStyleItemActive={{
+              borderColor: themedColors.default.appColor,
+              border: 2,
+            }}
             data={swiperData}
             renderItem={({item, index}) => (
               <>

@@ -53,9 +53,13 @@ const StartScreen = (props) => {
           <View style={styles.headerStyle}>
             <Text style={styles.title}> Welcome to Lokoro </Text>
             <Text style={styles.description}>
-              To thank you for joining the Lokoro Community, we are giving away
+              {/* To thank you for joining the Lokoro Community, we are giving away
               10 Loko Coins. Loko Coins can be used to bump up your posts and
-              create groups.
+              create groups. */}
+              We are excited to have you in Lokoro! To thank you for joining the
+              Lokoro community, you are awarded 10 Loko Coins to kick start your
+              community journey. Loko Coins can be used to bump up your posts
+              and create groups.
             </Text>
           </View>
           <View

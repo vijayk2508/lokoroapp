@@ -24,9 +24,7 @@ const validationSchema = Yup.object().shape({
       'Password must contain at least 8 characters, one uppercase, one number and one special case character',
     ),
   confirmPassword: Yup.string()
-    
     .oneOf([Yup.ref('newPassword'), null], 'Passwords must match.')
-
     .required('Confirm Password is required.'),
 });
 

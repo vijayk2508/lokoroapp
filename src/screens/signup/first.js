@@ -20,62 +20,69 @@ import {assestImages} from '../../assests';
 import * as Yup from 'yup';
 import Loader from '../../components/Loader';
 import {themedColors} from '../../constants/Colors';
+import PasswordInput from '../../components/PasswordTextBox';
+import Textbox from '../../components/Textbox';
+import Button from '../../components/Button';
+import {commonStyle} from '../../constants/generalSettings';
 
 const validationSchema = Yup.object().shape({
-  email: Yup.string().email('Email is invalid').required('Email is required'),
+  email: Yup.string().email('Email is invalid').required(),
   password: Yup.string()
+    .required()
     .matches(
-      '^(?=.*[A-Za-z])(?=.*d)(?=.*[@$!%*#?&])[A-Za-zd@$!%*#?&]{8,}$',
-      'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character',
-    ).required('Required.'),
+      /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
+      'Password must contain at least 8 characters, one uppercase, one number and one special case character',
+    ),
   confirmPassword: Yup.string()
-    .oneOf([Yup.ref('password'), null], 'Passwords must match')
-    .required('Confirm Password is required'),
+    .oneOf([Yup.ref('password'), null], 'Passwords must match.')
+    .required(),
 });
 
 const FirstRegisterScreen = (props) => {
   const [loading, setLoading] = useState(false);
-  const [errortext, setErrortext] = useState('');
+  // const [errortext, setErrortext] = useState('');
 
   const handleSubmitPress = async () => {
-    setErrortext('');
-    if (!props.userDetail.email) {
-      alert('Please fill Email');
-      return;
-    }
-    if (!props.userDetail.password) {
-      alert('Please fill Password');
-      return;
-    }
-    if (!props.userDetail.confirmPassword) {
-      alert('Please fill Confirm Password');
-      return;
-    }
+    // if (!props.userDetail.email) {
+    //   alert('Please fill Email');
+    //   return;
+    // }
+    // if (!props.userDetail.password) {
+    //   alert('Please fill Password');
+    //   return;
+    // }
+    // if (!props.userDetail.confirmPassword) {
+    //   alert('Please fill Confirm Password');
+    //   return;
+    // }
 
-    if (props.userDetail.confirmPassword !== props.userDetail.password) {
-      alert('Password is not match');
-      return;
-    }
+    // if (props.userDetail.confirmPassword !== props.userDetail.password) {
+    //   alert('Password is not match');
+    //   return;
+    // }
 
-    if (props.userDetail.term === false) {
-      alert('Please read term and condition.');
-      return;
-    }
+    // if (props.userDetail.term === false) {
+    //   alert('Please read term and condition.');
+    //   return;
+    // }
     setLoading(true);
     const res = props.updateUserDetail({}, 2);
+    setLoading(false);
     if (res === 1) {
-      setLoading(false);
     }
   };
 
   return (
-    <View>
+    <View style={{alignItems: 'center'}}>
       <Loader loading={loading} />
-      {/* <Formik
+      <Formik
         enableReinitialize={true}
         validationSchema={validationSchema}
-        initialValues={{email: ''}}
-        onSubmit={(values, formikActions) => {}}>
+        initialValues={{email: '', password: ''}}
+        onSubmit={(values, formikActions) => {
+          handleSubmitPress(values);
+          formikActions.setSubmitting(false);
+        }}>
         {({
           values,
           handleChange,
@@ -84,137 +91,181 @@ const FirstRegisterScreen = (props) => {
           errors,
           handleSubmit,
           isSubmitting,
-        }) => (
-          <>
-            <View style={styles.SectionStyle}>
-              <TextInput
-                value={values.email}
-                style={styles.inputStyle}
-                onChangeText={handleChange('email')}
-                onBlur={handleBlur('email')}
-                placeholder="Email" //12345
-                placeholderTextColor="#8b9cb5"
-              />
-            </View>
-            {touched.email && errors.email ? (
-              <Text style={{...styles.error}}>{errors.email}</Text>
-            ) : null}
-            <TouchableOpacity
-              style={styles.buttonStyle}
-              onPress={handleSubmitPress}>
-              <Text style={styles.buttonTextStyle}>Submit</Text>
-            </TouchableOpacity>
-          </>
-        )}
-      </Formik> */}
+          setValues,
+          resetForm,
+        }) => {
+          return (
+            <>
+              <View style={{marginTop: 30}}>
+                <Textbox
+                  value={values.email}
+                  onChangeText={handleChange('email')}
+                  placeholder="Email Address *"
+                  onBlur={handleBlur('email')}
+                  touched={touched.email}
+                  errors={errors.email ? errors.email : ''}
+                  returnKeyType="next"
+                  keyboardType="email-address"
+                  //placeholderTextColor="#8b9cb5"
+                  autoCapitalize="none"
+                />
+                <PasswordInput
+                  value={values.password}
+                  onChangeText={handleChange('password')}
+                  placeholder="Password *"
+                  onBlur={handleBlur('password')}
+                  touched={touched.password}
+                  errors={errors.password}
+                  returnKeyType="next"
+                  keyboardType="default"
+                  autoCapitalize="none"
+                  showError={true}
+                  //placeholderTextColor="#8b9cb5"
+                />
+                 <PasswordInput
+                  value={values.password}
+                  onChangeText={handleChange('password')}
+                  placeholder="Re-Type Password *"
+                  onBlur={handleBlur('password')}
+                  touched={touched.password}
+                  errors={errors.password}
+                  returnKeyType="next"
+                  keyboardType="default"
+                  autoCapitalize="none"
+                  showError={true}
+                  //placeholderTextColor="#8b9cb5"
+                />
+                {/* <Text
+                  style={{color: '#1190CB', marginTop: 2}}
+                  onPress={() => navigation.navigate('forgotpassword')}>
+                  Forgot Password?
+                </Text> */}
 
-      <View>
-        <View style={styles.SectionStyle}>
-          <TextInput
-            style={styles.inputStyle}
-            onChangeText={(data) => props.updateUserDetail({email: data})}
-            value={props.userDetail.email}
-            placeholder="Email Address*"
-            placeholderTextColor="#8b9cb5"
-            autoCapitalize="none"
-            keyboardType="email-address"
-            returnKeyType="next"
-            //   onSubmitEditing={() =>
-            //     passwordInputRef.current && passwordInputRef.current.focus()
-            //   }
-            underlineColorAndroid="#f000"
-            blurOnSubmit={false}
-          />
-        </View>
-        <View style={styles.SectionStyle}>
-          <TextInput
-            onChangeText={(data) => props.updateUserDetail({password: data})}
-            value={props.userDetail.password}
-            style={styles.inputStyle}
-            placeholder="Password" //12345
-            placeholderTextColor="#8b9cb5"
-            keyboardType="default"
-            //ref={passwordInputRef}
-            onSubmitEditing={Keyboard.dismiss}
-            blurOnSubmit={false}
-            secureTextEntry={true}
-            underlineColorAndroid="#f000"
-            returnKeyType="next"
-          />
-        </View>
-        {errortext != '' ? (
-          <Text style={styles.errorTextStyle}> {errortext} </Text>
-        ) : null}
-        <View style={styles.SectionStyle}>
-          <TextInput
-            onChangeText={(data) =>
-              props.updateUserDetail({confirmPassword: data})
-            }
-            value={props.userDetail.confirmPassword}
-            style={styles.inputStyle}
-            placeholder="Re-Type Password" //12345
-            placeholderTextColor="#8b9cb5"
-            keyboardType="default"
-            onSubmitEditing={Keyboard.dismiss}
-            blurOnSubmit={false}
-            secureTextEntry={true}
-            underlineColorAndroid="#f000"
-            returnKeyType="next"
-          />
-        </View>
-        {errortext != '' ? (
-          <Text style={styles.errorTextStyle}> {errortext} </Text>
-        ) : null}
-        <View
-          style={{
-            ...styles.SectionStyle,
-            padding: 0,
-            marginTop: 0,
-            marginBottom: 0,
-            alignSelf: 'center',
-          }}>
-          <Text style={{alignSelf: 'center', fontWeight: 'bold'}}>
-            I have read and agree to the{' '}
-            <Text
-              style={{color: '#1190CB'}}
-              //onPress={props.navigation.navigate('termcondition')}
-            >
-              terms and conditions
-            </Text>
-          </Text>
-        </View>
+                <Button
+                  onPress={handleSubmit}
+                  disabled={isSubmitting}
+                  title={'Next'}
+                  style={{marginTop: 0}}
+                />
+              </View>
 
-        <View
-          style={{
-            ...styles.SectionStyle,
-            padding: 0,
-            marginTop: 0,
-            marginBottom: 0,
-            flex: 1,
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'flex-start',
-          }}>
-          <Switch
-            trackColor={{false: '#767577', true: '#81b0ff'}}
-            thumbColor={
-              props.userDetail.term ? themedColors.default.appColor : '#f4f3f4'
-            }
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={() =>
-              props.updateUserDetail({term: !props.userDetail.term})
-            }
-            value={props.userDetail.term}
-          />
-          <Text>{props.userDetail.term ? 'Yes' : 'No'}</Text>
-        </View>
-        <TouchableOpacity
-          style={styles.buttonStyle}
-          //activeOpacity={0}
-          onPress={handleSubmitPress}>
-          <Text style={styles.buttonTextStyle}>Next</Text>
-        </TouchableOpacity>
-      </View>
+              <View>
+                {/* <View style={styles.SectionStyle}>
+                  <TextInput
+                    style={styles.inputStyle}
+                    onChangeText={(data) =>
+                      props.updateUserDetail({email: data})
+                    }
+                    value={props.userDetail.email}
+                    placeholder="Email Address*"
+                    placeholderTextColor="#8b9cb5"
+                    autoCapitalize="none"
+                    keyboardType="email-address"
+                    returnKeyType="next"
+                    //   onSubmitEditing={() =>
+                    //     passwordInputRef.current && passwordInputRef.current.focus()
+                    //   }
+                    underlineColorAndroid="#f000"
+                    blurOnSubmit={false}
+                  />
+                </View>
+                <View style={styles.SectionStyle}>
+                  <TextInput
+                    onChangeText={(data) =>
+                      props.updateUserDetail({password: data})
+                    }
+                    value={props.userDetail.password}
+                    style={styles.inputStyle}
+                    placeholder="Password" //12345
+                    placeholderTextColor="#8b9cb5"
+                    keyboardType="default"
+                    //ref={passwordInputRef}
+                    onSubmitEditing={Keyboard.dismiss}
+                    blurOnSubmit={false}
+                    secureTextEntry={true}
+                    underlineColorAndroid="#f000"
+                    returnKeyType="next"
+                  />
+                </View>
+                {errortext != '' ? (
+                  <Text style={styles.errorTextStyle}> {errortext} </Text>
+                ) : null}
+                <View style={styles.SectionStyle}>
+                  <TextInput
+                    onChangeText={(data) =>
+                      props.updateUserDetail({confirmPassword: data})
+                    }
+                    value={props.userDetail.confirmPassword}
+                    style={styles.inputStyle}
+                    placeholder="Re-Type Password" //12345
+                    placeholderTextColor="#8b9cb5"
+                    keyboardType="default"
+                    onSubmitEditing={Keyboard.dismiss}
+                    blurOnSubmit={false}
+                    secureTextEntry={true}
+                    underlineColorAndroid="#f000"
+                    returnKeyType="next"
+                  />
+                </View>
+                {errortext != '' ? (
+                  <Text style={styles.errorTextStyle}> {errortext} </Text>
+                ) : null} */}
+                <View
+                  style={{
+                    ...styles.SectionStyle,
+                    padding: 0,
+                    marginTop: 0,
+                    marginBottom: 0,
+                    alignSelf: 'center',
+                  }}>
+                  <Text style={{alignSelf: 'center', fontWeight: 'bold'}}>
+                    I have read and agree to the{' '}
+                    <Text
+                      style={{color: '#1190CB'}}
+                      //onPress={props.navigation.navigate('termcondition')}
+                    >
+                      terms and conditions
+                    </Text>
+                  </Text>
+                </View>
+
+                <View
+                  style={{
+                    ...styles.SectionStyle,
+                    padding: 0,
+                    marginTop: 0,
+                    marginBottom: 0,
+                    flex: 1,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'flex-start',
+                  }}>
+                  <Switch
+                    trackColor={{false: '#767577', true: '#81b0ff'}}
+                    thumbColor={
+                      props.userDetail.term
+                        ? themedColors.default.appColor
+                        : '#f4f3f4'
+                    }
+                    ios_backgroundColor="#3e3e3e"
+                    onValueChange={() =>
+                      props.updateUserDetail({term: !props.userDetail.term})
+                    }
+                    value={props.userDetail.term}
+                  />
+                  <Text>{props.userDetail.term ? 'Yes' : 'No'}</Text>
+                </View>
+                <TouchableOpacity
+                  style={styles.buttonStyle}
+                  //activeOpacity={0}
+                  onPress={handleSubmitPress}>
+                  <Text style={styles.buttonTextStyle}>Next</Text>
+                </TouchableOpacity>
+              </View>
+            </>
+          );
+        }}
+      </Formik>
     </View>
   );
 };
