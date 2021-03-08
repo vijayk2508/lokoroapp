@@ -19,167 +19,24 @@ import {withNavigation} from 'react-navigation';
 import Loader from '../../components/Loader';
 import {themedColors} from '../../constants/Colors';
 import {width} from '../../constants/generalSettings';
+import OtpVerification from '../../components/OTP/OtpVerification';
 //import * as register from '../../action-reducers/signUp/action';
 
 const FourthRegisterScreen = (props) => {
-  console.log('props', props);
-
-  const [pin1, setPin1] = useState('1');
-  const [pin2, setPin2] = useState('2');
-  const [pin3, setPin3] = useState('3');
-  const [pin4, setPin4] = useState('4');
+  console.log('props', props.route.params.email);
   const [loading, setLoading] = useState(false);
-  const [errortext, setErrortext] = useState('');
   const dispatch = useDispatch();
 
   const handleSubmitPress = async () => {
     setLoading(true);
     props.navigation.navigate('resetpassword');
     setLoading(false);
-    // let currentOtp = `${pin1}${pin2}${pin3}${pin4}`;
-    // if (currentOtp === '1234') {
-    //   const {
-    //     mobile,
-    //     email,
-    //     password,
-    //     displayName,
-    //     userImage,
-    //     roleId,
-    //     address,
-    //     deviceId,
-    //     notification,
-    //     term,
-    //   } = props.userDetail;
-
-    //   const formData = new FormData();
-    //   formData.append('mobile', mobile);
-    //   formData.append('email', email);
-    //   formData.append('password', password);
-    //   formData.append('displayName', displayName);
-    //   formData.append('otp', currentOtp);
-    //   formData.append('notification', notification);
-    //   formData.append('term', true);
-    //   //formData.append("locoCoinId")
-    //   //formData.append("image",userImage)
-    //   // formData.append("roleId",roleId)
-    //   // formData.append("address",address)
-    //   // formData.append("deviceId",deviceId)
-    //   setLoading(true);
-    //   const res = await dispatch(register(formData));
-    //   if (res.status === 'success') {
-    //     if (res.data.userObj) {
-    //       props.navigation.navigate('startscreen');
-    //       props.updateUserDetail({}, 1);
-    //       setLoading(false);
-    //       return;
-    //     } else {
-    //       alert(JSON.stringify(res.message));
-    //       setLoading(false);
-    //       return;
-    //     }
-    //   }
-    // } else {
-    //   alert('OTP is incorrect.');
-    //   return await 1;
-    // }
-    // setLoading(false);
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignContent: 'center',
-        backgroundColor: 'white',
-      }}>
-      <Loader loading={loading} />
-      {/* <Image
-        source={assestImages.logo_white_background}
-        style={{
-          width: '80%',
-          height: 100,
-          resizeMode: 'contain',
-          margin: 30,
-          marginBottom: 5,
-        }}
-      /> */}
-      <View style={{alignItems: 'center'}}>
-        <Image
-          source={assestImages.logo_white_background}
-          style={{
-            width: '80%',
-            height: 100,
-            resizeMode: 'contain',
-            margin: 30,
-            marginBottom: 5,
-          }}
-        />
-        <Text style={styles.logoText}>Building Communities for Good</Text>
-        <View
-          style={{
-            // borderBottomColor: '#E5E5E8',
-            // borderBottomWidth: 1,
-            backgroundColor: '#E5E5E8',
-            height: 2,
-            width: width - 200,
-            marginBottom : 15
-          }}
-        />
-        <Text style={styles.formHeading}>OTP Verification</Text>
-        <Text
-          style={{
-            margin: 40,
-            marginTop: 6,
-            marginBottom: 20,
-            fontFamily: 'Quicksand',
-            color: '#676767',
-            fontSize: 16,
-            alignSelf: 'center',
-            textAlign: 'center',
-          }}>
-          For the security of your account and the safety of the Lokoro
-          community, users need to perform a one-time SMS verification.
-        </Text>
-      </View>
-      <View style={styles.SectionStyle}>
-        <View style={{flex: 1}}>
-          <View style={styles.otp}>
-            <TextInput
-              style={styles.otpBox}
-              value={pin1}
-              maxLength={1}
-              keyboardType="number-pad"
-              returnKeyType="next"
-              onChangeText={(val) => setPin1(val)}></TextInput>
-            <TextInput
-              style={styles.otpBox}
-              value={pin2}
-              maxLength={1}
-              keyboardType="number-pad"
-              returnKeyType="next"
-              onChangeText={(val) => setPin2(val)}></TextInput>
-            <TextInput
-              style={styles.otpBox}
-              value={pin3}
-              maxLength={1}
-              keyboardType="number-pad"
-              returnKeyType="next"
-              onChangeText={(val) => setPin3(val)}></TextInput>
-            <TextInput
-              style={styles.otpBox}
-              value={pin4}
-              maxLength={1}
-              keyboardType="number-pad"
-              returnKeyType="next"
-              onChangeText={(val) => setPin4(val)}></TextInput>
-          </View>
-        </View>
-      </View>
-      <TouchableOpacity style={styles.buttonStyle} onPress={handleSubmitPress}>
-        <Text style={styles.buttonTextStyle}>Verify OTP</Text>
-      </TouchableOpacity>
-    </View>
+    <>
+      <OtpVerification email={props.route.params.email} />
+    </>
   );
 };
 export default withNavigation(FourthRegisterScreen);

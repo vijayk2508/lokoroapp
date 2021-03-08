@@ -74,6 +74,7 @@ const Login = ({navigation}) => {
   return (
     <>
       <LayoutContainer>
+        <Loader loading={loading} />
         <ImageTitleDescription></ImageTitleDescription>
         <KeyboardAvoidingView enabled>
           <Formik

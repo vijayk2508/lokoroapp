@@ -1,15 +1,3 @@
-// import React from 'react';
-
-// function ForgotPassword() {
-//   return (
-//     <View>
-//       <Text> Hi </Text>
-//     </View>
-//   );
-// }
-
-// export default ForgotPassword;
-
 import React, {useState, createRef, useEffect} from 'react';
 import {
   StyleSheet,
@@ -21,6 +9,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   BackHandler,
+  Alert,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import {forgotpassword} from '../../action-reducers/auth/action';
@@ -42,21 +31,26 @@ const validationSchema = Yup.object().shape({
 });
 
 const ForgotPassword = ({navigation}) => {
-  const handleSubmitPress = () => {
-    // let data = {email: userEmail};
-    //setLoading(true);
-    //const res = await dispatch(forgotpassword(data));
-    //alert(JSON.stringify(res));
-    //if (res.status === 'success') {
-    navigation.navigate('otp');
-    //} else {
-    //alert(`Email is not sent to this ${userEmail}. Try Again!`);
-    //}
-    //setLoading(false);
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+
+  const handleSubmitPress = async (values) => {
+    console.log(JSON.stringify(values));
+    setLoading(true);
+    let data = {email: values.email};
+    const res = await dispatch(forgotpassword(data));
+    setLoading(false);
+    Alert.alert(`${JSON.stringify(res)}`);
+    if (res.status === 'success') {
+      navigation.navigate('otp', data);
+    } else {
+      Alert.alert(`Email is not sent to this ${userEmail}. Try Again!`);
+    }
   };
 
   return (
     <LayoutContainer>
+      <Loader loading={loading} />
       <ImageTitleDescription
         title="Building Communities for Good"
         description="Please enter the email address you used for your Lokoro account. We will send an email for you to reset your password."
@@ -65,10 +59,10 @@ const ForgotPassword = ({navigation}) => {
         <Formik
           enableReinitialize={true}
           validationSchema={validationSchema}
-          initialValues={{email: '', password: ''}}
+          initialValues={{email: ''}}
           onSubmit={(values, formikActions) => {
             handleSubmitPress(values);
-            formikActions.setSubmitting(false);
+            //formikActions.setSubmitting(false);
           }}>
           {({
             values,
@@ -78,8 +72,6 @@ const ForgotPassword = ({navigation}) => {
             errors,
             handleSubmit,
             isSubmitting,
-            setValues,
-            resetForm,
           }) => {
             return (
               <>
@@ -93,15 +85,14 @@ const ForgotPassword = ({navigation}) => {
                     errors={errors.email ? errors.email : ''}
                     returnKeyType="next"
                     keyboardType="email-address"
-                    //placeholderTextColor="#8b9cb5"
                     autoCapitalize="none"
+                    maxLength={30}
                   />
 
                   <Button
                     onPress={handleSubmit}
                     disabled={isSubmitting}
-                    title={'Login'}
-                   
+                    title={'Submit'}
                   />
                 </View>
               </>

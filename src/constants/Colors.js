@@ -1,4 +1,4 @@
-import { Dimensions } from "react-native";
+import {Dimensions, StyleSheet} from 'react-native';
 
 export const regularFontFamily = 'AvenirNextLTPro-Regular';
 export const mediumFontFamily = 'AvenirNextLTPro-Medium';
@@ -6,7 +6,26 @@ export const boldFontFamily = 'AvenirNextLTPro-Bold';
 export const heavyFontFamily = 'AvenirNextLTPro-Heavy';
 
 // default light colors
-const colors = {
+export const colors = {
+  BLUE: '#3543bf',
+  ORANGE: '#fe7d32',
+  GREEN: '#30a960',
+  RED: '#f06159',
+  BLACK: '#0b0b0b',
+  SILVER: '#efefef',
+  WHITE: '#fff',
+  GREY: '#7e7e7e',
+  WHITE_GREY: '#d4d4d4',
+  DARK_GREY: '#555555',
+  LIGHT_BLACK: '#212121',
+  DARK_RED: '#c04d47',
+  SEMI_TRANSPARENT: 'rgba(0,0,0,0.5)',
+  LIGHT_RED: '#fef3ec',
+  YELLOW: '#fec72e',
+  LIGHT_GREY: '#a9a9a9',
+  PALE_YELLOW: '#fff6ef',
+  DARK_BLUE: '#2e68b2',
+  LIGHT_BLUE: '#EEEFF9',
   appColor: '#1190CB',
   appBg: '#FFF',
   secondBg: '#F7F8FA',
@@ -63,7 +82,7 @@ const colors = {
     color: '#1E2432',
     textAlign: 'center',
     fontSize: 17,
-    fontWeight: '700',
+    fontWeight: 700,
     alignSelf: 'center',
   },
   tabBarColors: {
@@ -145,7 +164,7 @@ export const themedColors = {
       color: '#FFF',
       textAlign: 'center',
       fontSize: 17,
-      fontWeight: '700',
+      fontWeight: 700,
       alignSelf: 'center',
     },
     tabBarColors: {
@@ -179,3 +198,112 @@ export const fonts = {
   lg: 28,
   primary: 'Cochin',
 };
+
+/**
+ * mr - margin right
+ * ml - margin left
+ * mt - margin top
+ * p  - padding
+ * px - padding horizontal
+ */
+export const GenericStyles = StyleSheet.create({
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  column: {
+    flexDirection: 'column',
+  },
+  mr12: {
+    marginRight: 12,
+  },
+  mt12: {
+    marginTop: 12,
+  },
+  mt24: {
+    marginTop: 24,
+  },
+  mr4: {
+    marginRight: 4,
+  },
+  mb12: {
+    marginBottom: 12,
+  },
+  upperCase: {
+    textTransform: 'uppercase',
+  },
+  noBorder: {
+    borderWidth: 0,
+  },
+  whiteBackgroundContainer: {
+    backgroundColor: colors.WHITE,
+    flex: 1,
+  },
+  bold: {
+    fontWeight: 'bold',
+  },
+  fill: {
+    flex: 1,
+  },
+  capitalize: {
+    textTransform: 'capitalize',
+  },
+  positiveText: {
+    color: colors.GREEN,
+  },
+  negativeText: {
+    color: colors.RED,
+  },
+  centerAlignedText: {
+    textAlign: 'center',
+  },
+  centerAligned: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  highlightedInfoText: {
+    fontSize: 12,
+    backgroundColor: colors.LIGHT_RED,
+    padding: 8,
+    borderRadius: 2,
+  },
+  // use CustomCard when background is non-white else use this style
+  card: {
+    borderColor: colors.SILVER,
+    borderTopWidth: 1,
+    borderRightWidth: 1,
+    borderBottomWidth: 2,
+    borderLeftWidth: 1,
+    borderRadius: 5,
+    padding: 12,
+    backgroundColor: colors.WHITE,
+  },
+  underline: {
+    textDecorationLine: 'underline',
+  },
+  greyBar: {
+    height: 1,
+    backgroundColor: colors.SILVER,
+  },
+  p16: {
+    padding: 16,
+  },
+  navigationHeaderBorder: {
+    borderBottomWidth: 1,
+    borderBottomColor: colors.SILVER,
+  },
+  rightAligned: {
+    justifyContent: 'flex-end',
+  },
+});
+
+export function elevationShadowStyle(elevation) {
+  return {
+    elevation,
+    shadowColor: 'black',
+    shadowOffset: {width: 0, height: 0.5 * elevation},
+    shadowOpacity: 0.5,
+    shadowRadius: 0.8 * elevation,
+    borderWidth: 0.1,
+  };
+}
