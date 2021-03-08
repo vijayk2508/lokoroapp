@@ -21,11 +21,13 @@ import Loader from '../../components/Loader';
 import {themedColors} from '../../constants/Colors';
 import * as Yup from 'yup';
 import {Formik} from 'formik';
-import {width} from '../../constants/generalSettings';
+import {commonStyle, width} from '../../constants/generalSettings';
 import Button from '../../components/Button';
 import Textbox from '../../components/Textbox';
 import PasswordInput from '../../components/PasswordTextBox';
 import HorizontalRow from '../../components/HorizontalRow';
+import LayoutContainer from '../../components/LayoutContainer';
+import ImageTitleDescription from '../../components/ImageTitleDescription';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email('Email is invalid.').required(''),
@@ -71,120 +73,88 @@ const Login = ({navigation}) => {
 
   return (
     <>
-      <View style={styles.container}>
-        <Loader loading={loading} />
-        <ScrollView
-          keyboardShouldPersistTaps="handled"
-          contentContainerStyle={{
-            flex: 1,
-            justifyContent: 'center',
-            alignContent: 'center',
-          }}>
-          <KeyboardAvoidingView enabled>
-            <View style={{alignItems: 'center'}}>
-              <Image
-                source={assestImages.logo_white_background}
-                style={{
-                  width: '50%',
-                  height: 100,
-                  resizeMode: 'contain',
-                  margin: 30,
-                  marginBottom: 5,
-                }}
-              />
-              <Text style={styles.logoText}>Building Communities for Good</Text>
-            </View>
-            <Formik
-              enableReinitialize={true}
-              validationSchema={validationSchema}
-              initialValues={{email: '', password: ''}}
-              onSubmit={(values, formikActions) => {
-                handleSubmitPress(values);
-                formikActions.setSubmitting(false);
-              }}>
-              {({
-                values,
-                handleChange,
-                handleBlur,
-                touched,
-                errors,
-                handleSubmit,
-                isSubmitting,
-                setValues,
-                resetForm,
-              }) => {
-                return (
-                  <>
-                    <View>
-                      <Textbox
-                        value={values.email}
-                        onChangeText={handleChange('email')}
-                        placeholder="Enter Email"
-                        onBlur={handleBlur('email')}
-                        touched={touched.email}
-                        errors={errors.email ? errors.email : ''}
-                        returnKeyType="next"
-                        keyboardType="email-address"
-                        //placeholderTextColor="#8b9cb5"
-                        autoCapitalize="none"
-                      />
-                      <PasswordInput
-                        value={values.password}
-                        onChangeText={handleChange('password')}
-                        placeholder="Enter Password"
-                        onBlur={handleBlur('password')}
-                        touched={touched.password}
-                        errors={errors.password}
-                        returnKeyType="next"
-                        keyboardType="default"
-                        autoCapitalize="none"
-                        showError={true}
-                        //placeholderTextColor="#8b9cb5"
-                      />
-                      <Text
-                        style={{color: '#1190CB', marginTop: 2}}
-                        onPress={() => navigation.navigate('forgotpassword')}>
-                        Forgot Password?
-                      </Text>
+      <LayoutContainer>
+        <ImageTitleDescription></ImageTitleDescription>
+        <KeyboardAvoidingView enabled>
+          <Formik
+            enableReinitialize={true}
+            validationSchema={validationSchema}
+            initialValues={{email: '', password: ''}}
+            onSubmit={(values, formikActions) => {
+              handleSubmitPress(values);
+              formikActions.setSubmitting(false);
+            }}>
+            {({
+              values,
+              handleChange,
+              handleBlur,
+              touched,
+              errors,
+              handleSubmit,
+              isSubmitting,
+              setValues,
+              resetForm,
+            }) => {
+              return (
+                <>
+                  <View style={{marginTop: 30}}>
+                    <Textbox
+                      value={values.email}
+                      onChangeText={handleChange('email')}
+                      placeholder="Enter Email"
+                      onBlur={handleBlur('email')}
+                      touched={touched.email}
+                      errors={errors.email ? errors.email : ''}
+                      returnKeyType="next"
+                      keyboardType="email-address"
+                      //placeholderTextColor="#8b9cb5"
+                      autoCapitalize="none"
+                    />
+                    <PasswordInput
+                      value={values.password}
+                      onChangeText={handleChange('password')}
+                      placeholder="Enter Password"
+                      onBlur={handleBlur('password')}
+                      touched={touched.password}
+                      errors={errors.password}
+                      returnKeyType="next"
+                      keyboardType="default"
+                      autoCapitalize="none"
+                      showError={true}
+                      //placeholderTextColor="#8b9cb5"
+                    />
+                    <Text
+                      style={{color: '#1190CB', marginTop: 2}}
+                      onPress={() => navigation.navigate('forgotpassword')}>
+                      Forgot Password?
+                    </Text>
 
-                      <Button
-                        onPress={handleSubmit}
-                        disabled={isSubmitting}
-                        title={'Login'}></Button>
+                    <Button
+                      onPress={handleSubmit}
+                      disabled={isSubmitting}
+                      title={'Sign in'}
+                      style={{marginTop: 15}}
+                    />
 
-                      <HorizontalRow title="OR" width={120} />
+                    <HorizontalRow title="OR" width={120} />
 
-                      <Button
-                        containerStyle={{backgroundColor: 'none'}}
-                        containerTextStyle={{
-                          ...styles.registerTextStyle,
-                          color: themedColors.default.appColor,
-                        }}
-                        onPress={handleSubmit}
-                        disabled={isSubmitting}
-                        title={'Join Lokoro'}
-                        onPress={() => navigation.navigate('signUp')}
-                      />
-
-                      {/* <TouchableOpacity
-                        style={{...styles.buttonStyle, backgroundColor: 'none'}}
-                        onPress={() => navigation.navigate('signUp')}>
-                        <Text
-                          style={{
-                            ...styles.registerTextStyle,
-                            color: themedColors.default.appColor,
-                          }}>
-                          Join Lokoro
-                        </Text>
-                      </TouchableOpacity> */}
-                    </View>
-                  </>
-                );
-              }}
-            </Formik>
-          </KeyboardAvoidingView>
-        </ScrollView>
-      </View>
+                    <Button
+                      containerStyle={commonStyle.transparentButtonStyle}
+                      containerTextStyle={
+                        commonStyle.transparentButtonTextStyle
+                      }
+                      onPress={handleSubmit}
+                      disabled={isSubmitting}
+                      title={'Join Lokoro'}
+                      onPress={() => navigation.navigate('signUp')}
+                    />
+                  </View>
+                </>
+              );
+            }}
+          </Formik>
+        </KeyboardAvoidingView>
+      </LayoutContainer>
     </>
   );
 };

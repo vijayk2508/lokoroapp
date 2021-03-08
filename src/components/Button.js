@@ -1,15 +1,26 @@
 import React from 'react';
-import {TouchableOpacity, StyleSheet, Text} from 'react-native';
-import {themedColors} from '../constants/Colors';
+import {TouchableOpacity, StyleSheet, Text, View} from 'react-native';
+import {commonStyle} from '../constants/generalSettings';
 
 function Button(props) {
+  const containerStyle = StyleSheet.flatten([
+    commonStyle.defaultButtonStyle,
+    props.containerStyle,
+  ]);
+
+  const containerTextStyle = StyleSheet.flatten([
+    commonStyle.defaultButtonTextStyle,
+    props.containerStyle,
+  ]);
   return (
-    <TouchableOpacity
-      style={{...styles.buttonStyle, ...props.containerStyle}}
-      onPress={props.onPress}
-      disabled={props.disabled}>
-      <Text style={{...styles.buttonTextStyle, ...props.containerTextStyle}}> {props.title} </Text>
-    </TouchableOpacity>
+    <View style={{...props.style}}>
+      <TouchableOpacity
+        style={containerStyle}
+        onPress={props.onPress}
+        disabled={props.disabled}>
+        <Text style={containerTextStyle}>{props.title}</Text>
+      </TouchableOpacity>
+    </View>
   );
 }
 
@@ -20,26 +31,7 @@ Button.defaultProps = {
   buttonStyle: {},
   buttonTextStyle: {},
   containerStyle: {},
-  containerTextStyle : {}
+  containerTextStyle: {},
 };
 
 export default Button;
-
-const styles = StyleSheet.create({
-  buttonStyle: {
-    backgroundColor: themedColors.default.appColor,
-    borderColor: themedColors.default.appColor,
-    borderWidth: 2,
-    color: '#FFFFFF',
-    height: 42,
-    alignItems: 'center',
-    borderRadius: 6,
-    marginTop: 15,
-    marginBottom: 25,
-  },
-  buttonTextStyle: {
-    color: '#FFFFFF',
-    paddingVertical: 6,
-    fontSize: 16,
-  },
-});

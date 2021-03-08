@@ -14,6 +14,9 @@ git push
 
 git push origin nim:test
 
+react-native link
+npm run android --reset-cache
+
 // responsive-screen
 https://www.npmjs.com/package/react-native-responsive-screen
 

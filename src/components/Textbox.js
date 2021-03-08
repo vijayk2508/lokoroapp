@@ -21,19 +21,6 @@ function Textbox(props) {
 
   return (
     <>
-      {/* <TextInput
-        value={props.value}
-        style={styles.inputStyle}
-        onChangeText={handleChange(props.fieldName)}
-        onBlur={handleBlur(props.fieldName)}
-        placeholder="Enter Email"
-        placeholderTextColor="#8b9cb5"
-        autoCapitalize="none"
-        keyboardType={props.keyboardType}
-        returnKeyType="next"
-        underlineColorAndroid="#f000"
-        blurOnSubmit={false}
-      /> */}
       <View
         style={{
           ...styles.inputContainer,

@@ -31,6 +31,11 @@ import {themedColors} from '../../constants/Colors';
 import * as Yup from 'yup';
 import {Formik} from 'formik';
 import {withNavigation} from 'react-navigation';
+import LayoutContainer from '../../components/LayoutContainer';
+import ImageTitleDescription from '../../components/ImageTitleDescription';
+import Textbox from '../../components/Textbox';
+import Button from '../../components/Button';
+import {commonStyle, width} from '../../constants/generalSettings';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email('Email is invalid').required('Email is required'),
@@ -51,155 +56,60 @@ const ForgotPassword = ({navigation}) => {
   };
 
   return (
-    <View style={styles.mainBody}>
-      {/* <Loader loading={loading} /> */}
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{
-          flex: 1,
-          justifyContent: 'center',
-          alignContent: 'center',
-        }}>
-        <View>
-          <KeyboardAvoidingView enabled>
-            <View style={{alignItems: 'center'}}>
-              <Image
-                source={assestImages.logo_white_background}
-                style={{
-                  width: '80%',
-                  height: 100,
-                  resizeMode: 'contain',
-                  margin: 30,
-                  marginBottom: 5,
-                }}
-              />
-              <Text style={styles.logoText}>Building Communities for Good</Text>
-              <Text
-                style={{
-                  margin: 40,
-                  marginTop: 6,
-                  marginBottom: 20,
-                  fontFamily: 'Quicksand',
-                  color: '#676767',
-                  fontSize: 16,
-                  alignSelf: 'center',
-                  textAlign: 'center',
-                }}>
-                Please enter the email address you used for your Lokoro account.
-                We will send an email for you to reset your password.
-              </Text>
-            </View>
-            <Formik
-              enableReinitialize={true}
-              validationSchema={validationSchema}
-              initialValues={{email: ''}}
-              onSubmit={(values, formikActions) => {}}>
-              {({
-                values,
-                handleChange,
-                handleBlur,
-                touched,
-                errors,
-                handleSubmit,
-                isSubmitting,
-              }) => (
-                <>
-                  <View style={styles.SectionStyle}>
-                    <TextInput
-                      value={values.email}
-                      style={styles.inputStyle}
-                      onChangeText={handleChange('email')}
-                      onBlur={handleBlur('email')}
-                      placeholder="Email" //12345
-                      placeholderTextColor="#8b9cb5"
-                    />
-                  </View>
-                  {touched.email && errors.email ? (
-                    <Text style={{...styles.error}}>{errors.email}</Text>
-                  ) : null}
-                  <TouchableOpacity
-                    style={styles.buttonStyle}
-                    onPress={handleSubmitPress}>
-                    <Text style={styles.buttonTextStyle}>Submit</Text>
-                  </TouchableOpacity>
-                </>
-              )}
-            </Formik>
-          </KeyboardAvoidingView>
-        </View>
-      </ScrollView>
-    </View>
+    <LayoutContainer>
+      <ImageTitleDescription
+        title="Building Communities for Good"
+        description="Please enter the email address you used for your Lokoro account. We will send an email for you to reset your password."
+      />
+      <KeyboardAvoidingView enabled>
+        <Formik
+          enableReinitialize={true}
+          validationSchema={validationSchema}
+          initialValues={{email: '', password: ''}}
+          onSubmit={(values, formikActions) => {
+            handleSubmitPress(values);
+            formikActions.setSubmitting(false);
+          }}>
+          {({
+            values,
+            handleChange,
+            handleBlur,
+            touched,
+            errors,
+            handleSubmit,
+            isSubmitting,
+            setValues,
+            resetForm,
+          }) => {
+            return (
+              <>
+                <View style={{marginTop: 30}}>
+                  <Textbox
+                    value={values.email}
+                    onChangeText={handleChange('email')}
+                    placeholder="Enter Email"
+                    onBlur={handleBlur('email')}
+                    touched={touched.email}
+                    errors={errors.email ? errors.email : ''}
+                    returnKeyType="next"
+                    keyboardType="email-address"
+                    //placeholderTextColor="#8b9cb5"
+                    autoCapitalize="none"
+                  />
+
+                  <Button
+                    onPress={handleSubmit}
+                    disabled={isSubmitting}
+                    title={'Login'}
+                   
+                  />
+                </View>
+              </>
+            );
+          }}
+        </Formik>
+      </KeyboardAvoidingView>
+    </LayoutContainer>
   );
 };
-export default withNavigation(ForgotPassword);
-
-const styles = StyleSheet.create({
-  logoText: {
-    color: themedColors.default.appColor,
-    //fontFamily : "Goo"
-    fontSize: 20,
-    marginTop: 0,
-    fontWeight: '300',
-    marginBottom: 8,
-  },
-  mainBody: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: 'white',
-    alignContent: 'center',
-  },
-  SectionStyle: {
-    flexDirection: 'row',
-    height: 40,
-    marginTop: 20,
-    marginLeft: 35,
-    marginRight: 35,
-    margin: 10,
-    marginBottom: 0,
-  },
-  buttonStyle: {
-    backgroundColor: themedColors.default.appColor,
-    borderColor: themedColors.default.appColor,
-    borderWidth: 2,
-    color: '#FFFFFF',
-    height: 40,
-    alignItems: 'center',
-    borderRadius: 6,
-    marginLeft: 35,
-    marginRight: 35,
-    marginTop: 20,
-    marginBottom: 25,
-  },
-  buttonTextStyle: {
-    color: '#FFFFFF',
-    paddingVertical: 6,
-    fontSize: 16,
-  },
-  inputStyle: {
-    flex: 1,
-    //color: 'white',
-    paddingLeft: 15,
-    paddingRight: 15,
-    borderWidth: 1,
-    borderRadius: 6,
-    borderColor: '#dadae8',
-  },
-  registerTextStyle: {
-    //color: '#FFFFFF',
-
-    textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: 14,
-    alignSelf: 'center',
-    padding: 5,
-  },
-  error: {
-    margin: 3,
-    marginBottom: 4,
-    marginLeft: 35,
-    marginRight: 35,
-    fontSize: 14,
-    color: 'red',
-    fontWeight: 'bold',
-  },
-});
+export default ForgotPassword;
