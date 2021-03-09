@@ -100,7 +100,7 @@ const FirstRegisterScreen = (props) => {
           isSubmitting,
           setValues,
           resetForm,
-          setFieldValue
+          setFieldValue,
         }) => {
           return (
             <>
@@ -128,6 +128,7 @@ const FirstRegisterScreen = (props) => {
                   keyboardType="default"
                   autoCapitalize="none"
                   showError={true}
+                  maxLength={15}
                   //placeholderTextColor="#8b9cb5"
                 />
                 <PasswordInput
@@ -141,13 +142,9 @@ const FirstRegisterScreen = (props) => {
                   keyboardType="default"
                   autoCapitalize="none"
                   showError={true}
+                  maxLength={15}
                   //placeholderTextColor="#8b9cb5"
                 />
-                {/* <Text
-                  style={{color: '#1190CB', marginTop: 2}}
-                  onPress={() => navigation.navigate('forgotpassword')}>
-                  Forgot Password?
-                </Text> */}
                 <View
                   style={{
                     //...styles.SectionStyle,
@@ -173,13 +170,12 @@ const FirstRegisterScreen = (props) => {
                     flexDirection: 'row',
                     alignSelf: 'flex-start',
                     alignItems: 'center',
+                    marginLeft: -10,
                   }}>
                   <Switch
                     trackColor={{false: '#767577', true: '#81b0ff'}}
                     thumbColor={
-                      values.term
-                        ? themedColors.default.appColor
-                        : '#f4f3f4'
+                      values.term ? themedColors.default.appColor : '#f4f3f4'
                     }
                     ios_backgroundColor="#3e3e3e"
                     onValueChange={(value) => setFieldValue('term', value)}
@@ -198,76 +194,6 @@ const FirstRegisterScreen = (props) => {
                   title={'Next'}
                   style={{marginTop: 0}}
                 />
-              </View>
-
-              <View>
-                {/* <View style={styles.SectionStyle}>
-                  <TextInput
-                    style={styles.inputStyle}
-                    onChangeText={(data) =>
-                      props.updateUserDetail({email: data})
-                    }
-                    value={props.userDetail.email}
-                    placeholder="Email Address*"
-                    placeholderTextColor="#8b9cb5"
-                    autoCapitalize="none"
-                    keyboardType="email-address"
-                    returnKeyType="next"
-                    //   onSubmitEditing={() =>
-                    //     passwordInputRef.current && passwordInputRef.current.focus()
-                    //   }
-                    underlineColorAndroid="#f000"
-                    blurOnSubmit={false}
-                  />
-                </View>
-                <View style={styles.SectionStyle}>
-                  <TextInput
-                    onChangeText={(data) =>
-                      props.updateUserDetail({password: data})
-                    }
-                    value={props.userDetail.password}
-                    style={styles.inputStyle}
-                    placeholder="Password" //12345
-                    placeholderTextColor="#8b9cb5"
-                    keyboardType="default"
-                    //ref={passwordInputRef}
-                    onSubmitEditing={Keyboard.dismiss}
-                    blurOnSubmit={false}
-                    secureTextEntry={true}
-                    underlineColorAndroid="#f000"
-                    returnKeyType="next"
-                  />
-                </View>
-                {errortext != '' ? (
-                  <Text style={styles.errorTextStyle}> {errortext} </Text>
-                ) : null}
-                <View style={styles.SectionStyle}>
-                  <TextInput
-                    onChangeText={(data) =>
-                      props.updateUserDetail({confirmPassword: data})
-                    }
-                    value={props.userDetail.confirmPassword}
-                    style={styles.inputStyle}
-                    placeholder="Re-Type Password" //12345
-                    placeholderTextColor="#8b9cb5"
-                    keyboardType="default"
-                    onSubmitEditing={Keyboard.dismiss}
-                    blurOnSubmit={false}
-                    secureTextEntry={true}
-                    underlineColorAndroid="#f000"
-                    returnKeyType="next"
-                  />
-                </View>
-                {errortext != '' ? (
-                  <Text style={styles.errorTextStyle}> {errortext} </Text>
-                ) : null} */}
-
-                {/* <TouchableOpacity
-                  style={styles.buttonStyle}
-                  //activeOpacity={0}
-                  onPress={handleSubmitPress}>
-                  <Text style={styles.buttonTextStyle}>Next</Text>
-                </TouchableOpacity> */}
               </View>
             </>
           );

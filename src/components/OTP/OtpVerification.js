@@ -227,16 +227,7 @@ const OtpVerification = function (props) {
 
   return (
     <CustomScreenContainer>
-      {/* <NavigationHeader
-        title={'Go back'}
-        leftIconAction={() => {}}
-        leftIconType={'back'}
-        containerStyle={GenericStyles.navigationHeaderBorder}
-      /> */}
-      <ImageTitleDescription
-        title="Building Communities for Good"
-        //description="Please enter the email address you used for your Lokoro account. We will send an email for you to reset your password."
-      />
+      <ImageTitleDescription title="Building Communities for Good" />
       <ErrorBoundary screenName={'OtpVerification'}>
         <View style={styles.container}>
           <CustomText

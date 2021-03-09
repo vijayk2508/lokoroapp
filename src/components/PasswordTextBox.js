@@ -24,4 +24,8 @@ function PasswordInput(props) {
   );
 }
 
+PasswordInput.defaultProps = {
+  maxLength: 15,
+};
+
 export default PasswordInput;

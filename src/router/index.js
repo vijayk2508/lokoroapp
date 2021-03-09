@@ -114,7 +114,7 @@ const UserBusinessRegistration = () => {
   );
 };
 
-export default function AppRouter() {
+const AppRouter = () => {
   return (
     <Provider store={store}>
       <StyleProvider style={getTheme(material)}>
@@ -171,4 +171,6 @@ export default function AppRouter() {
       </StyleProvider>
     </Provider>
   );
-}
+};
+
+export default AppRouter;

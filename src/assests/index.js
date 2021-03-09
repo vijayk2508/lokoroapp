@@ -2,7 +2,7 @@ import Transparent_Logo from '../assests/images/white_logo_transparent_backgroun
 import logo_white_background from '../assests/images/logo_white_background.jpg';
 import img1 from '../assests/images/signupswiper/img1.jpg';
 import img2 from '../assests/images/signupswiper/img2.png';
-import img3 from '../assests/images/signupswiper/img3.jpg';
+import img3 from '../assests/images/signupswiper/img3.png';
 import img4 from '../assests/images/coin.png';
 
 export const assestImages = {
