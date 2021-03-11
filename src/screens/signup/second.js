@@ -24,7 +24,8 @@ import PasswordInput from '../../components/PasswordTextBox';
 import Textbox from '../../components/Textbox';
 import Button from '../../components/Button';
 import {commonStyle} from '../../constants/generalSettings';
-import AutoSuggest from '../../components/AutoSuggest';
+//import AutoSuggest from '../../components/AutoSuggest';
+
 import ImageUpload from '../../components/ImageUpload';
 
 const validationSchema = Yup.object().shape({
@@ -43,7 +44,7 @@ const SecondRegisterScreen = (props) => {
   };
 
   const neighbourhood = useSelector((state) => state.neighbourhoodReducer);
-
+console.log("sss",neighbourhood.neighbourhoodList);
   return (
     <View style={{alignItems: 'center'}}>
       <Loader loading={loading} />
@@ -85,7 +86,13 @@ const SecondRegisterScreen = (props) => {
                   autoCapitalize="none"
                   showError={errors.displayName === 'Required' ? false : true}
                 />
-                <AutoSuggest
+                {/* <AutoComplete
+                  onSelect={onSelect}
+                  suggestions={neighbourhood.neighbourhoodList}
+                  suggestionObjectTextProperty="label"
+                  value="b"
+                /> */}
+                {/* <AutoSuggest
                   id="homeneighbourhood"
                   name="homeneighbourhood"
                   options={neighbourhood.neighbourhoodList}
@@ -96,7 +103,19 @@ const SecondRegisterScreen = (props) => {
                     //  );
                     setFieldValue('homeneighbourhood', value);
                   }}
-                />
+                /> */}
+                {/* <AutoSuggest
+                  id="workAddress"
+                  name="workAddress"
+                  options={neighbourhood.neighbourhoodList}
+                  onChangeText={(value) => {
+                    //  const regex = new RegExp(`${value.trim()}`, 'i');
+                    //  const neighbourhoodData = neighbourhood.neighbourhoodList.filter(
+                    //    (item) => item.label.search(regex) >= 0,
+                    //  );
+                    setFieldValue('homeneighbourhood', value);
+                  }}
+                /> */}
                 <Button
                   onPress={handleSubmit}
                   disabled={isSubmitting}
