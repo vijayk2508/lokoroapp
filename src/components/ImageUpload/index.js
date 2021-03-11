@@ -36,7 +36,7 @@ function ImageUpload() {
   return (
     <View style={styles.container}>
       <Avatar
-        source={response ? response : require('../../assests/images/coin.png')}
+        source={response ? response : require('../../assests/images/profile.png')}
         containerStyle={styles.avatar}
         size="large"
         rounded
@@ -70,12 +70,8 @@ const styles = StyleSheet.create({
     borderWidth: 3,
   },
   container: {
-    //flex: 1,
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-    //margin: 30,
-    //borderWidth: 3,
-    height: 115
+    backgroundColor: 'white',
   },
   button: {
     marginVertical: 24,

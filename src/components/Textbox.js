@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {width} from '../constants/generalSettings';
 
 function Textbox(props) {
+  console.log('hi', props);
   function TextWithIcon() {
     switch (typeof props.icon) {
       case 'string':
@@ -23,11 +24,14 @@ function Textbox(props) {
         style={{
           ...styles.inputContainer,
           borderColor:
-            props.touched && props.errors
+            props.touched === true && props.errors
               ? 'red'
               : styles.inputContainer.borderColor,
           width: width - 30,
         }}>
+        {/* <Text>
+          {JSON.stringify(props.touched)} {JSON.stringify(props.errors)}
+        </Text> */}
         <TextInput
           {...props}
           style={{

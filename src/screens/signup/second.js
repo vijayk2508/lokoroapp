@@ -1,316 +1,120 @@
+import {Formik} from 'formik';
 import React, {useState, createRef, useEffect} from 'react';
 import {
   StyleSheet,
   TextInput,
   View,
   Text,
+  ScrollView,
+  Image,
   Keyboard,
   TouchableOpacity,
-  ImageBackground,
-  PermissionsAndroid,
-  Image,
+  KeyboardAvoidingView,
+  AsyncStorage,
+  Switch,
 } from 'react-native';
-import {useDispatch} from 'react-redux';
-import ImagePicker from 'react-native-image-picker';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import {useDispatch, useSelector} from 'react-redux';
+import {login} from '../../action-reducers/auth/action';
+import {UpdateSignUpStep} from '../../action-reducers/signup/action';
+import {assestImages} from '../../assests';
+import * as Yup from 'yup';
 import Loader from '../../components/Loader';
 import {themedColors} from '../../constants/Colors';
-import Geolocation from '@react-native-community/geolocation';
-import Geocoder from 'react-native-geocoding'; // key is not working
-import ImageUpload from '../../components/ImageUpload';
-import {Formik} from 'formik';
-import * as Yup from 'yup';
+import PasswordInput from '../../components/PasswordTextBox';
 import Textbox from '../../components/Textbox';
 import Button from '../../components/Button';
+import {commonStyle} from '../../constants/generalSettings';
+import AutoSuggest from '../../components/AutoSuggest';
+import ImageUpload from '../../components/ImageUpload';
 
 const validationSchema = Yup.object().shape({
-  email: Yup.string().email('Email is invalid').required(''),
-  password: Yup.string()
-    .required('')
-    .matches(
-      /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
-      'Password must contain at least 8 characters, one uppercase, one number and one special case character',
-    ),
-  confirmPassword: Yup.string()
-    .required('')
-    .oneOf([Yup.ref('password'), null], 'Passwords must match.'),
-  term: Yup.bool().oneOf([true], 'T & C must be checked'),
+  displayName: Yup.string().email('Email is invalid').required('Required'),
 });
 
 const SecondRegisterScreen = (props) => {
-  const [proAddress, setProAddress] = useState({latitude: 0, longitude: 0});
-  const [locationStatus, setLocationStatus] = useState('');
   const [loading, setLoading] = useState(false);
-  const [errortext, setErrortext] = useState('');
-  let watchID = 0;
 
-  const handleSubmitPress = () => {
-    setErrortext('');
-    if (!props.userDetail.displayName) {
-      alert('Please fill your Name');
-      return;
-    }
-
+  const handleSubmitPress = async (values) => {
     setLoading(true);
-    const res = props.updateUserDetail({}, 3);
+    const res = props.updateUserDetail({...values}, 2);
+    setLoading(false);
     if (res === 1) {
-      setLoading(false);
     }
   };
 
-  //// Geo
-  useEffect(() => {
-    const requestLocationPermission = async () => {
-      if (Platform.OS === 'ios') {
-        getOneTimeLocation();
-        subscribeLocationLocation();
-      } else {
-        try {
-          const granted = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-            {
-              title: 'Location Access Required',
-              message: 'This App needs to Access your location',
-            },
-          );
-          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-            //To Check, If Permission is granted
-            getOneTimeLocation();
-            subscribeLocationLocation();
-          } else {
-            setLocationStatus('Permission Denied');
-          }
-        } catch (err) {
-          console.warn(err);
-        }
-      }
-    };
-    requestLocationPermission();
-    return () => {
-      Geolocation.clearWatch(watchID);
-    };
-  }, []);
-
-  const getOneTimeLocation = () => {
-    setLocationStatus('Getting Location ...');
-    Geolocation.getCurrentPosition(
-      //Will give you the current location
-      (position) => {
-        setLocationStatus('You are Here');
-        const currentLongitude = JSON.stringify(position.coords.longitude);
-        const currentLatitude = JSON.stringify(position.coords.latitude);
-
-        props.updateUserDetail({
-          address: {
-            latitude: currentLatitude,
-            longitude: currentLongitude,
-          },
-        });
-
-        Geocoder.init('AIzaSyDmIeMMcCu7FECjA1UBzXC_d21drrWbZng');
-        Geocoder.from(position.coords.latitude, position.coords.longitude)
-          .then((json) => {
-            console.log(json);
-            var addressComponent = json.results[0].address_components;
-
-            // setHomeAddress(addressComponent);
-
-            alert(JSON.stringify(addressComponent));
-          })
-
-          .catch((error) => console.warn(error));
-      },
-      (error) => {
-        setLocationStatus(error.message);
-      },
-      {
-        enableHighAccuracy: false,
-        timeout: 30000,
-        maximumAge: 1000,
-      },
-    );
-  };
-
-  const subscribeLocationLocation = () => {
-    watchID = Geolocation.watchPosition(
-      (position) => {
-        setLocationStatus('You are Here');
-        const currentLongitude = JSON.stringify(position.coords.longitude);
-        const currentLatitude = JSON.stringify(position.coords.latitude);
-        props.updateUserDetail({
-          address: {
-            latitude: currentLatitude,
-            longitude: currentLongitude,
-          },
-        });
-      },
-      (error) => {
-        setLocationStatus(error.message);
-      },
-      {
-        enableHighAccuracy: false,
-        maximumAge: 1000,
-      },
-    );
-    console.log('watchID', watchID);
-    return watchID;
-  };
-
-  const [photo, setPhoto] = useState(null);
-
-  const handleChoosePhoto = (e) => {
-    console.log('handleChoosePhoto');
-    const ImageOptions = {
-      title: 'select image',
-      storageOptions: {skipBackup: true, path: 'images'},
-      maxWidth: 150,
-      maxHeight: 150,
-      chooseFromLibraryButtonTitle: 'Choose from gallery',
-    };
-    ImagePicker.launchImageLibrary(ImageOptions, (response) => {
-      if (response.uri) {
-        setPhoto(response);
-      }
-    });
-  };
+  const neighbourhood = useSelector((state) => state.neighbourhoodReducer);
 
   return (
-    <>
-      <SafeAreaView style={{flex: 1}}>
-        <View style={{alignItems: 'center'}}>
-          <Loader loading={loading} />
-          <Formik
-            enableReinitialize={true}
-            validationSchema={validationSchema}
-            initialValues={{
-              // email: '',
-              // password: '',
-              // confirmPassword: '',
-              // term: false,
-              ...props.userDetail,
-            }}
-            onSubmit={(values, formikActions) => {
-              handleSubmitPress(values);
-              formikActions.setSubmitting(false);
-            }}>
-            {({
-              values,
-              handleChange,
-              handleBlur,
-              touched,
-              errors,
-              handleSubmit,
-              isSubmitting,
-              setValues,
-              resetForm,
-              setFieldValue,
-            }) => {
-              return (
-                <>
-                  <ImageUpload></ImageUpload>
-                  <View style={{marginTop: 30}}>
-                    <Textbox
-                      value={values.email}
-                      onChangeText={handleChange('email')}
-                      placeholder="Email Address *"
-                      onBlur={handleBlur('email')}
-                      touched={touched.email}
-                      errors={errors.email ? errors.email : ''}
-                      returnKeyType="next"
-                      keyboardType="email-address"
-                      //placeholderTextColor="#8b9cb5"
-                      autoCapitalize="none"
-                    />
-                    <Button
-                      onPress={handleSubmit}
-                      disabled={isSubmitting}
-                      title={'Next'}
-                      style={{marginTop: 0}}
-                    />
-                  </View>
-                </>
-              );
-            }}
-          </Formik>
-        </View>
-
-        {/* <View>
-        <Loader loading={loading} />
-        <View style={styles.container}>
-          <ImageUpload></ImageUpload>
-        </View>
-        <View style={styles.SectionStyle}>
-          <TextInput
-            style={styles.inputStyle}
-            onChangeText={(data) => props.updateUserDetail({displayName: data})}
-            value={props.userDetail.displayName}
-            placeholder="Display Name on Lokoro"
-            placeholderTextColor="#8b9cb5"
-            autoCapitalize="none"
-            keyboardType="default"
-            returnKeyType="next"
-            underlineColorAndroid="#f000"
-            //blurOnSubmit={false}
-          />
-        </View>
-        <View style={styles.SectionStyle}>
-          <TextInput
-            style={styles.inputStyle}
-            value={`${props.userDetail.address.latitude},${props.userDetail.address.longitude}`}
-            // onChangeText={(data) => props.updateUserDetail({displayName: data})}
-            placeholder="Home Neighbourhood"
-            placeholderTextColor="#8b9cb5"
-            keyboardType="default"
-            onSubmitEditing={Keyboard.dismiss}
-            blurOnSubmit={false}
-            //secureTextEntry={true}
-            underlineColorAndroid="#f000"
-            returnKeyType="next"
-          />
-        </View>
-        {errortext != '' ? (
-          <Text style={styles.errorTextStyle}> {errortext} </Text>
-        ) : null}
-        <View style={styles.SectionStyle}>
-          <TextInput
-            style={styles.inputStyle}
-            value={proAddress}
-            onChangeText={(data) => setProAddress(data)}
-            placeholder="School or Work (Optional)"
-            placeholderTextColor="#8b9cb5"
-            keyboardType="default"
-            onSubmitEditing={Keyboard.dismiss}
-            blurOnSubmit={false}
-            secureTextEntry={true}
-            underlineColorAndroid="#f000"
-            returnKeyType="next"
-          />
-        </View>
-        {errortext != '' ? (
-          <Text style={styles.errorTextStyle}> {errortext} </Text>
-        ) : null}
-        <TouchableOpacity
-          style={styles.buttonStyle}
-          // activeOpacity={0.5}
-          onPress={handleSubmitPress}>
-          <Text style={styles.buttonTextStyle}>Next</Text>
-        </TouchableOpacity>
-      </View>
-     */}
-      </SafeAreaView>
-    </>
+    <View style={{alignItems: 'center'}}>
+      <Loader loading={loading} />
+      <Formik
+        enableReinitialize={true}
+        validationSchema={validationSchema}
+        initialValues={{
+          ...props.userDetail,
+        }}
+        onSubmit={(values, formikActions) => {
+          handleSubmitPress(values);
+          formikActions.setSubmitting(false);
+        }}>
+        {({
+          values,
+          handleChange,
+          handleBlur,
+          touched,
+          errors,
+          handleSubmit,
+          isSubmitting,
+          setValues,
+          resetForm,
+          setFieldValue,
+        }) => {
+          return (
+            <>
+              <View style={{marginTop: 30}}>
+                <ImageUpload></ImageUpload>
+                <Textbox
+                  value={values.displayName}
+                  onChangeText={handleChange('displayName')}
+                  placeholder="Email Address *"
+                  onBlur={handleBlur('displayName')}
+                  touched={touched.displayName}
+                  errors={errors.displayName}
+                  returnKeyType="next"
+                  keyboardType="default"
+                  autoCapitalize="none"
+                  showError={errors.displayName === 'Required' ? false : true}
+                />
+                <AutoSuggest
+                  id="homeneighbourhood"
+                  name="homeneighbourhood"
+                  options={neighbourhood.neighbourhoodList}
+                  onChangeText={(value) => {
+                    //  const regex = new RegExp(`${value.trim()}`, 'i');
+                    //  const neighbourhoodData = neighbourhood.neighbourhoodList.filter(
+                    //    (item) => item.label.search(regex) >= 0,
+                    //  );
+                    setFieldValue('homeneighbourhood', value);
+                  }}
+                />
+                <Button
+                  onPress={handleSubmit}
+                  disabled={isSubmitting}
+                  title={'Next'}
+                  // style={{marginTop: 0}}
+                />
+              </View>
+            </>
+          );
+        }}
+      </Formik>
+    </View>
   );
 };
+
 export default SecondRegisterScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   logoText: {
     color: themedColors.default.appColor,
     //fontFamily : "Goo"
@@ -333,6 +137,7 @@ const styles = StyleSheet.create({
     marginRight: 35,
     margin: 10,
   },
+
   buttonStyle: {
     backgroundColor: themedColors.default.appColor,
     borderColor: themedColors.default.appColor,

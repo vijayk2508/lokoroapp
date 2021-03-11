@@ -26,15 +26,15 @@ import Button from '../../components/Button';
 import {commonStyle} from '../../constants/generalSettings';
 
 const validationSchema = Yup.object().shape({
-  email: Yup.string().email('Email is invalid').required(''),
+  email: Yup.string().email('Email is invalid').required('Required'),
   password: Yup.string()
-    .required('')
+    .required('Required')
     .matches(
       /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
       'Password must contain at least 8 characters, one uppercase, one number and one special case character',
     ),
   confirmPassword: Yup.string()
-    .required('')
+    .required('Required')
     .oneOf([Yup.ref('password'), null], 'Passwords must match.'),
   term: Yup.bool().oneOf([true], 'T & C must be checked'),
 });
@@ -116,6 +116,7 @@ const FirstRegisterScreen = (props) => {
                   keyboardType="email-address"
                   //placeholderTextColor="#8b9cb5"
                   autoCapitalize="none"
+                  showError={errors.email === 'Required' ? false : true}
                 />
                 <PasswordInput
                   value={values.password}
@@ -127,7 +128,7 @@ const FirstRegisterScreen = (props) => {
                   returnKeyType="next"
                   keyboardType="default"
                   autoCapitalize="none"
-                  showError={true}
+                  showError={errors.password === 'Required' ? false : true}
                   maxLength={15}
                   //placeholderTextColor="#8b9cb5"
                 />
@@ -141,7 +142,9 @@ const FirstRegisterScreen = (props) => {
                   returnKeyType="next"
                   keyboardType="default"
                   autoCapitalize="none"
-                  showError={true}
+                  showError={
+                    errors.confirmPassword === 'Required' ? false : true
+                  }
                   maxLength={15}
                   //placeholderTextColor="#8b9cb5"
                 />

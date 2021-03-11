@@ -30,9 +30,9 @@ import LayoutContainer from '../../components/LayoutContainer';
 import ImageTitleDescription from '../../components/ImageTitleDescription';
 
 const validationSchema = Yup.object().shape({
-  email: Yup.string().email('Email is invalid.').required(''),
+  email: Yup.string().email('Email is invalid.').required('Required'),
   password: Yup.string()
-    .required('')
+    .required('Required')
     .matches(
       /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
       'Password must contain at least 8 characters, one uppercase, one number and one special case character',
@@ -110,6 +110,7 @@ const Login = ({navigation}) => {
                       keyboardType="email-address"
                       //placeholderTextColor="#8b9cb5"
                       autoCapitalize="none"
+                      showError={errors.email === 'Required' ? false : true}
                     />
                     <PasswordInput
                       value={values.password}
@@ -121,7 +122,7 @@ const Login = ({navigation}) => {
                       returnKeyType="next"
                       keyboardType="default"
                       autoCapitalize="none"
-                      showError={true}
+                      showError={errors.password === 'Required' ? false : true}
                       //placeholderTextColor="#8b9cb5"
                     />
                     <Text
