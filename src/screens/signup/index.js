@@ -12,6 +12,7 @@ import {
   Dimensions,
 } from 'react-native';
 import {SliderBox} from 'react-native-image-slider-box';
+import {heightPercentageToDP} from 'react-native-responsive-screen';
 import SwiperFlatList from 'react-native-swiper-flatlist';
 import {useDispatch, useSelector} from 'react-redux';
 import {updateStepIndex} from '../../action-reducers/multisteps/action';
@@ -19,6 +20,7 @@ import {updateStepIndex} from '../../action-reducers/multisteps/action';
 import {assestImages} from '../../assests';
 import LayoutContainer from '../../components/LayoutContainer';
 import {themedColors} from '../../constants/Colors';
+import {defaultfontFamily} from '../../constants/generalSettings';
 import CustomPagination from './CustomPagination';
 import FirstRegisterScreen from './first';
 import FourthRegisterScreen from './fourth';
@@ -36,51 +38,32 @@ const swiperData = [
   {
     image: assestImages.img1,
     title: 'Buy and Sell with Neighbours',
-    description: 'List items you want to sell, rent, share or giveaway to your neighbours. Contribute to a greener planet by passing on pre-loved items you no longer need to others!'
+    description:
+      'List items you want to sell, rent, share or giveaway to your neighbours. Contribute to a greener planet by passing on pre-loved items you no longer need to others!',
   },
   {
     image: assestImages.img2,
     title: 'Post and Find Jobs',
-    description: 'Whether you need help with an urgent delivery or a babysitter for your kids, find someone you can trust from the neighbourhood on Lokoro!'
+    description:
+      'Whether you need help with an urgent delivery or a babysitter for your kids, find someone you can trust from the neighbourhood on Lokoro!',
   },
   {
     image: assestImages.img3,
     title: 'Meet New Friends',
-    description: 'Love to play sports, solve puzzles or go café hopping? Find new friends in your neighbourhood who share common Interests and passions!'
+    description:
+      'Love to play sports, solve puzzles or go café hopping? Find new friends in your neighbourhood who share common Interests and passions!',
   },
 ];
-
-{
-  /* <View style={styles.headerStyle}>
-              <Text style={styles.title}> Meet New Friends </Text>
-              <Text style={styles.description}>
-                Love to play sports, solve puzzles or go café hopping? Find new
-                friends in your neighbourhood who share common Interests and
-                passions!
-              </Text>
-            </View>
-            <View
-              style={{
-                borderBottomColor: '#E5E5E8',
-                borderBottomWidth: 1,
-                margin: 15,
-                marginLeft: 70,
-                marginRight: 70,
-              }}
-            /> */
-}
-//const newImage = [lion, fox, cat, background, element];
-// const image = (index) => ({image: newImage[index % newImage.length]});
-// const items = Array.from(Array(5)).map((_, index) => image(index));
 
 const initialState = {
   mobile: '',
   email: 'test@gmail.com',
   password: 'Test@123',
-  displayName: '',
-  userImage: '',
+  displayName: 'Test',
+  image: '',
   roleId: '',
-  address: {latitude: 0, longitude: 0},
+  homeAddress: 'Bishan',
+  workAddress: 'Bishan',
   deviceId: '',
   notification: false,
   term: true,
@@ -169,20 +152,13 @@ function SignUp(props) {
             <Text style={styles.formHeading}>Create Your Sign in</Text>
             <FirstRegisterScreen
               userDetail={userDetail}
-              updateUserDetail={updateUserDetail}></FirstRegisterScreen>
+              updateUserDetail={updateUserDetail}
+              {...props}></FirstRegisterScreen>
           </>
         );
       case 2:
         return (
           <>
-            {/* <View style={styles.headerStyle}>
-              <Text style={styles.title}> Post and Find Jobs </Text>
-              <Text style={styles.description}>
-                Whether you need help with an urgent delivery or a babysitter
-                for your kids, find someone you can trust from the neighbourhood
-                on Lokoro!
-              </Text>
-            </View> */}
             <View
               style={{
                 borderBottomColor: '#E5E5E8',
@@ -202,14 +178,6 @@ function SignUp(props) {
       case 3:
         return (
           <>
-            {/* <View style={styles.headerStyle}>
-              <Text style={styles.title}> Meet New Friends </Text>
-              <Text style={styles.description}>
-                Love to play sports, solve puzzles or go café hopping? Find new
-                friends in your neighbourhood who share common Interests and
-                passions!
-              </Text>
-            </View>
             <View
               style={{
                 borderBottomColor: '#E5E5E8',
@@ -218,10 +186,9 @@ function SignUp(props) {
                 marginLeft: 70,
                 marginRight: 70,
               }}
-            /> */}
-
+            />
             <Text style={styles.formHeading}>Secure Your Account</Text>
-            <Text style={styles.description}>
+            <Text style={{...styles.description, margin: 25, marginBottom: 0}}>
               For the security of your account and the safety of the Lokoro
               community, users need to perform a one-time SMS verification.
             </Text>
@@ -233,14 +200,6 @@ function SignUp(props) {
       case 4:
         return (
           <>
-            {/* <View style={styles.headerStyle}>
-              <Text style={styles.title}> Meet New Friends </Text>
-              <Text style={styles.description}>
-                Love to play sports, solve puzzles or go café hopping? Find new
-                friends in your neighbourhood who share common Interests and
-                passions!
-              </Text>
-            </View>
             <View
               style={{
                 borderBottomColor: '#E5E5E8',
@@ -250,7 +209,6 @@ function SignUp(props) {
                 marginRight: 70,
               }}
             />
- */}
             <Text style={styles.formHeading}>Almost Done!</Text>
             <Text
               style={{
@@ -305,7 +263,7 @@ function SignUp(props) {
             showPagination
             paginationStyleItem={{marginTop: -140}}
             paginationDefaultColor={themedColors.default.appColor}
-            paginationActiveColor={'white'}
+            paginationActiveColor={'black'}
             paginationStyleItemActive={{
               borderColor: themedColors.default.appColor,
               border: 2,
@@ -331,58 +289,12 @@ function SignUp(props) {
               </>
             )}
             contentContainerStyle={{
-              height: imageHeight + 133,
+              height: heightPercentageToDP('48%'), // 70% of height device screen
             }}
             e2eID="swiper_1"
           />
-          <View
-            style={{
-              borderBottomColor: '#E5E5E8',
-              borderBottomWidth: 1,
-              marginLeft: 70,
-              marginRight: 70,
-            }}
-          />
-          {/* <SliderBox
-            //ImageComponent={FastImage}
-            images={sliderImages}
-            sliderBoxHeight={200}
-            onCurrentImagePressed={(index) =>
-              console.warn(`image ${index} pressed`)
-            }
-            dotColor={themedColors.default.appColor}
-            inactiveDotColor="#90A4AE"
-            paginationBoxVerticalPadding={20}
-            autoplay
-            circleLoop
-            resizeMethod={'resize'}
-            resizeMode={'cover'}
-            paginationBoxStyle={{
-              position: 'absolute',
-              bottom: 0,
-              padding: 0,
-              alignItems: 'center',
-              alignSelf: 'center',
-              justifyContent: 'center',
-              paddingVertical: 10,
-            }}
-            dotStyle={{
-              width: 10,
-              height: 10,
-              borderRadius: 5,
-              marginHorizontal: 0,
-              padding: 0,
-              margin: 0,
-              backgroundColor: 'rgba(128, 128, 128, 0.92)',
-            }}
-            ImageComponentStyle={{
-              borderRadius: 15,
-              width: '97%',
-              marginTop: 5,
-            }}
-            imageLoadingColor="#2196F3"
-          /> */}
         </View>
+        {/* <Text>{JSON.stringify(userDetail)}</Text> */}
         {steps()}
       </ScrollView>
     </KeyboardAvoidingView>
@@ -404,15 +316,15 @@ const styles = StyleSheet.create({
     marginBottom: 0,
   },
   title: {
-    fontFamily: 'Quicksand',
-    fontWeight: 'bold',
-    fontSize: 18,
+    fontFamily: defaultfontFamily.quicksand.bold,
+    fontSize: 19,
     alignSelf: 'center',
+    color: '#141414',
   },
   description: {
     marginTop: 6,
-    fontFamily: 'Quicksand',
-    color: '#676767',
+    fontFamily: defaultfontFamily.quicksand.semibold,
+    color: '#616161',
     fontSize: 16,
     alignSelf: 'center',
     textAlign: 'center',

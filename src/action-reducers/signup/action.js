@@ -12,6 +12,10 @@ export const register = (data) => {
       url: `${apiEndpoints.AUTH_ENDPOINTS.SIGNUP}`,
       method: 'post',
       data: data,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Accept: 'application/json',
+      },
     });
 
     debugger;

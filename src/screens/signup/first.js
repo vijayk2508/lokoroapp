@@ -80,10 +80,6 @@ const FirstRegisterScreen = (props) => {
         enableReinitialize={true}
         validationSchema={validationSchema}
         initialValues={{
-          // email: '',
-          // password: '',
-          // confirmPassword: '',
-          // term: false,
           ...props.userDetail,
         }}
         onSubmit={(values, formikActions) => {
@@ -98,8 +94,6 @@ const FirstRegisterScreen = (props) => {
           errors,
           handleSubmit,
           isSubmitting,
-          setValues,
-          resetForm,
           setFieldValue,
         }) => {
           return (
@@ -208,69 +202,4 @@ const FirstRegisterScreen = (props) => {
 
 export default FirstRegisterScreen;
 
-const styles = StyleSheet.create({
-  logoText: {
-    color: themedColors.default.appColor,
-    //fontFamily : "Goo"
-    fontSize: 20,
-    marginTop: 0,
-    fontWeight: '300',
-    marginBottom: 8,
-  },
-  mainBody: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: 'white',
-    alignContent: 'center',
-  },
-  SectionStyle: {
-    flexDirection: 'row',
-    height: 40,
-    marginTop: 20,
-    marginLeft: 35,
-    marginRight: 35,
-    margin: 10,
-  },
 
-  buttonStyle: {
-    backgroundColor: themedColors.default.appColor,
-    borderColor: themedColors.default.appColor,
-    borderWidth: 2,
-    color: '#FFFFFF',
-    height: 40,
-    alignItems: 'center',
-    borderRadius: 6,
-    marginLeft: 35,
-    marginRight: 35,
-    marginTop: 20,
-    marginBottom: 25,
-  },
-  buttonTextStyle: {
-    color: '#FFFFFF',
-    paddingVertical: 6,
-    fontSize: 16,
-  },
-  inputStyle: {
-    flex: 1,
-    //color: 'white',
-    paddingLeft: 15,
-    paddingRight: 15,
-    borderWidth: 1,
-    borderRadius: 6,
-    borderColor: '#dadae8',
-  },
-  registerTextStyle: {
-    //color: '#FFFFFF',
-
-    textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: 14,
-    alignSelf: 'center',
-    padding: 5,
-  },
-  errorTextStyle: {
-    color: 'red',
-    textAlign: 'center',
-    fontSize: 14,
-  },
-});

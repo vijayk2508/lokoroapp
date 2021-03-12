@@ -29,22 +29,30 @@ import {commonStyle} from '../../constants/generalSettings';
 import ImageUpload from '../../components/ImageUpload';
 
 const validationSchema = Yup.object().shape({
-  displayName: Yup.string().email('Email is invalid').required('Required'),
+  image: Yup.mixed().required('Required'),
+  displayName: Yup.string().required('Required'),
+  homeAddress: Yup.string().required('Required'),
+  workAddress: Yup.string().required('Required'),
 });
 
 const SecondRegisterScreen = (props) => {
   const [loading, setLoading] = useState(false);
 
-  const handleSubmitPress = async (values) => {
+  const handleSubmitPress = (values) => {
     setLoading(true);
-    const res = props.updateUserDetail({...values}, 2);
-    setLoading(false);
+    // const res = props.updateUserDetail({...values}, 2);
+    // setLoading(false);
+    // if (res === 1) {
+    // }
+
+    const res = props.updateUserDetail({...values}, 3);
     if (res === 1) {
+      setLoading(false);
     }
   };
 
   const neighbourhood = useSelector((state) => state.neighbourhoodReducer);
-console.log("sss",neighbourhood.neighbourhoodList);
+
   return (
     <View style={{alignItems: 'center'}}>
       <Loader loading={loading} />
@@ -72,55 +80,53 @@ console.log("sss",neighbourhood.neighbourhoodList);
         }) => {
           return (
             <>
+            {/* <Text>{JSON.stringify(values)}</Text> */}
               <View style={{marginTop: 30}}>
-                <ImageUpload></ImageUpload>
+                <ImageUpload
+                  changeImage={(data) =>
+                    setFieldValue('image', data)
+                  }></ImageUpload>
                 <Textbox
                   value={values.displayName}
                   onChangeText={handleChange('displayName')}
-                  placeholder="Email Address *"
+                  placeholder="Display Name on Lokoro"
                   onBlur={handleBlur('displayName')}
                   touched={touched.displayName}
                   errors={errors.displayName}
-                  returnKeyType="next"
+                  //returnKeyType="next"
                   keyboardType="default"
                   autoCapitalize="none"
                   showError={errors.displayName === 'Required' ? false : true}
+                  maxLength={20}
                 />
-                {/* <AutoComplete
-                  onSelect={onSelect}
-                  suggestions={neighbourhood.neighbourhoodList}
-                  suggestionObjectTextProperty="label"
-                  value="b"
-                /> */}
-                {/* <AutoSuggest
-                  id="homeneighbourhood"
-                  name="homeneighbourhood"
-                  options={neighbourhood.neighbourhoodList}
-                  onChangeText={(value) => {
-                    //  const regex = new RegExp(`${value.trim()}`, 'i');
-                    //  const neighbourhoodData = neighbourhood.neighbourhoodList.filter(
-                    //    (item) => item.label.search(regex) >= 0,
-                    //  );
-                    setFieldValue('homeneighbourhood', value);
-                  }}
-                /> */}
-                {/* <AutoSuggest
-                  id="workAddress"
-                  name="workAddress"
-                  options={neighbourhood.neighbourhoodList}
-                  onChangeText={(value) => {
-                    //  const regex = new RegExp(`${value.trim()}`, 'i');
-                    //  const neighbourhoodData = neighbourhood.neighbourhoodList.filter(
-                    //    (item) => item.label.search(regex) >= 0,
-                    //  );
-                    setFieldValue('homeneighbourhood', value);
-                  }}
-                /> */}
+                <Textbox
+                  value={values.homeAddress}
+                  onChangeText={handleChange('homeAddress')}
+                  placeholder="Home Neighbourhood"
+                  onBlur={handleBlur('homeAddress')}
+                  touched={touched.homeAddress}
+                  errors={errors.homeAddress}
+                  // returnKeyType="next"
+                  keyboardType="default"
+                  autoCapitalize="none"
+                  showError={errors.homeAddress === 'Required' ? false : true}
+                />
+                <Textbox
+                  value={values.workAddress}
+                  onChangeText={handleChange('workAddress')}
+                  placeholder="School or Work (Optional)"
+                  onBlur={handleBlur('workAddress')}
+                  touched={touched.workAddress}
+                  errors={errors.workAddress}
+                  // returnKeyType="next"
+                  keyboardType="default"
+                  autoCapitalize="none"
+                  showError={errors.workAddress === 'Required' ? false : true}
+                />
                 <Button
                   onPress={handleSubmit}
                   disabled={isSubmitting}
                   title={'Next'}
-                  // style={{marginTop: 0}}
                 />
               </View>
             </>

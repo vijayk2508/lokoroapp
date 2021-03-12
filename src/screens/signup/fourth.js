@@ -40,14 +40,16 @@ const FourthRegisterScreen = (props) => {
         email,
         password,
         displayName,
-        userImage,
+        image,
         roleId,
         address,
         deviceId,
         notification,
         term,
+        workAddress,
+        homeAddress,
       } = props.userDetail;
-
+      debugger;
       const formData = new FormData();
       formData.append('mobile', mobile);
       formData.append('email', email);
@@ -56,11 +58,9 @@ const FourthRegisterScreen = (props) => {
       formData.append('otp', currentOtp);
       formData.append('notification', notification);
       formData.append('term', true);
-      //formData.append("locoCoinId")
-      //formData.append("image",userImage)
-      // formData.append("roleId",roleId)
-      // formData.append("address",address)
-      // formData.append("deviceId",deviceId)
+      formData.append('image', image);
+      formData.append('workAddress', workAddress);
+      formData.append('homeAddress', homeAddress);
       setLoading(true);
       const res = await dispatch(register(formData));
       if (res.status === 'success') {
@@ -83,9 +83,9 @@ const FourthRegisterScreen = (props) => {
   };
 
   return (
-    <View>
+    <View style={{flex: 1, justifyContent: 'center'}}>
       <Loader loading={loading} />
-      <View style={styles.SectionStyle}>
+      <View style={{...styles.SectionStyle, marginTop: 20}}>
         <View style={{flex: 1}}>
           <View style={styles.otp}>
             <TextInput
@@ -119,9 +119,7 @@ const FourthRegisterScreen = (props) => {
           </View>
         </View>
       </View>
-      <TouchableOpacity
-        style={styles.buttonStyle}
-        onPress={handleSubmitPress}>
+      <TouchableOpacity style={styles.buttonStyle} onPress={handleSubmitPress}>
         <Text style={styles.buttonTextStyle}>Next</Text>
       </TouchableOpacity>
     </View>

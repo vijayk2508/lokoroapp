@@ -16,7 +16,7 @@ import {commonStyle, width} from '../../constants/generalSettings';
 
 import * as ImagePicker from './utilites';
 
-function ImageUpload() {
+function ImageUpload(props) {
   const [response, setResponse] = React.useState(null);
 
   function uploadAction() {
@@ -27,16 +27,19 @@ function ImageUpload() {
         maxHeight: 200,
         maxWidth: 200,
       },
-      (response) => {
-        console.log(response);
-        setResponse(response);
+      (res) => {
+        console.log(res);
+        setResponse(res);
       },
     );
+    props.changeImage(response);
   }
   return (
     <View style={styles.container}>
       <Avatar
-        source={response ? response : require('../../assests/images/profile.png')}
+        source={
+          response ? response : require('../../assests/images/profile.png')
+        }
         containerStyle={styles.avatar}
         size="large"
         rounded
@@ -53,7 +56,7 @@ const styles = StyleSheet.create({
   avatar: {
     // width: 80,
     // height: 80,
-    marginTop: 30,
+    marginTop: 0,
   },
   uploadIcon: {
     backgroundColor: '#1190CB',
