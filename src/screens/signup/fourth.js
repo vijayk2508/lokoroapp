@@ -58,7 +58,13 @@ const FourthRegisterScreen = (props) => {
       formData.append('otp', currentOtp);
       formData.append('notification', notification);
       formData.append('term', true);
-      formData.append('image', image);
+      formData.append('image', {
+        type: image.type,
+        fileName: image.fileName,
+        fileSize: image.fileSize,
+        uri: image.uri,
+      });
+
       formData.append('workAddress', workAddress);
       formData.append('homeAddress', homeAddress);
       setLoading(true);

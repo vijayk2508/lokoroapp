@@ -80,15 +80,7 @@ function SignUp(props) {
   useEffect(
     () =>
       props.navigation.addListener('beforeRemove', (e) => {
-        // if (activeIndex > -1) {
-        //   // If we don't have unsaved changes, then we don't need to do anything
-        //   return;
-        // }
-
-        // Prevent default behavior of leaving the screen
         e.preventDefault();
-
-        // Prompt the user before leaving the screen
 
         if (activeIndex - 1 < 1) {
           // Alert.alert(
@@ -231,10 +223,10 @@ function SignUp(props) {
     }
   }
 
-  function updateUserDetail(data, idx) {
+  async function updateUserDetail(data, idx) {
     setUserDetail({...userDetail, ...data});
     if (idx) {
-      dispatch(updateStepIndex(idx));
+      await dispatch(updateStepIndex(idx));
     }
     return 1;
   }

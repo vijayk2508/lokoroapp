@@ -1,19 +1,7 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  ScrollView,
-  Platform,
-  SafeAreaView,
-  Button,
-  TouchableOpacity,
-} from 'react-native';
+import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import {Avatar} from 'react-native-elements/dist/avatar/Avatar';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {commonStyle, width} from '../../constants/generalSettings';
-
 import * as ImagePicker from './utilites';
 
 function ImageUpload(props) {
@@ -28,11 +16,11 @@ function ImageUpload(props) {
         maxWidth: 200,
       },
       (res) => {
-        console.log(res);
+        //console.log(res);
         setResponse(res);
+        props.changeImage(response);
       },
     );
-    props.changeImage(response);
   }
   return (
     <View style={styles.container}>

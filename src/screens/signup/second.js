@@ -1,29 +1,12 @@
 import {Formik} from 'formik';
-import React, {useState, createRef, useEffect} from 'react';
-import {
-  StyleSheet,
-  TextInput,
-  View,
-  Text,
-  ScrollView,
-  Image,
-  Keyboard,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  AsyncStorage,
-  Switch,
-} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {login} from '../../action-reducers/auth/action';
-import {UpdateSignUpStep} from '../../action-reducers/signup/action';
-import {assestImages} from '../../assests';
+import React, {useState} from 'react';
+import {StyleSheet, View} from 'react-native';
+import {useSelector} from 'react-redux';
 import * as Yup from 'yup';
 import Loader from '../../components/Loader';
 import {themedColors} from '../../constants/Colors';
-import PasswordInput from '../../components/PasswordTextBox';
 import Textbox from '../../components/Textbox';
 import Button from '../../components/Button';
-import {commonStyle} from '../../constants/generalSettings';
 //import AutoSuggest from '../../components/AutoSuggest';
 
 import ImageUpload from '../../components/ImageUpload';
@@ -80,11 +63,11 @@ const SecondRegisterScreen = (props) => {
         }) => {
           return (
             <>
-            {/* <Text>{JSON.stringify(values)}</Text> */}
+              {/* <Text>{JSON.stringify(values)}</Text> */}
               <View style={{marginTop: 30}}>
                 <ImageUpload
-                  changeImage={(data) =>
-                    setFieldValue('image', data)
+                  changeImage={async (data) =>
+                    await setFieldValue('image', data)
                   }></ImageUpload>
                 <Textbox
                   value={values.displayName}

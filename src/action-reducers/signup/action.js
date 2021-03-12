@@ -11,11 +11,10 @@ export const register = (data) => {
     const response = await sendApiRequest({
       url: `${apiEndpoints.AUTH_ENDPOINTS.SIGNUP}`,
       method: 'post',
-      data: data,
       headers: {
-        'Content-Type': 'multipart/form-data',
-        Accept: 'application/json',
+        'content-type': 'multipart/form-data',
       },
+      data: data,
     });
 
     debugger;
