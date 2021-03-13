@@ -120,7 +120,7 @@ const AppRouter = () => {
       <StyleProvider style={getTheme(material)}>
         <NavigationContainer>
           <Stack.Navigator
-            initialRouteName="splash"
+            initialRouteName="auth"
             screenOptions={{
               gestureEnabled: true,
               headerShown: false,
@@ -146,7 +146,6 @@ const AppRouter = () => {
               component={ResetPassword}
               options={options}
             />
-
             <Stack.Screen name="userscreen" component={UserScreen} />
             <Stack.Screen
               name="startscreen"
@@ -164,7 +163,6 @@ const AppRouter = () => {
             <Stack.Screen
               name="userBusinessRegistration"
               component={UserBusinessRegistration}
-              options={options}
             />
           </Stack.Navigator>
         </NavigationContainer>

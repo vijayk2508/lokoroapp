@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
   View,
@@ -7,13 +7,13 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import { SliderBox } from 'react-native-image-slider-box';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateStepIndex } from '../../action-reducers/multisteps/action';
+import {SliderBox} from 'react-native-image-slider-box';
+import {useDispatch, useSelector} from 'react-redux';
+import {updateStepIndex} from '../../action-reducers/multisteps/action';
 
-import { assestImages } from '../../assests';
-import { themedColors } from '../../constants/Colors';
-import { BUSINESSCREATORTYPE, BUSINESSSTATUS, BUSINESSTYPE } from './constant';
+import {assestImages} from '../../assests';
+import {themedColors} from '../../constants/Colors';
+import {BUSINESSCREATORTYPE, BUSINESSSTATUS, BUSINESSTYPE} from './constant';
 import FirstRegisterScreen from './first';
 import FourthRegisterScreen from './fourth';
 import SecondRegisterScreen from './second';
@@ -24,9 +24,9 @@ const sliderImages = [assestImages.img1, assestImages.img2];
 const initialState = {
   businessCreatorType: BUSINESSCREATORTYPE.OWNER, //"owner", "champion"
   businessType: BUSINESSTYPE.REGISTERED,
-  name: "test",
+  name: 'test',
   businessImage: '',
-  contactNumber: "",
+  contactNumber: '',
   businessEmail: '',
   businessAddressId: '',
   facebookLink: '',
@@ -38,8 +38,8 @@ const initialState = {
   championUserId: '6036862a1f71c07253909454',
   businessRating: 5,
   businessStatus: BUSINESSSTATUS.ACTIVE,
-  location: { formatted_address: "" },
-  uenNumber: ""
+  location: {formatted_address: ''},
+  uenNumber: '',
 };
 
 function BusinessRegistration(props) {
@@ -48,7 +48,7 @@ function BusinessRegistration(props) {
   );
   //  console.log("BusinessRegistration", activeIndex);
   const dispatch = useDispatch();
-  const [businessDetail, setBusinessDetail] = useState({ ...initialState });
+  const [businessDetail, setBusinessDetail] = useState({...initialState});
 
   useEffect(
     () =>
@@ -64,9 +64,9 @@ function BusinessRegistration(props) {
   );
 
   useEffect(() => {
-    dispatch(updateStepIndex(1));
+    dispatch(updateStepIndex(3));
     return () => {
-      dispatch(updateStepIndex(1));
+      dispatch(updateStepIndex(3));
     };
   }, []);
 
@@ -87,13 +87,17 @@ function BusinessRegistration(props) {
             <Text style={styles.formHeading}>Select Business Type</Text>
             <SecondRegisterScreen
               businessDetail={businessDetail}
-              updateBusinessDetail={updateBusinessDetail}></SecondRegisterScreen>
+              updateBusinessDetail={
+                updateBusinessDetail
+              }></SecondRegisterScreen>
           </>
         );
       case 3:
         return (
           <>
-            <Text style={{ ...styles.formHeading, color: "#616161" }}>Enter Business Information</Text>
+            <Text style={{...styles.formHeading, color: '#616161'}}>
+              Enter Business Information
+            </Text>
             <ThirdRegisterScreen
               businessDetail={businessDetail}
               updateBusinessDetail={updateBusinessDetail}></ThirdRegisterScreen>
@@ -115,7 +119,9 @@ function BusinessRegistration(props) {
   }
 
   function updateBusinessDetail(data, idx = null) {
-    if (data) { setBusinessDetail({ ...businessDetail, ...data }); }
+    if (data) {
+      setBusinessDetail({...businessDetail, ...data});
+    }
     if (idx) {
       dispatch(updateStepIndex(idx));
     }
@@ -125,7 +131,7 @@ function BusinessRegistration(props) {
   return (
     <>
       <KeyboardAvoidingView
-        style={{ flex: 1, backgroundColor: 'white' }}
+        style={{flex: 1, backgroundColor: 'white'}}
         behavior={Platform.OS === 'ios' ? 'padding' : ''}>
         <ScrollView
           contentContainerStyle={{
@@ -186,7 +192,7 @@ function BusinessRegistration(props) {
                   New to the neighbourhood and want to get more people to know
                   about you? Forget about distributing flyers. Get listed on
                   Lokoro to spread the word!
-              </Text>
+                </Text>
               </View>
               <View
                 style={{

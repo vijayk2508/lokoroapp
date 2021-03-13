@@ -223,10 +223,10 @@ function SignUp(props) {
     }
   }
 
-  async function updateUserDetail(data, idx) {
+  function updateUserDetail(data, idx) {
     setUserDetail({...userDetail, ...data});
     if (idx) {
-      await dispatch(updateStepIndex(idx));
+      dispatch(updateStepIndex(idx));
     }
     return 1;
   }
@@ -249,9 +249,8 @@ function SignUp(props) {
           <SwiperFlatList
             autoplay
             autoplayDelay={2}
-            // index={3}
             autoplayLoop
-            // autoplayInvertDirection
+            autoplayInvertDirection
             showPagination
             paginationStyleItem={{marginTop: -140}}
             paginationDefaultColor={themedColors.default.appColor}
@@ -264,14 +263,10 @@ function SignUp(props) {
             renderItem={({item, index}) => (
               <>
                 <ImageBackground
+                  key={index}
                   source={item.image}
-                  style={{
-                    ...styles.image,
-                  }}>
-                  <View
-                    style={{
-                      ...styles.headerStyle,
-                    }}>
+                  style={{...styles.image}}>
+                  <View style={{...styles.headerStyle}}>
                     <Text style={{...styles.title}}> {item.title} </Text>
                     <Text style={{...styles.description}}>
                       {item.description}
@@ -281,12 +276,11 @@ function SignUp(props) {
               </>
             )}
             contentContainerStyle={{
-              height: heightPercentageToDP('48%'), // 70% of height device screen
+              height: heightPercentageToDP('48%'), // 48% of height device screen
             }}
             e2eID="swiper_1"
           />
         </View>
-        {/* <Text>{JSON.stringify(userDetail)}</Text> */}
         {steps()}
       </ScrollView>
     </KeyboardAvoidingView>

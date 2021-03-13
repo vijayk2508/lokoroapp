@@ -59,10 +59,12 @@ const FourthRegisterScreen = (props) => {
       formData.append('notification', notification);
       formData.append('term', true);
       formData.append('image', {
+        name: image.fileName,
         type: image.type,
-        fileName: image.fileName,
-        fileSize: image.fileSize,
-        uri: image.uri,
+        uri:
+          Platform.OS === 'android'
+            ? image.uri
+            : image.uri.replace('file://', ''),
       });
 
       formData.append('workAddress', workAddress);
