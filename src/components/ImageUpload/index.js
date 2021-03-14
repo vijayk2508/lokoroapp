@@ -18,7 +18,7 @@ function ImageUpload(props) {
       (res) => {
         //console.log(res);
         setResponse(res);
-        props.changeImage(response);
+        props.changeImage(res);
       },
     );
   }

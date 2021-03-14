@@ -108,7 +108,7 @@ function SignUp(props) {
           dispatch(updateStepIndex(activeIndex - 1));
         }
       }),
-    [props.navigation, activeIndex],
+    [activeIndex],
   );
 
   useEffect(() => {

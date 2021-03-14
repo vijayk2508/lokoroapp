@@ -25,3 +25,9 @@ https://heartbeat.fritz.ai/handling-responsive-layouts-in-react-native-apps-1494
 
 // 
 https://developer.here.com/blog/street-address-validation-with-reactjs-and-here-geocoder-autocomplete
+
+//
+https://stackoverflow.com/questions/60358836/how-to-formik-setfieldvalue-in-useeffect-hook
+
+
+https://github.com/benhurott/react-native-masked-text#readme

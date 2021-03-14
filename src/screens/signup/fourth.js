@@ -1,24 +1,18 @@
-import React, {useState, createRef} from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   TextInput,
   View,
   Text,
-  ScrollView,
-  Image,
-  Keyboard,
   TouchableOpacity,
-  KeyboardAvoidingView,
-  AsyncStorage,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
-import {login} from '../../action-reducers/auth/action';
-import {assestImages} from '../../assests';
 import {withNavigation} from 'react-navigation';
 
 import Loader from '../../components/Loader';
 import {themedColors} from '../../constants/Colors';
 import {register} from '../../action-reducers/signup/action';
+import AsyncStorage from '@react-native-community/async-storage';
 //import * as register from '../../action-reducers/signUp/action';
 
 const FourthRegisterScreen = (props) => {
@@ -41,11 +35,7 @@ const FourthRegisterScreen = (props) => {
         password,
         displayName,
         image,
-        roleId,
-        address,
-        deviceId,
         notification,
-        term,
         workAddress,
         homeAddress,
       } = props.userDetail;
@@ -73,8 +63,8 @@ const FourthRegisterScreen = (props) => {
       const res = await dispatch(register(formData));
       if (res.status === 'success') {
         if (res.data.userObj) {
+          await AsyncStorage.setItem('user_id', JSON.stringify(res.data));
           props.navigation.navigate('startscreen');
-          props.updateUserDetail({}, 1);
           setLoading(false);
           return;
         } else {

@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 
 import React from 'react';
-import {View, Text, Button} from 'react-native';
+import {Text} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {NavigationContainer} from '@react-navigation/native';
 import {StyleProvider} from 'native-base';
@@ -23,6 +23,7 @@ import ResetPassword from '../screens/forgot-password/resetPassword';
 import TermCondition from '../screens/term&condition';
 
 const Stack = createStackNavigator();
+
 const options = {
   headerStyle: {
     elevation: 0,
@@ -120,7 +121,7 @@ const AppRouter = () => {
       <StyleProvider style={getTheme(material)}>
         <NavigationContainer>
           <Stack.Navigator
-            initialRouteName="auth"
+            initialRouteName="splash"
             screenOptions={{
               gestureEnabled: true,
               headerShown: false,

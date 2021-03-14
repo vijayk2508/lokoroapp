@@ -87,16 +87,23 @@ const FourthRegisterScreen = (props) => {
       businessRating,
       businessStatus,
       location,
+      uenNumber
     } = props.businessDetail;
     const formData = new FormData();
     formData.append('businessCreatorType', businessCreatorType);
     formData.append('businessType', businessType);
     formData.append('name', name);
     formData.append('uenNumber', uenNumber);
-    formData.append('businessImage', businessImage);
+    formData.append('businessImage', {
+      name: businessImage.fileName,
+      type: businessImage.type,
+      uri:
+        Platform.OS === 'android'
+          ? businessImage.uri
+          : businessImage.uri.replace('file://', ''),
+    });
     formData.append('businessEmail', businessEmail);
     formData.append('contactNumber', contactNumber);
-    formData.append('businessAddressId', businessAddressId);
     if (facebookLink) {
       formData.append('facebookLink', facebookLink);
     }
@@ -106,7 +113,7 @@ const FourthRegisterScreen = (props) => {
     if (instagramLink) {
       formData.append('instagramLink', instagramLink);
     }
-    formData.append('businessHour', businessHourId);
+    formData.append('businessHour', businessHrs);
     formData.append('industryId', industryId);
     formData.append('ownerUserId', ownerUserId);
     formData.append('championUserId', championUserId);
@@ -115,6 +122,7 @@ const FourthRegisterScreen = (props) => {
     formData.append('location', location);
     setLoading(true);
     const res = await dispatch(businessRegister(formData));
+    setLoading(false);
     if (res.status === 'success') {
       if (res.data.userObj) {
         props.navigation.navigate('startscreen');

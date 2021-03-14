@@ -11,6 +11,7 @@ import {Image} from 'react-native-elements';
 import {ScrollView} from 'react-native-gesture-handler';
 import {withNavigation} from 'react-navigation';
 import {assestImages} from '../../assests';
+import AuthLayout from '../../components/AuthLayout';
 import Loader from '../../components/Loader';
 import {themedColors} from '../../constants/Colors';
 var screenWidth = Dimensions.get('window').width;
@@ -23,135 +24,137 @@ const StartScreen = (props) => {
   console.log('StartScreen', props);
   const [loading, setloading] = useState(false);
   return (
-    <ScrollView>
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: 'white',
-          justifyContent: 'center',
-          alignItems: 'center',
-          margin: 0,
-        }}>
-        <Loader loading={loading} />
+    <AuthLayout>
+      <ScrollView>
         <View
           style={{
             flex: 1,
             backgroundColor: 'white',
             justifyContent: 'center',
             alignItems: 'center',
-            marginLeft: 20,
-            marginRight: 20,
-            marginBottom: 5,
-            width: width - 30,
+            margin: 0,
           }}>
-          <View style={styles.container}>
-            <Image
-              source={assestImages.img3}
-              style={{height: height, width: width - 30, padding: 100}}
-            />
-          </View>
-          <View style={styles.headerStyle}>
-            <Text style={styles.title}> Welcome to Lokoro </Text>
-            <Text style={styles.description}>
-              {/* To thank you for joining the Lokoro Community, we are giving away
-              10 Loko Coins. Loko Coins can be used to bump up your posts and
-              create groups. */}
-              We are excited to have you in Lokoro! To thank you for joining the
-              Lokoro community, you are awarded 10 Loko Coins to kick start your
-              community journey. Loko Coins can be used to bump up your posts
-              and create groups.
-            </Text>
-          </View>
-          <View
-            style={{
-              borderBottomColor: '#E5E5E8',
-              borderBottomWidth: 1,
-              margin: 10,
-              marginLeft: 70,
-              marginRight: 70,
-              width: width - 90,
-            }}
-          />
-
-          <Text style={styles.formHeading}>Congratulations! You have...</Text>
-
-          <View style={{marginBottom: 0}}>
-            <View style={{marginTop: 10}}>
-              <Image source={assestImages.img4} style={{padding: 40}} />
-            </View>
-
-            <View>
-              <Text
-                style={{
-                  color: '#F27413',
-                  alignSelf: 'center',
-                  fontSize: 45,
-                  margin: 0,
-                }}>
-                10
-              </Text>
-            </View>
-            <View
-              style={{
-                margin: 0,
-              }}>
-              <Text style={{color: '#F27413', alignSelf: 'center', margin: 0}}>
-                Loko Coins
-              </Text>
-            </View>
-          </View>
+          <Loader loading={loading} />
           <View
             style={{
               flex: 1,
+              backgroundColor: 'white',
               justifyContent: 'center',
               alignItems: 'center',
-              //padding: 20,
-              //margin: 20,
+              marginLeft: 20,
+              marginRight: 20,
+              marginBottom: 5,
+              width: width - 30,
             }}>
-            <View
-              style={{
-                padding: 0,
-                marginTop: 10,
-                marginBottom: 0,
-              }}>
-              <TouchableOpacity
-                style={styles.buttonStyle}
-                activeOpacity={0.5}
-                //onPress={handleSubmitPress}
-              >
-                <Text style={styles.buttonTextStyle}>Let's Get Started!</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  ...styles.buttonStyle,
-                  backgroundColor: '#F7FAFB',
-                  color: '#1190CB',
-                }}
-                //activeOpacity={0.5}
-                onPress={() => {
-                  props.navigation.navigate('userBusinessRegistration');
-                }}>
-                <Text style={{...styles.buttonTextStyle, color: '#1190CB'}}>
-                  Register a Business
-                </Text>
-              </TouchableOpacity>
+            <View style={styles.container}>
+              <Image
+                source={assestImages.img3}
+                style={{height: height, width: width - 30, padding: 100}}
+              />
+            </View>
+            <View style={styles.headerStyle}>
+              <Text style={styles.title}> Welcome to Lokoro </Text>
+              <Text style={styles.description}>
+                {/* To thank you for joining the Lokoro Community, we are giving away
+              10 Loko Coins. Loko Coins can be used to bump up your posts and
+              create groups. */}
+                We are excited to have you in Lokoro! To thank you for joining
+                the Lokoro community, you are awarded 10 Loko Coins to kick
+                start your community journey. Loko Coins can be used to bump up
+                your posts and create groups.
+              </Text>
             </View>
             <View
               style={{
-                ...styles.SectionStyle,
-                padding: 0,
-                marginTop: 0,
-                marginBottom: 0,
-                alignSelf: 'center',
+                borderBottomColor: '#E5E5E8',
+                borderBottomWidth: 1,
+                margin: 10,
+                marginLeft: 70,
+                marginRight: 70,
+                width: width - 90,
+              }}
+            />
+
+            <Text style={styles.formHeading}>Congratulations! You have...</Text>
+
+            <View style={{marginBottom: 0}}>
+              <View style={{marginTop: 10}}>
+                <Image source={assestImages.img4} style={{padding: 40}} />
+              </View>
+
+              <View>
+                <Text
+                  style={{
+                    color: '#F27413',
+                    alignSelf: 'center',
+                    fontSize: 45,
+                    margin: 0,
+                  }}>
+                  10
+                </Text>
+              </View>
+              <View
+                style={{
+                  margin: 0,
+                }}>
+                <Text
+                  style={{color: '#F27413', alignSelf: 'center', margin: 0}}>
+                  Loko Coins
+                </Text>
+              </View>
+            </View>
+            <View
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                //padding: 20,
+                //margin: 20,
               }}>
-              <Text style={{color: '#1190CB', alignSelf: 'center'}}>
-                Read our Community Guidelines
-              </Text>
+              <View
+                style={{
+                  padding: 0,
+                  marginTop: 10,
+                  marginBottom: 0,
+                }}>
+                <TouchableOpacity
+                  style={styles.buttonStyle}
+                  onPress={() => {
+                    props.navigation.navigate('userscreen');
+                  }}>
+                  <Text style={styles.buttonTextStyle}>Let's Get Started!</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{
+                    ...styles.buttonStyle,
+                    backgroundColor: '#F7FAFB',
+                    color: '#1190CB',
+                  }}
+                  onPress={() => {
+                    props.navigation.navigate('userBusinessRegistration');
+                  }}>
+                  <Text style={{...styles.buttonTextStyle, color: '#1190CB'}}>
+                    Register a Business
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <View
+                style={{
+                  ...styles.SectionStyle,
+                  padding: 0,
+                  marginTop: 0,
+                  marginBottom: 0,
+                  alignSelf: 'center',
+                }}>
+                <Text style={{color: '#1190CB', alignSelf: 'center'}}>
+                  Read our Community Guidelines
+                </Text>
+              </View>
             </View>
           </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </AuthLayout>
   );
 };
 export default withNavigation(StartScreen);

@@ -12,6 +12,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {updateStepIndex} from '../../action-reducers/multisteps/action';
 
 import {assestImages} from '../../assests';
+import AuthLayout from '../../components/AuthLayout';
 import {themedColors} from '../../constants/Colors';
 import {BUSINESSCREATORTYPE, BUSINESSSTATUS, BUSINESSTYPE} from './constant';
 import FirstRegisterScreen from './first';
@@ -26,8 +27,8 @@ const initialState = {
   businessType: BUSINESSTYPE.REGISTERED,
   name: 'test',
   businessImage: '',
-  contactNumber: '',
-  businessEmail: '',
+  contactNumber: '+65 78978777',
+  businessEmail: 'test@g.c',
   businessAddressId: '',
   facebookLink: '',
   websiteLink: '',
@@ -39,7 +40,7 @@ const initialState = {
   businessRating: 5,
   businessStatus: BUSINESSSTATUS.ACTIVE,
   location: {formatted_address: ''},
-  uenNumber: '',
+  uenNumber: '123456444',
 };
 
 function BusinessRegistration(props) {
@@ -60,7 +61,7 @@ function BusinessRegistration(props) {
           dispatch(updateStepIndex(activeIndex - 1));
         }
       }),
-    [props.navigation, activeIndex],
+    [activeIndex],
   );
 
   useEffect(() => {
@@ -130,85 +131,86 @@ function BusinessRegistration(props) {
 
   return (
     <>
-      <KeyboardAvoidingView
-        style={{flex: 1, backgroundColor: 'white'}}
-        behavior={Platform.OS === 'ios' ? 'padding' : ''}>
-        <ScrollView
-          contentContainerStyle={{
-            backgroundColor: 'white',
-          }}
-          bounces={true}>
-          {(activeIndex === 1 || activeIndex === 2) && (
-            <>
-              <View
-                style={{
-                  flex: 0.7,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <SliderBox
-                  //ImageComponent={FastImage}
-                  images={sliderImages}
-                  sliderBoxHeight={200}
-                  onCurrentImagePressed={(index) =>
-                    console.warn(`image ${index} pressed`)
-                  }
-                  dotColor={themedColors.default.appColor}
-                  inactiveDotColor="#90A4AE"
-                  paginationBoxVerticalPadding={20}
-                  autoplay
-                  circleLoop
-                  resizeMethod={'resize'}
-                  resizeMode={'cover'}
-                  paginationBoxStyle={{
-                    position: 'absolute',
-                    bottom: 0,
-                    padding: 0,
-                    alignItems: 'center',
-                    alignSelf: 'center',
+      <AuthLayout>
+        <KeyboardAvoidingView
+          style={{flex: 1, backgroundColor: 'white'}}
+          behavior={Platform.OS === 'ios' ? 'padding' : ''}>
+          <ScrollView
+            contentContainerStyle={{
+              backgroundColor: 'white',
+            }}
+            bounces={true}>
+            {(activeIndex === 1 || activeIndex === 2) && (
+              <>
+                <View
+                  style={{
+                    flex: 0.7,
                     justifyContent: 'center',
-                    paddingVertical: 10,
+                    alignItems: 'center',
+                  }}>
+                  <SliderBox
+                    images={sliderImages}
+                    sliderBoxHeight={200}
+                    onCurrentImagePressed={(index) =>
+                      console.warn(`image ${index} pressed`)
+                    }
+                    dotColor={themedColors.default.appColor}
+                    inactiveDotColor="#90A4AE"
+                    paginationBoxVerticalPadding={20}
+                    autoplay
+                    circleLoop
+                    resizeMethod={'resize'}
+                    resizeMode={'cover'}
+                    paginationBoxStyle={{
+                      position: 'absolute',
+                      bottom: 0,
+                      padding: 0,
+                      alignItems: 'center',
+                      alignSelf: 'center',
+                      justifyContent: 'center',
+                      paddingVertical: 10,
+                    }}
+                    dotStyle={{
+                      width: 10,
+                      height: 10,
+                      borderRadius: 5,
+                      marginHorizontal: 0,
+                      padding: 0,
+                      margin: 0,
+                      backgroundColor: 'white',
+                    }}
+                    ImageComponentStyle={{
+                      borderRadius: 15,
+                      width: '97%',
+                      marginTop: 5,
+                    }}
+                    imageLoadingColor="#2196F3"
+                  />
+                </View>
+                <View style={styles.headerStyle}>
+                  <Text style={styles.title}> Get Discovered! </Text>
+                  <Text style={styles.description}>
+                    New to the neighbourhood and want to get more people to know
+                    about you? Forget about distributing flyers. Get listed on
+                    Lokoro to spread the word!
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    borderBottomColor: '#E5E5E8',
+                    borderBottomWidth: 1,
+                    margin: 15,
+                    marginLeft: 70,
+                    marginRight: 70,
                   }}
-                  dotStyle={{
-                    width: 10,
-                    height: 10,
-                    borderRadius: 5,
-                    marginHorizontal: 0,
-                    padding: 0,
-                    margin: 0,
-                    backgroundColor: 'white',
-                  }}
-                  ImageComponentStyle={{
-                    borderRadius: 15,
-                    width: '97%',
-                    marginTop: 5,
-                  }}
-                  imageLoadingColor="#2196F3"
                 />
-              </View>
-              <View style={styles.headerStyle}>
-                <Text style={styles.title}> Get Discovered! </Text>
-                <Text style={styles.description}>
-                  New to the neighbourhood and want to get more people to know
-                  about you? Forget about distributing flyers. Get listed on
-                  Lokoro to spread the word!
-                </Text>
-              </View>
-              <View
-                style={{
-                  borderBottomColor: '#E5E5E8',
-                  borderBottomWidth: 1,
-                  margin: 15,
-                  marginLeft: 70,
-                  marginRight: 70,
-                }}
-              />
-            </>
-          )}
+              </>
+            )}
 
-          {steps()}
-        </ScrollView>
-      </KeyboardAvoidingView>
+            {steps()}
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </AuthLayout>
     </>
   );
 }

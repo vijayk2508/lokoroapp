@@ -25,7 +25,8 @@ function UserScreen(props) {
       </Text>
       <Button
         title="Logout"
-        onPress={() => {
+        onPress={async () => {
+          await AsyncStorage.removeItem('user_id');
           props.navigation.navigate('auth');
         }}></Button>
     </>

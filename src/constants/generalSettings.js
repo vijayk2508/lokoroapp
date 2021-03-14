@@ -2,6 +2,7 @@
 //   return require(`../assests/images/${imagename}`);
 // }
 
+import AsyncStorage from '@react-native-community/async-storage';
 import {StyleSheet} from 'react-native';
 import {Dimensions} from 'react-native';
 import {themedColors} from './Colors';
@@ -115,3 +116,14 @@ export const commonStyle = StyleSheet.create({
     // textAlign: 'center',
   },
 });
+
+export const getAsyncData = async (name) => {
+  try {
+    const jsonValue = await AsyncStorage.getItem(name);
+    console.log('jsonValue', jsonValue);
+    console.log('jsonValue', JSON.parse(jsonValue));
+    return jsonValue != null ? JSON.parse(jsonValue) : null;
+  } catch (e) {
+    throw e;
+  }
+};

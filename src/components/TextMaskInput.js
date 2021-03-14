@@ -1,10 +1,14 @@
-import React, {useEffect} from 'react';
-import {TextInput, StyleSheet, View, Text} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+//https://www.npmjs.com/package/react-native-masked-text/v/1.6.5
 
+import React from 'react';
+import {useState} from 'react';
+import {StyleSheet, View, Text} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import {TextInputMask} from 'react-native-masked-text';
 import {width} from '../constants/generalSettings';
 
-function Textbox(props) {
+function TextMaskInput(props) {
+  const [data, setData] = useState('');
   function TextWithIcon() {
     switch (typeof props.icon) {
       case 'string':
@@ -15,6 +19,14 @@ function Textbox(props) {
         return null;
     }
   }
+
+  let textinputmaskstyle = {
+    ...styles.inputStyle,
+    width: props.icon ? width - 80 : width - 40,
+    paddingHorizontal: props.icon ? 10 : 10,
+    borderColor:
+      props.touched && props.errors ? 'red' : styles.inputContainer.borderColor,
+  };
 
   return (
     <>
@@ -27,10 +39,7 @@ function Textbox(props) {
               : styles.inputContainer.borderColor,
           width: width - 30,
         }}>
-        {/* <Text>
-          {JSON.stringify(props.touched)} {JSON.stringify(props.errors)}
-        </Text> */}
-        <TextInput
+        {/* <TextInput
           {...props}
           style={{
             ...styles.inputStyle,
@@ -41,6 +50,21 @@ function Textbox(props) {
                 ? 'red'
                 : styles.inputContainer.borderColor,
           }}
+        /> */}
+       
+        <TextInputMask
+          type={props.type}
+          options={{...props.options, obfuscated: true}}
+          onBlur={props.onBlur}
+          style={textinputmaskstyle}
+          placeholder={props.placeholder}
+          value={props.value}
+          //autoCapitalize={true}
+          onChangeText={(maskedText, rawText) => {
+            setData(`${maskedText.toUpperCase()}`);
+            props.onChangeText(maskedText.toUpperCase());
+          }}
+          maxLength={props.maxLength}
         />
         {props.icon ? TextWithIcon() : null}
       </View>
@@ -51,27 +75,28 @@ function Textbox(props) {
   );
 }
 
-Textbox.defaultProps = {
+TextMaskInput.defaultProps = {
   icon: '',
   value: '',
   style: {},
   onChangeText: () => {},
   onBlur: () => {},
   placeholder: 'Enter Text',
-  placeholderTextColor: '#8b9cb5',
-  autoCapitalize: 'none',
-  keyboardType: 'email-address',
-  returnKeyType: 'next',
   onSubmitEditing: () => {},
   underlineColorAndroid: '#f000',
   blurOnSubmit: false,
   touched: false,
   errors: '',
-  maxLength: 20,
+  maxLength: 15,
   multiline: false,
   showError: false,
+  options: {
+    mask: 'SSSSSSSSSSS',
+  },
+  type: 'custom',
 };
-export default Textbox;
+
+export default TextMaskInput;
 
 const styles = StyleSheet.create({
   inputContainer: {

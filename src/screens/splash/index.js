@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Image,
@@ -7,9 +7,10 @@ import {
   Animated,
   ActivityIndicator,
 } from 'react-native';
-import { assestImages } from '../../assests';
-import { themedColors } from '../../constants/Colors';
-import { defaultfontFamily } from '../../constants/generalSettings';
+import {assestImages} from '../../assests';
+import {AuthCheckPoint, AuthUserData} from '../../components/AuthLayout';
+import {themedColors} from '../../constants/Colors';
+import {defaultfontFamily} from '../../constants/generalSettings';
 
 function Splash(props) {
   const [LogoAnime, setLogoAnime] = useState(new Animated.Value(0));
@@ -30,13 +31,32 @@ function Splash(props) {
       }),
     ]).start(() => {
       setLoadingSpinner(true);
-      //props.navigation.navigate('login');
       setTimeout(() => {
-        props.navigation.navigate('auth');
+        if (AuthUserData._W && AuthUserData._W.userObj['_id']) {
+          if (AuthUserData._W.userObj.business) {
+            if (AuthUserData._W.userObj.business.length > 0) {
+              // If business already register
+              props.navigation.navigate('userscreen', {
+                ...AuthUserData._W.userObj,
+              });
+            } else {
+              // If business is not register
+              props.navigation.navigate('startscreen', {
+                ...AuthUserData._W.userObj,
+              });
+            }
+          } else {
+            props.navigation.navigate('startscreen', {
+              ...AuthUserData._W.userObj,
+            });
+          }
+        } else {
+          props.navigation.navigate('auth');
+        }
       }, 1500);
     });
 
-    return () => { };
+    return () => {};
   }, []);
   return (
     <>
@@ -51,7 +71,7 @@ function Splash(props) {
           }}>
           <Image
             source={assestImages.Transparent_Logo}
-            style={{ height: 100, width: 150 }}
+            style={{height: 100, width: 150}}
           />
           {loadingSpinner ? (
             <ActivityIndicator
@@ -69,7 +89,7 @@ function Splash(props) {
             />
           ) : null}
         </Animated.View>
-        <Animated.View style={{ opacity: LogoText }}>
+        <Animated.View style={{opacity: LogoText}}>
           <Text style={styles.logoText}> Building Communities for Good </Text>
         </Animated.View>
       </View>

@@ -1,43 +1,35 @@
-import React, {useState, createRef, useEffect} from 'react';
-import {
-  StyleSheet,
-  TextInput,
-  View,
-  Text,
-  Keyboard,
-  TouchableOpacity,
-  ImageBackground,
-  PermissionsAndroid,
-  Image,
-  Alert,
-} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {StyleSheet, View, PermissionsAndroid} from 'react-native';
 import {Button} from 'react-native-elements';
 import {useDispatch, useSelector} from 'react-redux';
 
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Loader from '../../components/Loader';
 import {themedColors} from '../../constants/Colors';
 import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding';
-import {Formik, ErrorMessage} from 'formik';
+import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {width} from '../../constants/generalSettings';
 import {getAllIndustry} from '../../action-reducers/industry/action';
 import Dropdown from '../../components/Dropdown';
+import ImageUpload from '../../components/ImageUpload';
+import Textbox from '../../components/Textbox';
+import TextMaskInput from '../../components/TextMaskInput';
+import {Text} from 'native-base';
 //import Map from '../map';
 
 const validationSchema = Yup.object({
   name: Yup.string().required('Required'),
-  // uenNumber: Yup.string().required('Required'),
-  // businessImage: Yup.mixed().required('Required'),
-  // contactNumber: Yup.string().required('Required'),
-  // businessEmail: Yup.string().email('Invalid Email').required('Required'),
-  // businessAddressId: Yup.string().required('Required'),
-  // industryId: Yup.string().required('Required'),
-  // location: Yup.object().required('Required'),
-  // facebookLink: Yup.string(),
-  // websiteLink: Yup.string(),
-  // instagramLink: Yup.string(),
+  uenNumber: Yup.string().required('Required'),
+  businessImage: Yup.mixed().required('Required'),
+  contactNumber: Yup.string().required('Required'),
+  businessEmail: Yup.string().email('Invalid Email').required('Required'),
+  //businessAddressId: Yup.string().required('Required'),
+  industryId: Yup.string().required('Required'),
+  formatted_address: Yup.string().required('Required'),
+  facebookLink: Yup.string(),
+  websiteLink: Yup.string(),
+  instagramLink: Yup.string(),
 });
 
 const ThirdRegisterScreen = (props) => {
@@ -62,7 +54,7 @@ const ThirdRegisterScreen = (props) => {
   const requestLocationPermission = async () => {
     if (Platform.OS === 'ios') {
       getOneTimeLocation();
-      subscribeLocationLocation();
+      // subscribeLocationLocation();
     } else {
       try {
         const granted = await PermissionsAndroid.request(
@@ -75,7 +67,7 @@ const ThirdRegisterScreen = (props) => {
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
           //To Check, If Permission is granted
           getOneTimeLocation();
-          subscribeLocationLocation();
+          //subscribeLocationLocation();
         } else {
           //setLocationStatus('Permission Denied');
         }
@@ -120,31 +112,30 @@ const ThirdRegisterScreen = (props) => {
     );
   };
 
-  const subscribeLocationLocation = () => {
-    watchID = Geolocation.watchPosition(
-      (position) => {
-        // setLocationStatus('You are Here');
-        const currentLongitude = JSON.stringify(position.coords.longitude);
-        const currentLatitude = JSON.stringify(position.coords.latitude);
-        //props.updateBusinessDetail(null,2)
-        props.updateBusinessDetail({
-          address: {
-            latitude: currentLatitude,
-            longitude: currentLongitude,
-          },
-        });
-      },
-      (error) => {
-        // setLocationStatus(error.message);
-      },
-      {
-        enableHighAccuracy: false,
-        maximumAge: 1000,
-      },
-    );
-    console.log('watchID', watchID);
-    return watchID;
-  };
+  // const subscribeLocationLocation = () => {
+  //   watchID = Geolocation.watchPosition(
+  //     (position) => {
+  //       const currentLongitude = JSON.stringify(position.coords.longitude);
+  //       const currentLatitude = JSON.stringify(position.coords.latitude);
+  //       //props.updateBusinessDetail(null,2)
+  //       props.updateBusinessDetail({
+  //         address: {
+  //           latitude: currentLatitude,
+  //           longitude: currentLongitude,
+  //         },
+  //       });
+  //     },
+  //     (error) => {
+  //       // setLocationStatus(error.message);
+  //     },
+  //     {
+  //       enableHighAccuracy: false,
+  //       maximumAge: 1000,
+  //     },
+  //   );
+  //   console.log('watchID', watchID);
+  //   return watchID;
+  // };
 
   //industryList: action.payload , isLoaded : true
   return (
@@ -170,15 +161,164 @@ const ThirdRegisterScreen = (props) => {
           }}
           validationSchema={validationSchema}
           onSubmit={(values, formikActions) => {
-            props.updateBusinessDetail(null, 4);
+            props.updateBusinessDetail(values, 4);
+            formikActions.setSubmitting(false);
             // setTimeout(() => {
             //   Alert.alert(JSON.stringify(values));
             //   formikActions.setSubmitting(false);
             // }, 500);
           }}>
-          {(fProps) => (
+          {({
+            //...fProps,
+            setFieldValue,
+            values,
+            isSubmitting,
+            handleSubmit,
+            handleChange,
+            handleBlur,
+            touched,
+            errors,
+          }) => (
             <>
-              <View
+              <View style={{marginTop: 30}}>
+                <Text>{JSON.stringify(errors)}</Text>
+                <ImageUpload
+                  changeImage={(data) => setFieldValue('businessImage', data)}
+                />
+                <Textbox
+                  value={values.name}
+                  onChangeText={handleChange('name')}
+                  placeholder="Name of Business"
+                  onBlur={handleBlur('name')}
+                  touched={touched.name}
+                  errors={errors.name}
+                  keyboardType="default"
+                  autoCapitalize="none"
+                  showError={errors.name === 'Required' ? false : true}
+                />
+                <Dropdown
+                  listOfItems={industryReducer.industryList}
+                  isLoaded={industryReducer.isLoaded}
+                  placeholder="Select Your Industry"
+                  onChangeItem={(data) => {
+                    setFieldValue('industryId', data);
+                  }}
+                  defaultValue={values.industryId}
+                  errors={errors.industryId}
+                  onBlur={handleBlur('industryId')}
+                  touched={touched.industryId}
+                />
+                <TextMaskInput
+                  onChangeText={(data) => {
+                    setFieldValue('uenNumber', data);
+                  }}
+                  value={values.uenNumber}
+                  onBlur={handleBlur('uenNumber')}
+                  touched={touched.uenNumber}
+                  placeholder="UEN (Required for Registered Business)"
+                  errors={errors.uenNumber}
+                />
+                <Textbox
+                  value={values.formatted_address}
+                  onChangeText={handleChange('formatted_address')}
+                  placeholder="Location of Business"
+                  onBlur={handleBlur('formatted_address')}
+                  touched={touched.formatted_address}
+                  errors={errors.formatted_address}
+                  // returnKeyType="next"
+                  keyboardType="default"
+                  autoCapitalize="none"
+                  showError={
+                    errors.formatted_address === 'Required' ? false : true
+                  }
+                  maxLength={2000}
+                />
+                {/* <Textbox
+                  value={values.contactNumber}
+                  onChangeText={handleChange('contactNumber')}
+                  placeholder="Business Contact Number"
+                  onBlur={handleBlur('contactNumber')}
+                  touched={touched.contactNumber}
+                  errors={errors.contactNumber}
+                  // returnKeyType="next"
+                  keyboardType="default"
+                  autoCapitalize="none"
+                  showError={errors.contactNumber === 'Required' ? false : true}
+                /> */}
+
+                <TextMaskInput
+                  onChangeText={(data) => {
+                    setFieldValue('contactNumber', data);
+                  }}
+                  value={values.contactNumber}
+                  onBlur={handleBlur('contactNumber')}
+                  touched={touched.contactNumber}
+                  placeholder="Business Contact Number"
+                  type={'cel-phone'}
+                  options={{
+                    maskType: 'BRL',
+
+                    withDDD: true,
+                    dddMask: '(+65) 9999-9999',
+                  }}
+                  maxLength={15}
+                  errors={errors.contactNumber}
+                />
+
+                <Textbox
+                  value={values.businessEmail}
+                  onChangeText={handleChange('businessEmail')}
+                  placeholder="Business Email"
+                  onBlur={handleBlur('businessEmail')}
+                  touched={touched.businessEmail}
+                  errors={errors.businessEmail}
+                  // returnKeyType="next"
+                  keyboardType="default"
+                  autoCapitalize="none"
+                  showError={errors.businessEmail === 'Required' ? false : true}
+                />
+                <Textbox
+                  value={values.websiteLink}
+                  onChangeText={handleChange('websiteLink')}
+                  placeholder="Website (Optional)"
+                  onBlur={handleBlur('websiteLink')}
+                  touched={touched.websiteLink}
+                  errors={errors.websiteLink}
+                  // returnKeyType="next"
+                  keyboardType="default"
+                  autoCapitalize="none"
+                  showError={errors.websiteLink === 'Required' ? false : true}
+                />
+                <Textbox
+                  value={values.facebookLink}
+                  onChangeText={handleChange('facebookLink')}
+                  placeholder="Facebook Link (Optional)"
+                  onBlur={handleBlur('facebookLink')}
+                  touched={touched.facebookLink}
+                  errors={errors.facebookLink}
+                  // returnKeyType="next"
+                  keyboardType="default"
+                  autoCapitalize="none"
+                  showError={errors.facebookLink === 'Required' ? false : true}
+                />
+                <Textbox
+                  value={values.instagramLink}
+                  onChangeText={handleChange('instagramLink')}
+                  placeholder="Instagram Link (Optional)"
+                  onBlur={handleBlur('instagramLink')}
+                  touched={touched.instagramLink}
+                  errors={errors.instagramLink}
+                  keyboardType="default"
+                  autoCapitalize="none"
+                  showError={errors.instagramLink === 'Required' ? false : true}
+                />
+                <Button
+                  onPress={handleSubmit}
+                  disabled={isSubmitting}
+                  title={'Next'}
+                />
+              </View>
+              {/* <View
                 style={{
                   height: 100,
                   width: 100,
@@ -350,6 +490,7 @@ const ThirdRegisterScreen = (props) => {
                   // mode="contained"
                 />
               </View>
+          */}
             </>
           )}
         </Formik>

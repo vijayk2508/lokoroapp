@@ -6,14 +6,13 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import TextInputMask from '@rbfraphael/react-native-text-input-mask';
 import Loader from '../../components/Loader';
 import {themedColors} from '../../constants/Colors';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {width} from '../../constants/generalSettings';
 import Button from '../../components/Button';
-import Textbox from '../../components/Textbox';
+import TextMaskInput from '../../components/TextMaskInput';
 // const validationSchema = Yup.object().shape({
 //   displayName: Yup.string().required('Required'),
 const phoneRegex = /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/;
@@ -60,18 +59,36 @@ const ThirdRegisterScreen = (props) => {
           return (
             <>
               <View style={{marginTop: 30, borderColor: 'red'}}>
-                <TextInputMask
-                  onChangeText={(formatted, extracted) => {
-                    console.log(formatted); // +1 (123) 456-78-90
-                    console.log(extracted); // 1234567890
-                    setFieldValue('mobile', formatted);
+                {/* <TextMaskInput
+                  // onChangeText={(formatted, extracted) => {
+                  //   console.log(formatted); // +1 (123) 456-78-90
+                  //   console.log(extracted); // 1234567890
+                  //   setFieldValue('mobile', formatted);
+                  // }}
+                  // mask={'+65 [999] [000] [00]'}
+                  // style={styles.inputStyle}
+                  // value={values.mobile}
+                  // onBlur={handleBlur('mobile')}
+                  // touched={touched.mobile}
+                /> */}
+
+                <TextMaskInput
+                  onChangeText={(data) => {
+                    setFieldValue('mobile', data);
                   }}
-                  mask={'+65 [999] [000] [00]'}
-                  style={styles.inputStyle}
                   value={values.mobile}
                   onBlur={handleBlur('mobile')}
                   touched={touched.mobile}
+                  placeholder="Contact Number"
+                  type={'cel-phone'}
+                  options={{
+                    maskType : "BRL",
+                    withDDD: true,
+                    dddMask: '(+65) 9999-9999'
+                  }}
+                  maxLength={15}
                 />
+
                 <Text style={styles.errorTextStyle}>{errors.mobile}</Text>
                 <Button
                   onPress={handleSubmit}
