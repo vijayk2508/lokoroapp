@@ -48,6 +48,7 @@
     "snyk": "^1.486.0",
     "styled-components": "^5.2.1",
     "text-slider": "^1.0.1",
+    "update": "^0.7.4",
     "yup": "^0.32.9"
   },
   "devDependencies": {
