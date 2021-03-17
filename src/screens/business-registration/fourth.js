@@ -10,7 +10,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import {businessRegister} from '../../action-reducers/business/action';
 
-const data = [
+const dataBusinessHours = [
   {
     day: 'Sunday',
     status: false,
@@ -57,7 +57,7 @@ const data = [
 ];
 const FourthRegisterScreen = (props) => {
   const [loading, setLoading] = useState(false);
-  const [businessHrs, setbusinessHrs] = useState(data);
+  const [businessHrs, setbusinessHrs] = useState([...dataBusinessHours]);
   const [show, setShow] = useState(false);
   const [editData, setEditData] = useState({
     idx: -1,
@@ -87,7 +87,7 @@ const FourthRegisterScreen = (props) => {
       businessRating,
       businessStatus,
       location,
-      uenNumber
+      uenNumber,
     } = props.businessDetail;
     const formData = new FormData();
     formData.append('businessCreatorType', businessCreatorType);
@@ -102,8 +102,9 @@ const FourthRegisterScreen = (props) => {
           ? businessImage.uri
           : businessImage.uri.replace('file://', ''),
     });
-    formData.append('businessEmail', businessEmail);
     formData.append('contactNumber', contactNumber);
+    formData.append('businessEmail', businessEmail);
+    formData.append('businessAddress', location);
     if (facebookLink) {
       formData.append('facebookLink', facebookLink);
     }
@@ -119,7 +120,7 @@ const FourthRegisterScreen = (props) => {
     formData.append('championUserId', championUserId);
     formData.append('businessRating', businessRating);
     formData.append('businessStatus', businessStatus);
-    formData.append('location', location);
+
     setLoading(true);
     const res = await dispatch(businessRegister(formData));
     setLoading(false);
@@ -189,7 +190,9 @@ const FourthRegisterScreen = (props) => {
             to={item.to}
             idx={idx}
             key={idx}
-            onChange={(data) => onChange(data, idx)}
+            onChange={(data) => {
+              onChange(data, idx);
+            }}
             showTimepicker={showTimepicker}
           />
         );

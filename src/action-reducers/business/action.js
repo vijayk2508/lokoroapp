@@ -10,17 +10,17 @@ export const businessRegister = (data) => {
       method: 'post',
       data,
     });
-    // debugger;
-    // if (response.status === 'success') {
-    //   dispatch({
-    //     type: ADDED_SUCCESSFUL,
-    //   });
-    // } else {
-    //   debugger;
-    //   dispatch({
-    //     type: ADDED_FAILED,
-    //   });
-    // }
+    debugger;
+    if (response.status === 'success') {
+      dispatch({
+        type: ADDED_SUCCESSFUL,
+      });
+    } else {
+      debugger;
+      dispatch({
+        type: ADDED_FAILED,
+      });
+    }
     return await response;
   };
 };

@@ -108,12 +108,13 @@ function SignUp(props) {
           dispatch(updateStepIndex(activeIndex - 1));
         }
       }),
-    [activeIndex],
+    [props.navigation,activeIndex],
   );
 
   useEffect(() => {
     dispatch(updateStepIndex(1));
     return () => {
+      setUserDetail(initialState)
       dispatch(updateStepIndex(1));
     };
   }, []);

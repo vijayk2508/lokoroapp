@@ -22,6 +22,52 @@ import ThirdRegisterScreen from './third';
 
 const sliderImages = [assestImages.img1, assestImages.img2];
 
+const dataBusinessHours = [
+  {
+    day: 'Sunday',
+    status: false,
+    from: '',
+    to: '',
+  },
+
+  {
+    day: 'Monday',
+    status: false,
+    from: '',
+    to: '',
+  },
+  {
+    day: 'Tuesday',
+    status: false,
+    from: '',
+    to: '',
+  },
+  {
+    day: 'Wednesday',
+    status: false,
+    from: '',
+    to: '',
+  },
+  {
+    day: 'Thursday',
+    status: false,
+    from: '',
+    to: '',
+  },
+  {
+    day: 'Friday',
+    status: false,
+    from: '',
+    to: '',
+  },
+  {
+    day: 'Saturday',
+    status: false,
+    from: '',
+    to: '',
+  },
+];
+
 const initialState = {
   businessCreatorType: BUSINESSCREATORTYPE.OWNER, //"owner", "champion"
   businessType: BUSINESSTYPE.REGISTERED,
@@ -33,7 +79,7 @@ const initialState = {
   facebookLink: '',
   websiteLink: '',
   instagramLink: '',
-  businessHourId: '',
+  businessHourId: dataBusinessHours,
   industryId: '',
   ownerUserId: '6036862a1f71c07253909454',
   championUserId: '6036862a1f71c07253909454',

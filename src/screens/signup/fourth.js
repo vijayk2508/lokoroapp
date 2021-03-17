@@ -29,6 +29,7 @@ const FourthRegisterScreen = (props) => {
   const handleSubmitPress = async () => {
     let currentOtp = `${pin1}${pin2}${pin3}${pin4}`;
     if (currentOtp === '1234') {
+      setLoading(true);
       const {
         mobile,
         email,
@@ -59,7 +60,6 @@ const FourthRegisterScreen = (props) => {
 
       formData.append('workAddress', workAddress);
       formData.append('homeAddress', homeAddress);
-      setLoading(true);
       const res = await dispatch(register(formData));
       if (res.status === 'success') {
         if (res.data.userObj) {
