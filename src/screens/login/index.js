@@ -111,6 +111,7 @@ const Login = ({navigation}) => {
                       //placeholderTextColor="#8b9cb5"
                       autoCapitalize="none"
                       showError={errors.email === 'Required' ? false : true}
+                      maxLength={50}
                     />
                     <PasswordInput
                       value={values.password}

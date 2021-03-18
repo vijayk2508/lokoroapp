@@ -245,9 +245,9 @@ function SignUp(props) {
           }}>
           <SwiperFlatList
             autoplay
+            
             autoplayDelay={2}
             autoplayLoop
-            //autoplayInvertDirection
             showPagination
             paginationStyleItem={{marginTop: -140}}
             paginationDefaultColor={themedColors.default.appColor}
