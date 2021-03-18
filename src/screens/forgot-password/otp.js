@@ -1,24 +1,11 @@
-import React, {useState, createRef} from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
-  TextInput,
-  View,
-  Text,
-  ScrollView,
-  Image,
-  Keyboard,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  AsyncStorage,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
-import {login} from '../../action-reducers/auth/action';
-import {assestImages} from '../../assests';
 import {withNavigation} from 'react-navigation';
 
-import Loader from '../../components/Loader';
 import {themedColors} from '../../constants/Colors';
-import {width} from '../../constants/generalSettings';
 import OtpVerification from '../../components/OTP/OtpVerification';
 //import * as register from '../../action-reducers/signUp/action';
 

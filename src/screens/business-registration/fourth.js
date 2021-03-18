@@ -104,7 +104,7 @@ const FourthRegisterScreen = (props) => {
     });
     formData.append('contactNumber', contactNumber);
     formData.append('businessEmail', businessEmail);
-    formData.append('businessAddress', location);
+    formData.append('businessAddress', JSON.stringify(location));
     if (facebookLink) {
       formData.append('facebookLink', facebookLink);
     }
@@ -114,7 +114,7 @@ const FourthRegisterScreen = (props) => {
     if (instagramLink) {
       formData.append('instagramLink', instagramLink);
     }
-    formData.append('businessHour', businessHrs);
+    formData.append('businessHour', JSON.stringify(businessHrs));
     formData.append('industryId', industryId);
     formData.append('ownerUserId', ownerUserId);
     formData.append('championUserId', championUserId);

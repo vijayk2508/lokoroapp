@@ -2,24 +2,19 @@ import React, {useState, useRef, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {StyleSheet, View, ActivityIndicator} from 'react-native';
 import RNOtpVerify from 'react-native-otp-verify';
-
-// import {GenericStyles} from '../../styles/GenericStyles';
-
+import TimerText from './TimerText';
+import ErrorBoundary from '../../constants/ErrorBoundary';
+import {colors, GenericStyles} from '../../constants/Colors';
+import ImageTitleDescription from '../ImageTitleDescription';
+import {themebutton} from '../../constants/generalSettings';
+import {isAndroid, logErrorWithMessage} from '../../utilities/helperFunctions';
 import {
-  NavigationHeader,
   CustomScreenContainer,
   CustomText,
   CustomTextInput,
   CustomButton,
   FullButtonComponent,
 } from '../../lib';
-
-import {isAndroid, logErrorWithMessage} from '../../utilities/helperFunctions';
-import TimerText from './TimerText';
-import ErrorBoundary from '../../constants/ErrorBoundary';
-import {colors, GenericStyles} from '../../constants/Colors';
-import ImageTitleDescription from '../ImageTitleDescription';
-import {themebutton} from '../../constants/generalSettings';
 
 const RESEND_OTP_TIME_LIMIT = 30; // 30 secs
 const AUTO_SUBMIT_OTP_TIME_LIMIT = 4; // 4 secs
@@ -34,8 +29,7 @@ const OtpVerification = function (props) {
   const [otpArray, setOtpArray] = useState(['', '', '', '']);
   const [submittingOtp, setSubmittingOtp] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  console.log(JSON.stringify(otpArray));
-  // in secs, if value is greater than 0 then button will be disabled
+
   const [resendButtonDisabledTime, setResendButtonDisabledTime] = useState(
     RESEND_OTP_TIME_LIMIT,
   );
@@ -124,14 +118,9 @@ const OtpVerification = function (props) {
     }, 1000);
   };
 
-  // this callback is being invoked from startAutoSubmitOtpTimer which itself is being invoked from useEffect
-  // since useEffect use closure to cache variables data, we will not be able to get updated autoSubmitOtpTime value
-  // as a solution we are using useRef by keeping its value always updated inside useEffect(componentDidUpdate)
   const autoSubmitOtpTimerIntervalCallback = () => {
     if (autoSubmitOtpTime <= 0) {
       clearInterval(autoSubmitOtpTimerInterval);
-
-      // submit OTP
       onSubmitButtonPress();
     }
     setAutoSubmitOtpTime(autoSubmitOtpTime - 1);
@@ -151,7 +140,6 @@ const OtpVerification = function (props) {
   };
 
   const onResendOtpButtonPress = () => {
-    // clear last OTP
     if (firstTextInputRef) {
       setOtpArray(['', '', '', '']);
       firstTextInputRef.current.focus();

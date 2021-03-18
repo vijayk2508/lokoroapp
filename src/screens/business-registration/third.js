@@ -181,7 +181,6 @@ const ThirdRegisterScreen = (props) => {
           }) => (
             <>
               <View style={{marginTop: 30}}>
-                <Text>{JSON.stringify(errors)}</Text>
                 <ImageUpload
                   changeImage={(data) => setFieldValue('businessImage', data)}
                 />

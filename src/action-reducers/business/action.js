@@ -8,7 +8,7 @@ export const businessRegister = (data) => {
     const response = await sendApiRequest({
       url: `${apiEndpoints.AUTH_ENDPOINTS.BUSINESS.CREATE}`,
       method: 'post',
-      data,
+      data: data,
     });
     debugger;
     if (response.status === 'success') {

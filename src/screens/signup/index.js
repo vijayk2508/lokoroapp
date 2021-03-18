@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {Image} from 'react-native';
 
 import {
   ScrollView,
@@ -11,24 +10,21 @@ import {
   ImageBackground,
   Dimensions,
 } from 'react-native';
-import {SliderBox} from 'react-native-image-slider-box';
 import {heightPercentageToDP} from 'react-native-responsive-screen';
 import SwiperFlatList from 'react-native-swiper-flatlist';
 import {useDispatch, useSelector} from 'react-redux';
 import {updateStepIndex} from '../../action-reducers/multisteps/action';
 
 import {assestImages} from '../../assests';
-import LayoutContainer from '../../components/LayoutContainer';
 import {themedColors} from '../../constants/Colors';
 import {defaultfontFamily} from '../../constants/generalSettings';
-import CustomPagination from './CustomPagination';
+
 import FirstRegisterScreen from './first';
 import FourthRegisterScreen from './fourth';
 import SecondRegisterScreen from './second';
 import ThirdRegisterScreen from './third';
 
 const {width} = Dimensions.get('window');
-const newImage = [assestImages.img1, assestImages.img2];
 
 const dimensions = Dimensions.get('window');
 let imageHeight = Math.round((dimensions.width * 9) / 16);
@@ -57,17 +53,17 @@ const swiperData = [
 
 const initialState = {
   mobile: '',
-  email: 'test@gmail.com',
-  password: 'Test@123',
-  displayName: 'Test',
+  email: '',
+  password: '',
+  displayName: '',
   image: '',
   roleId: '',
-  homeAddress: 'Bishan',
-  workAddress: 'Bishan',
+  homeAddress: '',
+  workAddress: '',
   deviceId: '',
+  confirmPassword: '',
   notification: false,
   term: true,
-  confirmPassword: 'Test@123',
 };
 
 function SignUp(props) {
@@ -108,13 +104,13 @@ function SignUp(props) {
           dispatch(updateStepIndex(activeIndex - 1));
         }
       }),
-    [props.navigation,activeIndex],
+    [props.navigation, activeIndex],
   );
 
   useEffect(() => {
     dispatch(updateStepIndex(1));
     return () => {
-      setUserDetail(initialState)
+      setUserDetail(initialState);
       dispatch(updateStepIndex(1));
     };
   }, []);
@@ -251,7 +247,7 @@ function SignUp(props) {
             autoplay
             autoplayDelay={2}
             autoplayLoop
-            autoplayInvertDirection
+            //autoplayInvertDirection
             showPagination
             paginationStyleItem={{marginTop: -140}}
             paginationDefaultColor={themedColors.default.appColor}

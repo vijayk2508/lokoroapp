@@ -1,30 +1,19 @@
-import React, {useState, createRef, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
-  StyleSheet,
-  TextInput,
   View,
-  Text,
-  ScrollView,
-  Image,
-  TouchableOpacity,
   KeyboardAvoidingView,
-  BackHandler,
   Alert,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import {forgotpassword} from '../../action-reducers/auth/action';
-import {assestImages} from '../../assests';
 
 import Loader from '../../components/Loader';
-import {themedColors} from '../../constants/Colors';
 import * as Yup from 'yup';
 import {Formik} from 'formik';
-import {withNavigation} from 'react-navigation';
 import LayoutContainer from '../../components/LayoutContainer';
 import ImageTitleDescription from '../../components/ImageTitleDescription';
 import Textbox from '../../components/Textbox';
 import Button from '../../components/Button';
-import {commonStyle, width} from '../../constants/generalSettings';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email('Email is invalid').required('Email is required'),
