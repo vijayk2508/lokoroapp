@@ -1,9 +1,5 @@
 import React, {useState} from 'react';
-import {
-  View,
-  KeyboardAvoidingView,
-  Alert,
-} from 'react-native';
+import {View, KeyboardAvoidingView, Alert} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {forgotpassword} from '../../action-reducers/auth/action';
 
@@ -24,16 +20,18 @@ const ForgotPassword = ({navigation}) => {
   const dispatch = useDispatch();
 
   const handleSubmitPress = async (values) => {
-    console.log(JSON.stringify(values));
     setLoading(true);
     let data = {email: values.email};
     const res = await dispatch(forgotpassword(data));
     setLoading(false);
-    Alert.alert(`${JSON.stringify(res)}`);
+    //Alert.alert(`${JSON.stringify(res)}`);
     if (res.status === 'success') {
       navigation.navigate('otp', data);
+      Alert.alert(
+        'Please check your mailbox for a link to reset your password.',
+      );
     } else {
-      Alert.alert(`Email is not sent to this ${userEmail}. Try Again!`);
+      Alert.alert(`Email is not sent to this ${values.email}. Try Again!`);
     }
   };
 

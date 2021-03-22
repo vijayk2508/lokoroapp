@@ -30,3 +30,16 @@ export const forgotpassword = (data) => {
     return await response;
   };
 };
+
+
+export const resetNewPassword = (data) => {
+  return async (_dispatch) => {
+    const response = await sendApiRequest({
+      url: `${apiEndpoints.AUTH_ENDPOINTS.RESETNEWPASSWORD}`,
+      method: 'post',
+      data,
+    });
+    return await response;
+  };
+};
+

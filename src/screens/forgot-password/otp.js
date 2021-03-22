@@ -1,11 +1,9 @@
-import React, {useState} from 'react';
-import {
-  StyleSheet,
-} from 'react-native';
-import {useDispatch} from 'react-redux';
-import {withNavigation} from 'react-navigation';
+import React, { useState } from 'react';
+import { StyleSheet } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { withNavigation } from 'react-navigation';
 
-import {themedColors} from '../../constants/Colors';
+import { themedColors } from '../../constants/Colors';
 import OtpVerification from '../../components/OTP/OtpVerification';
 //import * as register from '../../action-reducers/signUp/action';
 
@@ -14,15 +12,24 @@ const FourthRegisterScreen = (props) => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
-  const handleSubmitPress = async () => {
+  const handleSubmitPress = async (currentOTP) => {
     setLoading(true);
-    props.navigation.navigate('resetpassword');
+    if (currentOTP === '1234') {
+      props.navigation.navigate('resetpassword', {
+        email: props.route.params.email,
+      });
+    } else {
+      Alert.alert('Incorrect OTP !');
+    }
     setLoading(false);
   };
 
   return (
     <>
-      <OtpVerification email={props.route.params.email} />
+      <OtpVerification
+        email={props.route.params.email}
+        handleSubmitPress={handleSubmitPress}
+      />
     </>
   );
 };

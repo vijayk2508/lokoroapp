@@ -1,13 +1,13 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import {StyleSheet, View, ActivityIndicator} from 'react-native';
+import { StyleSheet, View, ActivityIndicator } from 'react-native';
 import RNOtpVerify from 'react-native-otp-verify';
 import TimerText from './TimerText';
 import ErrorBoundary from '../../constants/ErrorBoundary';
-import {colors, GenericStyles} from '../../constants/Colors';
+import { colors, GenericStyles } from '../../constants/Colors';
 import ImageTitleDescription from '../ImageTitleDescription';
-import {themebutton} from '../../constants/generalSettings';
-import {isAndroid, logErrorWithMessage} from '../../utilities/helperFunctions';
+import { themebutton } from '../../constants/generalSettings';
+import { isAndroid, logErrorWithMessage } from '../../utilities/helperFunctions';
 import {
   CustomScreenContainer,
   CustomText,
@@ -23,7 +23,7 @@ let resendOtpTimerInterval;
 let autoSubmitOtpTimerInterval;
 
 const OtpVerification = function (props) {
-  const {otpRequestData, attempts} = props;
+  const { otpRequestData, attempts } = props;
 
   const [attemptsRemaining, setAttemptsRemaining] = useState(attempts);
   const [otpArray, setOtpArray] = useState(['', '', '', '']);
@@ -156,7 +156,14 @@ const OtpVerification = function (props) {
   const onSubmitButtonPress = () => {
     // API call
     // todo
-    console.log('todo: Submit OTP');
+    if (otpArray[0] == '' &&
+      otpArray[1] == '' &&
+      otpArray[2] == '' &&
+      otpArray[3] == '') {
+      let currentOTP = `${otpArray[0]}${otpArray[1]}${otpArray[2]}${otpArray[3]}`
+      //parseInt(otpArray.toString().replaceAll(',', ''));
+      props.handleSubmitPress(currentOTP);
+    }
   };
 
   // this event won't be fired when text changes from '' to '' i.e. backspace is pressed
@@ -188,7 +195,7 @@ const OtpVerification = function (props) {
   // to have consistency, using this event just to detect backspace key press and
   // onOtpChange for other digits press
   const onOtpKeyPress = (index) => {
-    return ({nativeEvent: {key: value}}) => {
+    return ({ nativeEvent: { key: value } }) => {
       // auto focus to previous InputText if value is blank and existing value is also blank
       if (value === 'Backspace' && otpArray[index] === '') {
         if (index === 1) {
@@ -219,7 +226,7 @@ const OtpVerification = function (props) {
       <ErrorBoundary screenName={'OtpVerification'}>
         <View style={styles.container}>
           <CustomText
-            style={{textAlign: 'center', marginBottom: 10, marginTop: 20}}>
+            style={{ textAlign: 'center', marginBottom: 10, marginTop: 20 }}>
             Enter OTP sent to your email {props.email}
             {/* {otpRequestData.email_id ? 'email' : 'mobile number'}{' '} */}
           </CustomText>
@@ -268,7 +275,7 @@ const OtpVerification = function (props) {
           <View style={GenericStyles.fill} />
           {submittingOtp && <ActivityIndicator />}
           {autoSubmitOtpTime > 0 &&
-          autoSubmitOtpTime < AUTO_SUBMIT_OTP_TIME_LIMIT ? (
+            autoSubmitOtpTime < AUTO_SUBMIT_OTP_TIME_LIMIT ? (
             <TimerText text={'Submitting OTP in'} time={autoSubmitOtpTime} />
           ) : null}
           <CustomText
@@ -279,7 +286,7 @@ const OtpVerification = function (props) {
             type={'fill'}
             text={'Submit'}
             //textStyle={[themebutton.defaultButtonTextStyle, {padding: 0}]}
-            textStyle={{color: colors.WHITE, fontSize: 16, marginTop: 0}}
+            textStyle={{ color: colors.WHITE, fontSize: 16, marginTop: 0 }}
             buttonStyle={[themebutton.defaultButtonStyle]}
             onPress={onSubmitButtonPress}
             disabled={

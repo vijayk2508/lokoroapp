@@ -3,7 +3,7 @@ const apiEndpoints = {
     LOGIN: '/login',
     SIGNUP: "/signUp",
     FORGOTPASSWORD: "/forgetPassword",
-
+    RESETNEWPASSWORD: "/resetPassword/setNewPassword",
     INDUSTRY: {
       GETALL: "/industry/getAllIndustry"
     },

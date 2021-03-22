@@ -15,6 +15,8 @@ import * as Yup from 'yup';
 import {Formik} from 'formik';
 import {width} from '../../constants/generalSettings';
 import {assestImages} from '../../assests';
+import {resetNewPassword} from '../../action-reducers/auth/action';
+import { withNavigation } from 'react-navigation';
 
 const validationSchema = Yup.object().shape({
   newPassword: Yup.string()
@@ -30,10 +32,24 @@ const validationSchema = Yup.object().shape({
 
 const ResetPassword = (props) => {
   const [loading] = useState(false);
-  const handleSubmitPress = () => {};
+  const handleSubmitPress = async(values) => {
+
+    let data = {email: props.route.params.email, password: values.password};
+
+    setLoading(true);
+    const res = await dispatch(resetNewPassword(data));
+    setLoading(false);
+    if (res.status === 'success') {
+      props.navigation.navigate('login');
+    } else {
+      Alert.alert('Password is not reset. please try again!');
+    }
+   
+  };
 
   return (
     <>
+    <Loader></Loader>
       <View style={{flex: 1, justifyContent: 'center'}}>
         <View style={styles.container}>
           <Image
@@ -52,7 +68,9 @@ const ResetPassword = (props) => {
             enableReinitialize={true}
             validationSchema={validationSchema}
             initialValues={{newPassword: '', confirmPassword: ''}}
-            onSubmit={(values, formikActions) => {}}>
+            onSubmit={(values, formikActions) => {
+              handleSubmitPress(values)
+            }}>
             {({
               values,
               handleChange,
@@ -113,7 +131,9 @@ const ResetPassword = (props) => {
     </>
   );
 };
-export default ResetPassword;
+
+export default withNavigation(ResetPassword);
+
 
 const styles = StyleSheet.create({
   formHeading: {
