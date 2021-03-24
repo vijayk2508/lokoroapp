@@ -21,7 +21,10 @@ import BusinessRegistration from '../screens/business-registration';
 import OTP from '../screens/forgot-password/otp';
 import ResetPassword from '../screens/forgot-password/resetPassword';
 import TermCondition from '../screens/term&condition';
+import CardImage from '../components/CardImage';
 
+
+ 
 const Stack = createStackNavigator();
 
 const options = {
@@ -80,6 +83,8 @@ const Auth = () => {
         }}>
         {(props) => <SignUp {...props}></SignUp>}
       </Stack.Screen>
+
+     
     </Stack.Navigator>
   );
 };
@@ -120,6 +125,7 @@ const AppRouter = () => {
     <Provider store={store}>
       <StyleProvider style={getTheme(material)}>
         <NavigationContainer>
+         
           <Stack.Navigator
             initialRouteName="splash"
             screenOptions={{
@@ -130,11 +136,7 @@ const AppRouter = () => {
             //headerMode="float"
           >
             <Stack.Screen name="splash" component={Splash} />
-            <Stack.Screen
-              name="termcondition"
-              component={TermCondition}
-              options={options}
-            />
+           
 
             <Stack.Screen
               name="auth"
@@ -161,11 +163,22 @@ const AppRouter = () => {
               }}
               component={StartScreen}
             />
+             <Stack.Screen
+              name="termcondition"
+              component={TermCondition}
+              options={options}
+            />
             <Stack.Screen
               name="userBusinessRegistration"
               component={UserBusinessRegistration}
             />
+
+
+      
           </Stack.Navigator>
+
+         
+         
         </NavigationContainer>
       </StyleProvider>
     </Provider>
