@@ -4,7 +4,7 @@ import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 
-const GolokoScreen = () => {
+const GolokoScreen = ({navigation}) => {
     return (
       <View style={styles.container}>
         <Text>GolokoScreen</Text>

@@ -9,7 +9,7 @@ import {StyleProvider} from 'native-base';
 import Splash from '../screens/splash';
 import Login from '../screens/login';
 import SignUp from '../screens/signup';
-import UserScreen from '../screens/user-screens';
+import UserScreen from '../screens/user-screens/Userscreen.js';
 import ForgotPassword from '../screens/forgot-password';
 import getTheme from '../assests/native-base-theme/components';
 import material from '../assests/native-base-theme/variables/material';
@@ -22,9 +22,12 @@ import OTP from '../screens/forgot-password/otp';
 import ResetPassword from '../screens/forgot-password/resetPassword';
 import TermCondition from '../screens/term&condition';
 import CardImage from '../components/CardImage';
+import BuzzScreen from '../screens/buzz/BuzzScreen.js';
 
 
- 
+
+
+
 const Stack = createStackNavigator();
 
 const options = {
@@ -173,9 +176,16 @@ const AppRouter = () => {
               component={UserBusinessRegistration}
             />
 
+             <Stack.Screen name="buzz" component={BuzzScreen} />
+        
 
       
           </Stack.Navigator>
+
+           
+
+
+    
 
          
          

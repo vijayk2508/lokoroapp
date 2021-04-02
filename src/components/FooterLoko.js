@@ -6,18 +6,39 @@ import {
   defaultfontFamily,
   commonStyle,
 } from '../constants/generalSettings';
+//import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {assestImages} from '../assests';
+//import BuzzScreen from '../screens/buzz/BuzzScreen.js';
 
-export default class FooterLoko extends Component {
+
+
+export default class FooterLoko extends Component <TabNavigator> {
     render() {
+
+       
+    tabBarComponent: props => {
+
+
+    // const Tab = createBottomTabNavigator();
+
+ 
+  
+
+
         return (
+
+
+          // <Content>
+          //   {this.renderSelectedTab()}
+          // </Content>
        
-       
+      
         <Footer>
           <FooterTab style={{backgroundColor:"#1190CB"}}>
-            <Button vertical
-          //  onPress={() => navigation.navigate(BuzzScreen)}
-          >
+            <Button vertical 
+             onPress={() => props.navigation.navigate("buzz")}>
+            
+          
            
             <Image
               source={assestImages.buzz_white}
@@ -50,10 +71,13 @@ export default class FooterLoko extends Component {
             </Button>
           </FooterTab>
         </Footer>
-      
-        )
+       
+        );
+    }
     }
 }
+
+
 
 const styles = StyleSheet.create({
   

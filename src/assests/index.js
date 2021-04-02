@@ -26,6 +26,9 @@ import trophy from '../assests/images/navigation_icon/trophy.png';
 import buybutton from '../assests/images/navigation_icon/buy-button.png';
 import bell from '../assests/images/navigation_icon/bell.png';
 import crown from '../assests/images/navigation_icon/crown.png';
+import chatwh from '../assests/images/navigation_icon/chatwh.png';
+import menuu from '../assests/images/navigation_icon/menuu.png';
+
 
 
 export const assestImages = {
@@ -57,6 +60,8 @@ export const assestImages = {
   buybutton,
   bell,
   crown,
+  chatwh,
+  menuu,
 
 
 

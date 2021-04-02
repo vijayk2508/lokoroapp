@@ -50,7 +50,7 @@ const DrawerComponent =  (props)  =>{
 
 
             <CardItem style={{flexDirection: "row" }}>
-              <Text style={{justifyContent:'center',fontFamily: defaultfontFamily.quicksand.bold,}}>Switch to Personal Account</Text>
+              <Text style={{justifyContent:'center',fontFamily: defaultfontFamily.quicksand.bold,}}>Switch to Business Account</Text>
               <Switch style={styles.container}
                 trackColor={{ false: "#767577", true: "#81b0ff" }}
                 thumbColor={isEnabled ? "#1190CB" : "#1190CB"}

@@ -17,7 +17,7 @@ const FourthRegisterScreen = (props) => {
   const handleSubmitPress = async () => {
     setLoading(true);
     props.navigation.navigate('resetpassword');
-    setLoading(false);
+   // setLoading(false);
   };
 
   return (
