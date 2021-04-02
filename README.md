@@ -12,7 +12,7 @@ git commit -m "any msg"
 
 git push
 
-git push origin nim:test
+git push origin nim:main
 
 react-native link
 npm run android --reset-cache
