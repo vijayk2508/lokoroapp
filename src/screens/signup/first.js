@@ -156,7 +156,8 @@ const FirstRegisterScreen = (props) => {
                     I have read and agree to the {''}
                     <Text
                       style={{color: '#1190CB'}}
-                      //onPress={props.navigation.navigate('termcondition')}
+                     // onPress={() => this.props.navigation.navigate('termcondition')}
+                   //   onPress={props.navigation.navigate('termcondition')}
                     >
                       terms and conditions
                     </Text>

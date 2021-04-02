@@ -22,6 +22,8 @@ const FourthRegisterScreen = (props) => {
       Alert.alert('Incorrect OTP !');
     }
     setLoading(false);
+    props.navigation.navigate('resetpassword');
+   // setLoading(false);
   };
 
   return (
