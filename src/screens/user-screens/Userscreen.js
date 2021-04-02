@@ -70,12 +70,7 @@ export default class UserScreen extends Component<TabNavigator> {
    
 
   render() {
-
-     
-
-     
-
-      return (
+     return (
     
              
 
